@@ -2,6 +2,7 @@
 
 * ## Assumptions
     * Late(est) version of node/npm installed
+    * Late(est) version of Git installed
 
 * ## Getting Started
 
@@ -13,3 +14,10 @@
     * ### Database
 
     * ### Frontend
+        * run "npm install -g @angular/cli" (This will install the Angular CLI globally)
+        * verify that Angular is installed using "ng --version"
+        * create a "projects" directory workspace to work in
+        * clone down [] from the GitHub repository
+        * cd into your Angular tiger-talks directory
+        * use "ng serve" to start the application thru localhost:4200/
+            * use "ng serve --open" to automaticlly open it in your default browser on http://localhost:4200/
