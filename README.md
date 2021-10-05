@@ -17,7 +17,10 @@
         * run "npm install -g @angular/cli" (This will install the Angular CLI globally)
         * verify that Angular is installed using "ng --version"
         * create a "projects" directory workspace to work in
-        * clone down [] from the GitHub repository
+        * clone down tiger-talks from the GitHub repository
         * cd into your tiger-talks directory
+        * make sure you are on the right branch
         * use "ng serve" to start the application thru localhost:4200/
             * use "ng serve --open" to automaticlly open it in your default browser on http://localhost:4200/
+            * #### Troubleshooting
+                * Unable to Commit: you might have to configure your email and name globally on Git on the terminal using "git config --global user.email "your@email"" and "git config --global user.name "Your Name""
