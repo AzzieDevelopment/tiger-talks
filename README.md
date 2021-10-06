@@ -24,3 +24,4 @@
             * use "ng serve --open" to automaticlly open it in your default browser on http://localhost:4200/
             * #### Troubleshooting
                 * Unable to Commit: you might have to configure your email and name globally on Git on the terminal using "git config --global user.email "your@email"" and "git config --global user.name "Your Name""
+                * Client not Opening: try running "npm install @angular-devkit/build-angular"
