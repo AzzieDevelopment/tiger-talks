@@ -12,6 +12,7 @@
         * node index.js to start backend thru localhost:3000/
 
     * ### Database
+        * run "npm install mysql" in root project directory
 
     * ### Frontend
         * run "npm install -g @angular/cli" (This will install the Angular CLI globally)
