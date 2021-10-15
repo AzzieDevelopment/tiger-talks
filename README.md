@@ -1,8 +1,16 @@
 # ReadMe
 
+
 * ## Assumptions
     * Late(est) version of node/npm installed
-    * Late(est) version of Git installed
+    * Late(est) version of Git 
+    
+* ## Current Endpoints
+    * http://localhost:3000/loggedIn see if a users session is logged in
+    * http://localhost:3000/register Registration Page
+    * http://localhost:3000/login Login Page
+    * http://localhost:3000/ simple response string
+    * http://localhost:3000/selectExample get all users from DB
 
 * ## Getting Started
 
