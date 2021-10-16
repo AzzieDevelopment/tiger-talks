@@ -1,0 +1,9 @@
+DROP TABLE tigerhacks_schema.flaggedcomment;
+DROP TABLE tigerhacks_schema.flaggedpost;
+DROP TABLE tigerhacks_schema.follow;
+DROP TABLE tigerhacks_schema.comment;
+DROP TABLE tigerhacks_schema.post;
+DROP TABLE tigerhacks_schema.tigerspace;
+DROP TABLE tigerhacks_schema.faculty;
+DROP TABLE tigerhacks_schema.student;
+DROP TABLE tigerhacks_schema.user;
