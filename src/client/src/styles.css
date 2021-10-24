@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
     font-family: "ProximaNova";
-    src: local("ProximaNova"), url(./assets/fonts/ProximaNova/Mark\ Simonson\ -\ Proxima\ Nova.ttf) format("truetype");
+    src: local("ProximaNova"), url(./assets/fonts/ProximaNova/MarkSimonson-ProximaNova.ttf) format("truetype");
 }
 
 .tu-font {
     font-family: ProximaNova, Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 30px;
 }
