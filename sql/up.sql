@@ -1,4 +1,6 @@
-CREATE TABLE tigerhacks_schema.user (
+CREATE SCHEMA azziedev_tigertalk;
+
+CREATE TABLE azziedev_tigertalk.user (
     Id INT UNSIGNED NOT NULL,
     FirstName VARCHAR(64) NOT NULL,
     LastName VARCHAR(64) NOT NULL,
@@ -13,35 +15,35 @@ CREATE TABLE tigerhacks_schema.user (
     PRIMARY KEY(Id)
     );
     
-CREATE TABLE tigerhacks_schema.student (
+CREATE TABLE azziedev_tigertalk.student (
 	UserId INT UNSIGNED NOT NULL,
 	Major VARCHAR(32) NOT NULL,
 	Minor VARCHAR(32),
 	Track VARCHAR(32),
 	GradYear varchar(4),
 	PRIMARY KEY(UserId),
-	FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE
+	FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.faculty (
+CREATE TABLE azziedev_tigertalk.faculty (
 	UserId INT UNSIGNED NOT NULL,
 	Title VARCHAR(32) NOT NULL,
     Department VARCHAR(32) NOT NULL,
 	PRIMARY KEY(UserId),
-	FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE
+	FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.tigerspace (
+CREATE TABLE azziedev_tigertalk.tigerspace (
 	Id INT UNSIGNED NOT NULL,
     UserId INT UNSIGNED NOT NULL,
     Title VARCHAR(64) NOT NULL,
     Description VARCHAR(512) NOT NULL,
     Type TINYINT NOT NULL,
     PRIMARY KEY(Id),
-    FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE
+    FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.post (
+CREATE TABLE azziedev_tigertalk.post (
 	Id INT UNSIGNED NOT NULL,
     Title VARCHAR(64) UNIQUE NOT NULL,
     Body VarChar(2048) NOT NULL,
@@ -51,11 +53,11 @@ CREATE TABLE tigerhacks_schema.post (
     UserId INT UNSIGNED NOT NULL,
     TIgerSpaceId INT UNSIGNED NOT NULL,
     PRIMARY KEY(Id),
-    FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE,
-    FOREIGN KEY(TigerSpaceId) References tigerhacks_schema.tigerspace(Id) ON DELETE CASCADE
+    FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE,
+    FOREIGN KEY(TigerSpaceId) References azziedev_tigertalk.tigerspace(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.comment (
+CREATE TABLE azziedev_tigertalk.comment (
 	Id INT UNSIGNED NOT NULL,
     UserId INT UNSIGNED NOT NULL,
     PostId INT UNSIGNED NOT NULL,
@@ -63,27 +65,27 @@ CREATE TABLE tigerhacks_schema.comment (
     Body VARCHAR(512) NOT NULL,
     Upvotes INT UNSIGNED NOT NULL,
     Primary Key (Id),
-    FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE,
-    FOREIGN KEY(PostId) References tigerhacks_schema.post(Id) ON DELETE CASCADE
+    FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE,
+    FOREIGN KEY(PostId) References azziedev_tigertalk.post(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.follow (
+CREATE TABLE azziedev_tigertalk.follow (
 	UserId INT UNSIGNED NOT NULL,
     TigerSpaceId INT UNSIGNED NOT NULL,
-    FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE,
-    FOREIGN KEY(TigerSpaceId) References tigerhacks_schema.tigerspace(Id) ON DELETE CASCADE
+    FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE,
+    FOREIGN KEY(TigerSpaceId) References azziedev_tigertalk.tigerspace(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.flaggedpost (
+CREATE TABLE azziedev_tigertalk.flaggedpost (
 	UserId INT UNSIGNED NOT NULL,
     PostId INT UNSIGNED NOT NULL,
-    FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE,
-    FOREIGN KEY(PostId) References tigerhacks_schema.post(Id) ON DELETE CASCADE
+    FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE,
+    FOREIGN KEY(PostId) References azziedev_tigertalk.post(Id) ON DELETE CASCADE
 );
 
-CREATE TABLE tigerhacks_schema.flaggedcomment (
+CREATE TABLE azziedev_tigertalk.flaggedcomment (
 	UserId INT UNSIGNED NOT NULL,
     CommentId INT UNSIGNED NOT NULL,
-    FOREIGN KEY(UserId) References tigerhacks_schema.user(Id) ON DELETE CASCADE,
-    FOREIGN KEY(CommentId) References tigerhacks_schema.comment(Id) ON DELETE CASCADE
+    FOREIGN KEY(UserId) References azziedev_tigertalk.user(Id) ON DELETE CASCADE,
+    FOREIGN KEY(CommentId) References azziedev_tigertalk.comment(Id) ON DELETE CASCADE
 );
