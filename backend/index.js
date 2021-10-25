@@ -2,13 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const flash = require('express-flash');
+//const path = require('path');
+//const cookieParser = require('cookie-parser');
+//const logger = require('morgan');
+//const flash = require('express-flash');
 const session = require('express-session');
 const mysql = require('mysql');
-const e = require('express');
 
 //body parser
 app.use(bodyParser.urlencoded({ extended: true }));
