@@ -125,7 +125,7 @@ app.get('/', (req, res) => {
 //dump users from db
 app.get('/selectExample', (req, res) => {
   
-  connection.query("SELECT * FROM User", function (err, result, fields) {
+  connection.query("SELECT * FROM user", function (err, result, fields) {
     // if any error while executing above query, throw error
     if (err) throw err;
     // if there is no error, you have the result
