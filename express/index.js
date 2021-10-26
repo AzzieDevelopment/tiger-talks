@@ -33,7 +33,7 @@ app.post('/auth', function(request, response) {
 	var password = request.body.password;
   var name;
 	if (netID && password) {
-		connection.query('SELECT * FROM User WHERE ID = ? AND password = ?', [netID, password], function(error, results, fields) {
+		connection.query('SELECT * FROM user WHERE ID = ? AND password = ?', [netID, password], function(error, results, fields) {
 			if (results.length > 0) {
 				request.session.loggedin = true;
 				request.session.netID = netID;
@@ -67,13 +67,12 @@ app.post('/registerVerify', (req, res) => {
     let email=req.body.Email;
     let fName=req.body.fName;
     let lName=req.body.lName;
-    let nName=req.body.netID;
+    let nName=req.body.nName;
     let pWord=req.body.pword;
     let pNoun=req.body.pronoun;
     let bio=req.body.bio;
-    let major=req.body.major;
 
-    connection.query(`SELECT * FROM User WHERE ID=${id};`,function(err,result){
+    connection.query(`SELECT * FROM user WHERE ID=${id};`,function(err,result){
     if (!(typeof result[0] === "undefined")){
       res.send('<script>alert("User already exists")</script>');
     }
@@ -82,7 +81,7 @@ app.post('/registerVerify', (req, res) => {
     }
   })
 
-  connection.query(`INSERT INTO User (ID,FirstName,LastName,Email,UserType,Bio,PName,Pronouns,isVerified,Password,Major) VALUES ('${id}','${fName}','${lName}','${email}','1','${bio}','${nName}','${pNoun}','0','${pWord}','${major}') `,function(err,result){
+  connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${pWord}') `,function(err,result){
     if (err){
       console.log("Error: ",err);
     }
@@ -95,7 +94,7 @@ app.post('/registerVerify', (req, res) => {
 
 // Temp Register page
 app.get('/register', (req, res) => {
-	res.send('<form id="logintest" action="/registerVerify" method="post" name="logintest">Net ID<input id="netID" name="netID" type="text" required/><br />Email<input id="netID" name="Email" type="Email" required/><br />First Name<input id="fName" name="fName" type="text" required/><br />Last Name<input id="lName" name="lName" type="text" required/><br />Nick Name<input id="nName" name="nName" type="text" required/><br />Password<input id="pword" name="pword" type="text" required/><br />Verify Password<input id="vPword" name="vPword" type="text" /><br required/>Pronoun<input id="pronoun" name="pronoun" type="text" required/><br />Bio<input id="bio" name="bio" type="text" style="height:100px;width:500px" required/><br />Major<input id="major" name="major" type="text" required/><input type="submit" value="Register" /></form>');
+	res.send('<form id="logintest" action="/registerVerify" method="post" name="logintest">Net ID<input id="netID" name="netID" type="text" required/><br />Email<input id="netID" name="Email" type="Email" required/><br />First Name<input id="fName" name="fName" type="text" required/><br />Last Name<input id="lName" name="lName" type="text" required/><br />Preferred Name<input id="nName" name="nName" type="text" required/><br />Password<input id="pword" name="pword" type="text" required/><br />Verify Password<input id="vPword" name="vPword" type="text" /><br required/>Pronoun<input id="pronoun" name="pronoun" type="text" required/><br />Bio<input id="bio" name="bio" type="text" style="height:100px;width:500px" required/><br /><input type="submit" value="Register" /></form>');
 })
 
 // Temp Login Page
