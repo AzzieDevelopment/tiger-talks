@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -136,6 +135,10 @@ app.get('/selectExample', (req, res) => {
 })
 
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+    console.log(`App listening at http://localhost:${port}`);
+  }).on('error', (error) => {
+    console.log(error);
+  }
+);
