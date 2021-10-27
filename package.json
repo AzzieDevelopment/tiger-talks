@@ -14,6 +14,7 @@
     "ng": "ng v",
     "serve": "pushd angular && ng serve -o",
     "build": "pushd angular && ng build",
+    "build-all": "pushd angular && ng build && pushd .. && node express/index.js",
     "express": "node express/index.js",
     "watch": "pushd angular && ng build --watch --configuration development",
     "test": "pushd angular && ng test"
