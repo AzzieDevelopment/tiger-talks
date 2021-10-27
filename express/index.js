@@ -9,6 +9,28 @@ const session = require('express-session');
 const mysql = require('mysql');
 const e = require('express');
 
+// ============================================================
+// Express Server Set Up
+// ============================================================
+
+// Middleware to connect Express and Angular
+app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.json());
+
+// Catch all requests and return Angular HTML file
+// app.all('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../build/index.html'))
+// });
+
+// Listen for requests on defined port
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  }).on('error', (error) => {
+    console.log(error);
+  }
+);
+
 //body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,6 +40,10 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+// ============================================================
+// Database Connection Set Up
+// ============================================================
+
 //connection data for the database
 var connection = mysql.createConnection({
   host: '64.20.43.250',
@@ -25,6 +51,26 @@ var connection = mysql.createConnection({
   password: 'NOX3-PJ]9i-s',
   database: 'azziedev_tigertalks'
 })
+
+//Database connect status
+connection.connect((err)=>{
+  if(!err) {
+    console.log("Connected");
+  }
+  else {
+    console.log("Connection Failed");
+  }
+})
+
+// ============================================================
+// Endpoints
+// ============================================================
+// '/' is an "endpoint", more can be made to make requests to backend (e.g. app.get('/getRecentPosts) etc)
+
+// landing page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 //Authorize login
 app.post('/auth', function(request, response) {
@@ -94,31 +140,17 @@ app.post('/registerVerify', (req, res) => {
 // Temp Register page
 app.get('/register', (req, res) => {
 	res.send('<form id="logintest" action="/registerVerify" method="post" name="logintest">Net ID<input id="netID" name="netID" type="text" required/><br />Email<input id="netID" name="Email" type="Email" required/><br />First Name<input id="fName" name="fName" type="text" required/><br />Last Name<input id="lName" name="lName" type="text" required/><br />Preferred Name<input id="nName" name="nName" type="text" required/><br />Password<input id="pword" name="pword" type="text" required/><br />Verify Password<input id="vPword" name="vPword" type="text" /><br required/>Pronoun<input id="pronoun" name="pronoun" type="text" required/><br />Bio<input id="bio" name="bio" type="text" style="height:100px;width:500px" required/><br /><input type="submit" value="Register" /></form>');
-})
+});
 
 // Temp Login Page
 app.get('/login', (req, res) => {
 	res.send('<h1>Login Form</h1> <form action="/auth" method="POST"> <input type="text" name="netID" placeholder="Net-ID" required> <input type="password" name="password" placeholder="Password" required> <input type="submit"> </form>');
-})
+});
 
-
-//Database connect status
-connection.connect((err)=>{
-  if(!err) {
-    console.log("Connected");
-  }
-  else {
-    console.log("Connection Failed");
-  }
-})
-
-
-
-
-/* '/' is an "endpoint", more can be made to make requests to backend (e.g. app.get('/getRecentPosts) etc) */
-app.get('/', (req, res) => {
+// basic request
+app.get('/hello', (req, res) => {
   res.send('Hello friends!');
-})
+});
 
 
 //dump users from db
@@ -131,14 +163,4 @@ app.get('/selectExample', (req, res) => {
     res.send(result);
   });
   
-
-})
-
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-  }).on('error', (error) => {
-    console.log(error);
-  }
-);
+});
