@@ -1,5 +1,3 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/azziedev/tigertalks.azziedevelopment.com/live/tiger-talks
-    - /bin/cp -r /home/azziedev/tigertalks.azziedevelopment.com/live $DEPLOYPATH
