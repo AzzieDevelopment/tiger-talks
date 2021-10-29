@@ -37,6 +37,7 @@ app.listen(port, () => {
 function sendEmail(email, token) {
   let mail = nodemailer.createTransport({
       service: 'gmail',
+      port:'465',
       auth: {
           user: 'tigertalks484@gmail.com', // Your email id
           pass: 'cosc484JAL' // Your password
@@ -53,8 +54,10 @@ function sendEmail(email, token) {
 
   mail.sendMail(mailOptions, function(error, info) {
       if (error) {
+          console.log(error);
           return 1
       } else {
+          console.log("Email Sent");
           return 0
       }
   });
