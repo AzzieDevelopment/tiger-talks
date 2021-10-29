@@ -48,7 +48,7 @@ function sendEmail(email, token) {
       from: 'noreply@tigertalks.com',
       to: email,
       subject: 'Email verification - TigerTalks.com',
-      html: '<p>You requested for email verification, kindly copy this token into email verification form: ' + token + ''
+      html: `<p>You requested for email verification, kindly click here to verify your email: http://localhost:${port}/verifyToken/${token}/email/${email}</p>`
 
   };
 
@@ -103,6 +103,36 @@ connection.connect((err)=>{
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
 });
+
+app.get('/verifyToken/:token/email/:email', (req,res)=> {
+  let email=req.params.email;
+  let token=req.params.token;
+  let isVerified=0;
+  console.log(req.params)
+  connection.query('SELECT * FROM user WHERE Email = ?', [email], function(error, results, fields) {
+    if(results.length>0){
+      if (results[0].token==token){
+          isVerified=1;
+          console.log("did update to 1!")
+      }
+      else{
+        res.send("Wrong token/email!");
+      }
+    } else {
+      console.log("error here");
+    }
+
+    if(isVerified==1){
+      console.log("Here");
+    connection.query(`UPDATE user SET isVerified='1' WHERE token =?`,[token], function(err,result){
+      if (err) throw err;
+      console.log("Record updated");
+      res.redirect('/login');
+
+    })
+  }
+  })
+})
 
 //Authorize login
 app.post('/auth', function(request, response) {
@@ -169,7 +199,7 @@ app.post('/registerVerify', (req, res) => {
     }
     else{
       sendEmail(email,token);
-      res.redirect('/verifyEmailForm');
+      res.redirect('/login');
     }
   })
     
@@ -203,35 +233,36 @@ app.get('/selectExample', (req, res) => {
   
 });
 
+// Per group advice, changed to clickable link
 // Verify email and token from verifyEmailForm Page
-app.post('/verifyEmail', (req,res)=> {
-  let email=req.body.email;
-  let token=req.body.token;
-  let isVerified=0;
-  connection.query('SELECT * FROM user WHERE Email = ?', [email], function(error, results, fields) {
-    if(results.length>0){
-      if (results[0].token==token){
-          isVerified=1;
-          console.log("did update to 1!")
-      }
-      else{
-        res.send("Wrong token/email!");
-      }
-    } else {
-      console.log("error here");
-    }
+// app.post('/verifyEmail', (req,res)=> {
+//   let email=req.body.email;
+//   let token=req.body.token;
+//   let isVerified=0;
+//   connection.query('SELECT * FROM user WHERE Email = ?', [email], function(error, results, fields) {
+//     if(results.length>0){
+//       if (results[0].token==token){
+//           isVerified=1;
+//           console.log("did update to 1!")
+//       }
+//       else{
+//         res.send("Wrong token/email!");
+//       }
+//     } else {
+//       console.log("error here");
+//     }
 
-    if(isVerified==1){
-      console.log("Here");
-    connection.query(`UPDATE user SET isVerified='1' WHERE token =?`,[token], function(err,result){
-      if (err) throw err;
-      console.log("Record updated");
-      res.redirect('/login');
+//     if(isVerified==1){
+//       console.log("Here");
+//     connection.query(`UPDATE user SET isVerified='1' WHERE token =?`,[token], function(err,result){
+//       if (err) throw err;
+//       console.log("Record updated");
+//       res.redirect('/login');
 
-    })
-  }
-  })
-})
+//     })
+//   }
+//   })
+// })
 
-// Form to verify email before logging in
-app.get('/verifyEmailForm', (req, res) => {res.send('<form action="/verifyEmail" method="post" name="verifyEmail">Email: <input name="email" type="text" placeholder="Email goes here" /> <br>Token: <input name="token" type="text" placeholder="Token goes here" /><br /><input type="submit" value="Register" /></form>');})
+// Form to verify email before logging in, not needed with clickable link
+//app.get('/verifyEmailForm', (req, res) => {res.send('<form action="/verifyEmail" method="post" name="verifyEmail">Email: <input name="email" type="text" placeholder="Email goes here" /> <br>Token: <input name="token" type="text" placeholder="Token goes here" /><br /><input type="submit" value="Register" /></form>');})
