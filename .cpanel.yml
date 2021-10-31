@@ -1,5 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/azziedev/tigertalks.azziedevelopment.com/live/tiger-talks
-    - /bin/cp -r /home/azziedev/tigertalks.azziedevelopment.com/live $DEPLOYPATH
+    - export DEPLOYPATH=/home/azziedev/tigertalks/tiger-talks
+    - /bin/cp package.json $DEPLOYPATH
+    - /bin/cp package-lock.json $DEPLOYPATH
+    - /bin/cp -R angular $DEPLOYPATH
+    - /bin/cp -R express $DEPLOYPATH

@@ -1,0 +1,13 @@
+h1 {
+    color: orange;
+}
+
+.tiger_spaces {
+    border: 1px solid black;
+    float: left;
+}
+
+.right {
+    float: right;
+    border: 5px solid blue;
+}
