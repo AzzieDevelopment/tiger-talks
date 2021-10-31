@@ -8,6 +8,10 @@ nav {
     align-items: center;
 }
 
+.navbar-nav {
+    font-size: 18px;
+}
+
 #brand-text {
     margin-left: 10px;
     font-size: 36px;
