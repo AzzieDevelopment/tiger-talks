@@ -1,0 +1,18 @@
+h1 {
+    color: orange;
+}
+
+.tiger_spaces {
+    border: 1px solid black;
+    float: left;
+    margin-left: 5%; /* prevents box from sticking to the left side of the page */
+    margin-right: 5%; /* adds spacing to the right of the menu and prevents overlap with posts */
+    padding: 1%; /* adds some white space btwn content and border */
+}
+
+.posts {
+    float: left; /* can either be left or right, atp doesn't really matter */
+    border: 5px solid blue; /* to be changed, here for visual purposes rn */
+    margin-right: 5%; /* prevents box from sticking to the right side of the page */
+    padding: 1%; /* adds some white space btwn content and border */
+}
