@@ -1,35 +1,41 @@
-<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+<div class="signup-wrapper" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="box">
       <mat-card-header>
-        <mat-card-title>Register</mat-card-title>
+        <mat-card-title>Sign Up</mat-card-title>
       </mat-card-header>
   
-      <form class="example-form">
+      <form class="">
   
         <mat-card-content>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Username">
+          <mat-form-field class="">
+            <input matInput placeholder="First Name">
           </mat-form-field>
-  
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email">
+          <br>
+          <mat-form-field class="">
+            <input matInput placeholder="Last Name">
           </mat-form-field>
-  
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password">
+          <br>
+          <mat-form-field class="">
+            <input matInput placeholder="Preferred Pronouns">
           </mat-form-field>
-  
-          <mat-form-field class="example-full-width">
-            <mat-label>Choose a role...</mat-label>
-            <mat-select>
-              <mat-option [value]="roles" *ngFor="let roles of Roles">{{roles}}
-              </mat-option>
-            </mat-select>
+          <br>
+          <mat-form-field class="">
+            <input type="email" matInput placeholder="Towson Email Address">
+            <mat-hint>Your email should end in "towson.edu"!</mat-hint>
+          </mat-form-field>
+          <br>
+          <br>
+          <mat-form-field class="">
+            <input type="password" matInput placeholder="Password">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="">
+            <input type="password" matInput placeholder="Verify Password">
           </mat-form-field>
   
         </mat-card-content>
   
-        <button mat-stroked-button color="accent" class="btn-block">Register</button>
+        <button mat-stroked-button color="accent" class="btn-block">Sign Up!</button>
   
       </form>
     </mat-card>

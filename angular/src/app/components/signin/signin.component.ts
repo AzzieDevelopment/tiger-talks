@@ -10,6 +10,7 @@ export class SigninComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    //this.clone();
   }
 
 }
