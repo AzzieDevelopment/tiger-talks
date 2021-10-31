@@ -5,9 +5,13 @@ h1 {
 .tiger_spaces {
     border: 1px solid black;
     float: left;
+    margin-left: 5%; /* prevents box from sticking to the left side of the page */
+    padding: 1%; /* adds some white space btwn content and border */
 }
 
-.right {
+.posts {
     float: right;
-    border: 5px solid blue;
+    border: 5px solid blue; /* to be changed, here for visual purposes rn */
+    margin-right: 5%; /* prevents box from sticking to the right side of the page */
+    padding: 1%; /* adds some white space btwn content and border */
 }
