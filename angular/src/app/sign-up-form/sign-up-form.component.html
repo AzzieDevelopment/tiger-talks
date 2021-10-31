@@ -2,30 +2,30 @@
     <div id="signup-div" class="mx-auto">
         <h1>Sign Up</h1>
         <hr />
-        <form class="row g-3">
+        <form id="signup-form" method="POST" action="/signupVerify" class="row g-3">
             <div class="col-md-6">
                 <label for="netID" class="form-label">Net ID</label>
-                <input id="netID" type="text" class="form-control" required>
+                <input id="netID" name="netID" type="text" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="email" class="form-label">Email</label>
-                <input id="email" type="email" class="form-control" required>
+                <input id="email" name="email" type="email" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="firstName" class="form-label">First Name</label>
-                <input id="firstName" type="text" class="form-control" required>
+                <input id="firstName" name="firstName" type="text" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="lastName" class="form-label">Last Name</label>
-                <input id="lastName" type="text" class="form-control" required>
+                <input id="lastName" name="lastName" type="text" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="preferredName" class="form-label">Preferred Name</label>
-                <input id="preferredName" type="text" class="form-control" required>
+                <input id="preferredName" name="preferredName" type="text" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="pronouns" class="form-label">Preferred Pronouns</label>
-                <input id="pronouns" type="text" class="form-control" required>
+                <input id="pronouns" name="pronouns" type="text" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
