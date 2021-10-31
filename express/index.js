@@ -36,10 +36,10 @@ app.listen(port, () => {
 // Send email
 function sendEmail(email, token) {
   let mail = nodemailer.createTransport({
-      service: 'gmail',
-      port:'465',
+    host: 'mail.azziedevelopment.com',
+    port:'465',
       auth: {
-          user: 'tigertalks484@gmail.com', // Your email id
+          user: 'tigertalks484@azziedevelopment.com', // Your email id
           pass: 'cosc484JAL' // Your password
       }
   });
