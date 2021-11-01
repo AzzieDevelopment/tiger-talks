@@ -17,6 +17,7 @@
     * http://localhost:3000/login Login Page
     * http://localhost:3000/hello simple response string
     * http://localhost:3000/selectExample get all users from DB
+    * http://localhost:3000/hosturl return host from env variable
 
 * ## Getting Started
     * ### Clone Project
