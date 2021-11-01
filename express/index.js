@@ -13,8 +13,8 @@ const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 
 // ==============================================================================
-//uncomment the hosturl between these two(only affects the email link currently):
-const hosturl="http://localhost:3000";
+// the hosturl between these two(only affects the email link currently):
+const hosturl = process.env.hosturl || "http://localhost:3000";
 //const hosturl="https://tigertalks.azziedevelopment.com";
 // ==============================================================================
 
