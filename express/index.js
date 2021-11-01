@@ -17,8 +17,14 @@ const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
 //const hosturl="https://tigertalks.azziedevelopment.com";
 // ==============================================================================
+console.log('hosturl = ' + hosturl);
 
 
+//Verify if user is logged in
+app.get('/hosturl', function (request, response) {
+  response.send(hosturl);
+  console.log(hosturl);
+});
 // ============================================================
 // Express Server Set Up
 // ============================================================
