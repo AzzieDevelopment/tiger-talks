@@ -11,6 +11,9 @@ const e = require('express');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
+//change the hosturl between these (only affects the email link currently):
+const hosturl="http://localhost:3000";
+//const hosturl="https://tigertalks.azziedevelopment.com";
 
 
 // ============================================================
@@ -25,6 +28,7 @@ app.use(express.json());
 // app.all('/', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../build/index.html'))
 // });
+
 
 // Listen for requests on defined port
 const port = process.env.PORT || 3000;
@@ -50,7 +54,7 @@ function sendEmail(email, token) {
     from: 'noreply@tigertalks.com',
     to: email,
     subject: 'Email verification - TigerTalks.com',
-    html: `<p>You requested for email verification, kindly click here to verify your email: http://${host}:${port}/verifyToken/${token}/email/${email}</p>`
+    html: `<p>You requested for email verification, kindly <a href="` + hosturl + `/verifyToken/${token}/email/${email}">click here to verify your email</a>.</p>`
 
   };
 
