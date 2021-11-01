@@ -195,13 +195,11 @@ app.post('/registerVerify', (req, res) => {
     }
   })
 
-  //hash password
-  let hPWord=hashUsersPassword(pWord);
-
-  console.log(hPWord);
+    //hash/salting function
+    const hpWord = bcrypt.hashSync(pWord, 10);
 
 
-  connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${pWord}','${token}') `,function(err,result){
+  connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `,function(err,result){
     if (err){
       console.log("Error: ",err);
     }
@@ -241,16 +239,7 @@ app.get('/selectExample', (req, res) => {
   
 });
 
-//hash passords
-const hashUsersPassword = async ( password ) => {
-  const salt_rounds = 4
-  const hashed_password = await bcrypt.hash(password, salt_rounds)
-}
 
-//compare passwords
-const verifyPassword = async ( password ) => {
-    const hashed_password = await bcrypt.compare(password, hashed_password)
-}
 
 // Per group advice, changed to clickable link
 // Verify email and token from verifyEmailForm Page
