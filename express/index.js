@@ -143,19 +143,25 @@ app.post('/auth', function(request, response) {
   let neededVerification=1;
   //ensure user entered login
 	if (netID && password) {
-    //query database
+    //query database for username
 		connection.query('SELECT * FROM user WHERE ID = ?', [netID], function(error, results, fields) {
 			if (results.length > 0) {
         if(neededVerification!=results[0].IsVerified){
           response.send("Please Verify Email!")
         } else{
-				request.session.loggedin = true;
-				request.session.netID = netID;
-        request.session.name=results[0].FirstName;
-				response.redirect('/loggedIn');
+          //check password hash validity
+          let hash=results[0].Password;
+              if (bcrypt.compareSync(password, hash)) {
+                request.session.loggedin = true;
+                request.session.netID = netID;
+                request.session.name=results[0].FirstName;
+                response.redirect('/loggedIn');
+              } else {
+                response.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
+              }            
       }
 			} else {
-				response.send('Incorrect Username and/or Password!');
+				response.send('Incorrect Username and/or Password!'); //wrong username but don't tell user
 			}			
 			response.end();
 		});
