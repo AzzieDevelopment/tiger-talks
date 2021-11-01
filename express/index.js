@@ -11,20 +11,9 @@ const e = require('express');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
-
-// ==============================================================================
-// the hosturl between these two(only affects the email link currently):
 const hosturl = process.env.hosturl || "http://localhost:3000";
-//const hosturl="https://tigertalks.azziedevelopment.com";
-// ==============================================================================
-console.log('hosturl = ' + hosturl);
 
 
-//Verify if user is logged in
-app.get('/hosturl', function (request, response) {
-  response.send(hosturl);
-  console.log(hosturl);
-});
 // ============================================================
 // Express Server Set Up
 // ============================================================
@@ -117,6 +106,12 @@ connection.connect((err) => {
 // landing page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'));
+});
+
+//display the host URL which can be an environmetal variable
+app.get('/hosturl', function (request, response) {
+  response.send(hosturl);
+  console.log(hosturl);
 });
 
 app.get('/verifyToken/:token/email/:email', (req, res) => {
