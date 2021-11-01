@@ -10,6 +10,8 @@ const mysql = require('mysql');
 const e = require('express');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
+const bcrypt = require("bcrypt");
+
 
 // ============================================================
 // Express Server Set Up
@@ -183,7 +185,7 @@ app.post('/registerVerify', (req, res) => {
     let pNoun=req.body.pronoun;
     let bio=req.body.bio;
     let token=randtoken.generate(10);
-
+    //check if user exists
     connection.query(`SELECT * FROM user WHERE ID=${id};`,function(err,result){
     if (!(typeof result[0] === "undefined")){
       res.send('<script>alert("User already exists")</script>');
@@ -192,6 +194,12 @@ app.post('/registerVerify', (req, res) => {
       console.log("New user, proceeding to insert");
     }
   })
+
+  //hash password
+  let hPWord=hashUsersPassword(pWord);
+
+  console.log(hPWord);
+
 
   connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${pWord}','${token}') `,function(err,result){
     if (err){
@@ -232,6 +240,17 @@ app.get('/selectExample', (req, res) => {
   });
   
 });
+
+//hash passords
+const hashUsersPassword = async ( password ) => {
+  const salt_rounds = 4
+  const hashed_password = await bcrypt.hash(password, salt_rounds)
+}
+
+//compare passwords
+const verifyPassword = async ( password ) => {
+    const hashed_password = await bcrypt.compare(password, hashed_password)
+}
 
 // Per group advice, changed to clickable link
 // Verify email and token from verifyEmailForm Page
