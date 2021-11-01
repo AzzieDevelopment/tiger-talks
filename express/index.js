@@ -28,12 +28,12 @@ app.use(express.json());
 
 // Listen for requests on defined port
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-}).on('error', (error) => {
-  console.log(error);
-}
-);
+var server = app.listen(port, 'localhost', function () {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('TigerTalks listening at http://%s:%s', host, port);
+});
+
 
 // Send email
 function sendEmail(email, token) {
@@ -50,7 +50,7 @@ function sendEmail(email, token) {
     from: 'noreply@tigertalks.com',
     to: email,
     subject: 'Email verification - TigerTalks.com',
-    html: `<p>You requested for email verification, kindly click here to verify your email: http://localhost:${port}/verifyToken/${token}/email/${email}</p>`
+    html: `<p>You requested for email verification, kindly click here to verify your email: http://${server}:${port}/verifyToken/${token}/email/${email}</p>`
 
   };
 
@@ -246,7 +246,6 @@ app.get('/selectExample', (req, res) => {
   });
 
 });
-
 
 
 // Per group advice, changed to clickable link
