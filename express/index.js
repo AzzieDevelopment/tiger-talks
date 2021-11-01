@@ -11,9 +11,12 @@ const e = require('express');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
-//change the hosturl between these (only affects the email link currently):
+
+// ==============================================================================
+//uncomment the hosturl between these two(only affects the email link currently):
 const hosturl="http://localhost:3000";
 //const hosturl="https://tigertalks.azziedevelopment.com";
+// ==============================================================================
 
 
 // ============================================================
