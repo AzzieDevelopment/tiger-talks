@@ -50,7 +50,7 @@ function sendEmail(email, token) {
     from: 'noreply@tigertalks.com',
     to: email,
     subject: 'Email verification - TigerTalks.com',
-    html: `<p>You requested for email verification, kindly click here to verify your email: http://${server}:${port}/verifyToken/${token}/email/${email}</p>`
+    html: `<p>You requested for email verification, kindly click here to verify your email: http://${host}:${port}/verifyToken/${token}/email/${email}</p>`
 
   };
 
