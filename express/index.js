@@ -57,7 +57,7 @@ function sendEmail(email, token) {
     from: 'noreply@tigertalks.com',
     to: email,
     subject: 'Email verification - TigerTalks.com',
-    html: `<p>You requested for email verification, kindly <a href="` + hosturl + `/verifyToken/${token}/email/${email}">click here to verify your email</a>.</p>`
+    html: `<p>You requested for email verification, kindly <a href="` + hosturl + `/verifyToken/${encodeURIComponent(token)}/email/${encodeURIComponent(email)}">click here to verify your email</a>.</p>`
 
   };
 
@@ -219,7 +219,7 @@ app.post('/registerVerify', (req, res) => {
       console.log("Error: ", err);
     }
     else {
-      sendEmail(encodeURIComponent(email), encodeURIComponent(token));
+      sendEmail(email, token);
       res.redirect('/login');
     }
   })
