@@ -114,8 +114,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/verifyToken/:token/email/:email', (req, res) => {
-  let email = req.params.email;
-  let token = req.params.token;
+  let email = decodeURIComponent(req.params.email);
+  let token = decodeURIComponent(req.params.token);
   let isVerified = 0;
   console.log(req.params)
   connection.query('SELECT * FROM user WHERE Email = ?', [email], function (error, results, fields) {
@@ -219,7 +219,7 @@ app.post('/registerVerify', (req, res) => {
       console.log("Error: ", err);
     }
     else {
-      sendEmail(email, token);
+      sendEmail(encodeURIComponent(email), encodeURIComponent(token));
       res.redirect('/login');
     }
   })
