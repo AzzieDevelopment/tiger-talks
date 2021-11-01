@@ -141,8 +141,10 @@ app.post('/auth', function(request, response) {
 	let netID = request.body.netID;
 	let password = request.body.password;
   let neededVerification=1;
+  //ensure user entered login
 	if (netID && password) {
-		connection.query('SELECT * FROM user WHERE ID = ? AND password = ?', [netID, password], function(error, results, fields) {
+    //query database
+		connection.query('SELECT * FROM user WHERE ID = ?', [netID], function(error, results, fields) {
 			if (results.length > 0) {
         if(neededVerification!=results[0].IsVerified){
           response.send("Please Verify Email!")
@@ -198,7 +200,7 @@ app.post('/registerVerify', (req, res) => {
     //hash/salting function
     const hpWord = bcrypt.hashSync(pWord, 10);
 
-
+    //insert into database. Report error if fail, otherwise redirect user to login page
   connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `,function(err,result){
     if (err){
       console.log("Error: ",err);
