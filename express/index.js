@@ -110,7 +110,7 @@ app.use(cors());
 
 // landing page
 app.get('/', (req, res) => {
-  res.sendFile('Backend landing page...');
+  res.send('Backend landing page...');
 });
 
 //display the host URL which can be an environmetal variable
