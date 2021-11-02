@@ -106,7 +106,7 @@ app.use(cors());
 
 // landing page
 app.get('/', (req, res) => {
-  res.sendFile('Backend landing page...');
+  res.send('Backend landing page...');
 });
 
 app.get('/verifyToken/:token/email/:email', (req,res)=> {
