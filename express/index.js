@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -10,10 +9,13 @@ const mysql = require('mysql');
 const e = require('express');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 
 // ============================================================
 // Express Server Set Up
 // ============================================================
+
+const app = express();
 
 // Middleware to connect Express and Angular
 app.use(express.static(path.join(__dirname, '../build')));
@@ -93,6 +95,9 @@ connection.connect((err)=>{
     console.log("Connection Failed");
   }
 })
+
+// Use cors to bypass cross origin security error
+app.use(cors());
 
 // ============================================================
 // Endpoints
@@ -217,7 +222,10 @@ app.get('/login', (req, res) => {
 
 // basic request
 app.get('/hello', (req, res) => {
-  res.send('Hello friends!');
+  let jsonResponse = {
+    "message": "Hello friends!"
+  };
+  res.json(jsonResponse);
 });
 
 
