@@ -221,7 +221,7 @@ app.get('/login', (req, res) => {
 });
 
 // basic request
-app.get('/hello', (req, res) => {
+app.get('/api/hello', (req, res) => {
   let jsonResponse = {
     "message": "Hello friends!"
   };

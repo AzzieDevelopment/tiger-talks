@@ -10,6 +10,6 @@ export class AppService {
   constructor(public httpClient: HttpClient) { }
 
   getHello(): Observable<any> {
-    return this.httpClient.get('http://localhost:3000/hello');
+    return this.httpClient.get('/api/hello');
   }
 }
