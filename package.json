@@ -12,9 +12,8 @@
   "description": "Tiger Talks - TU student and faculty forum",
   "scripts": {
     "ng": "ng v",
-    "serve": "pushd angular && ng serve -o",
+    "serve": "pushd angular && ng serve -o --proxy-config proxy.config.json",
     "build": "pushd angular && ng build",
-    "build-all": "pushd angular && ng build && pushd .. && node express/index.js",
     "express": "node express/index.js",
     "watch": "pushd angular && ng build --watch --configuration development",
     "test": "pushd angular && ng test"
