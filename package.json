@@ -14,7 +14,7 @@
     "ng": "ng v",
     "serve": "pushd angular && ng serve -o --proxy-config proxy.config.json",
     "build": "pushd angular && ng build",
-    "express": "node express/index.js",
+    "express": "nodemon express/index.js",
     "watch": "pushd angular && ng build --watch --configuration development",
     "test": "pushd angular && ng test"
   },
@@ -39,6 +39,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "nodemailer": "^6.7.0",
+    "nodemon": "^2.0.14",
     "rand-token": "^1.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
