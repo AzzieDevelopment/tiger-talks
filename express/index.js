@@ -18,7 +18,7 @@ const cors = require('cors');
 const app = express();
 
 // Middleware to connect Express and Angular
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../build/')));
 app.use(express.json());
 
 // Catch all requests and return Angular HTML file
