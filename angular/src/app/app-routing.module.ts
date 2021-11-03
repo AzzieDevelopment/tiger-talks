@@ -6,9 +6,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
-  { path: 'Home', component: HomePageComponent },
-  { path: 'SignUp', component: SignUpFormComponent },
-  { path: 'SignIn', component: SignInComponent },
+  { path: 'home', component: HomePageComponent },
+  { path: 'signup', component: SignUpFormComponent },
+  { path: 'signin', component: SignInComponent },
   { path: '**', redirectTo: '' }
 ];
 
