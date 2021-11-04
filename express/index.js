@@ -11,7 +11,6 @@ const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
-
 const cors = require('cors');
 
 // ============================================================
