@@ -2,6 +2,14 @@ nav {
     padding: 0;
 }
 
+.navbar {
+    background-color: #000 !important;
+}
+
+a {
+    color: #fff !important;
+}
+
 .navbar-brand {
     display: flex;
     justify-content: center;
