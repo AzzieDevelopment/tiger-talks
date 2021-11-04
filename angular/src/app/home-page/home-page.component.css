@@ -2,12 +2,15 @@ h1 {
     color: orange;
 }
 
-.tiger_spaces {
-    border: 1px solid black;
-    float: left;
+.right {
+    /* float: right; */
+    border: 3px solid blue;
 }
 
-.right {
-    float: right;
-    border: 3px solid blue;
+.col-md-3 {
+    padding-left: 0 !important;
+}
+
+.recent-posts {
+    padding-right: 0;
 }
