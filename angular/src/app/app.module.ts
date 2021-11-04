@@ -9,6 +9,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { TigerSpaceListComponent } from './tigerspace-list/tigerspace-list.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     SignUpFormComponent,
     HomePageComponent,
     NavbarComponent,
-    SignInComponent
+    SignInComponent,
+    TigerSpaceListComponent
   ],
   imports: [
     BrowserModule,
