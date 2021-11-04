@@ -1,9 +1,9 @@
-#signup-div {
+#signin-div {
     margin-top: 20px;
-    width: 600px;
+    width: 400px;
 }
 
-#signup-btn {
+#signin-btn {
     background-color: var(--tu-orange);
     font-weight: bold;
 }

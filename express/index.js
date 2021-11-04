@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -12,14 +11,16 @@ const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
-
+const cors = require('cors');
 
 // ============================================================
 // Express Server Set Up
 // ============================================================
 
+const app = express();
+
 // Middleware to connect Express and Angular
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../build/')));
 app.use(express.json());
 
 // Catch all requests and return Angular HTML file
@@ -98,6 +99,9 @@ connection.connect((err) => {
   }
 })
 
+// Use cors to bypass cross origin security error
+app.use(cors());
+
 // ============================================================
 // Endpoints
 // ============================================================
@@ -105,7 +109,7 @@ connection.connect((err) => {
 
 // landing page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'));
+  res.send('Backend landing page...');
 });
 
 //display the host URL which can be an environmetal variable
@@ -238,8 +242,11 @@ app.get('/login', (req, res) => {
 });
 
 // basic request
-app.get('/hello', (req, res) => {
-  res.send('Hello friends!');
+app.get('/api/hello', (req, res) => {
+  let jsonResponse = {
+    "message": "Hello friends!"
+  };
+  res.json(jsonResponse);
 });
 
 

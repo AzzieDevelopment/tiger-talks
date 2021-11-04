@@ -12,9 +12,8 @@
   "description": "Tiger Talks - TU student and faculty forum",
   "scripts": {
     "ng": "ng v",
-    "serve": "pushd angular && ng serve -o",
+    "serve": "pushd angular && ng serve -o --proxy-config proxy.config.json",
     "build": "pushd angular && ng build",
-    "build-all": "pushd angular && ng build && pushd .. && node express/index.js",
     "express": "node express/index.js",
     "watch": "pushd angular && ng build --watch --configuration development",
     "test": "pushd angular && ng test"
@@ -30,7 +29,9 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "bcrypt": "^5.0.1",
+    "bootstrap": "^5.1.3",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-session": "^1.17.2",

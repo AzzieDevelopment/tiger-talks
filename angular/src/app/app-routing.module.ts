@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', component: HomePageComponent },
+  { path: 'home', component: HomePageComponent },
+  { path: 'signup', component: SignUpFormComponent },
+  { path: 'signin', component: SignInComponent },
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
