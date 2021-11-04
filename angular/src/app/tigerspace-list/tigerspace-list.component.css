@@ -1,0 +1,23 @@
+h1 {
+    /* color: var(--tu-orange); */
+    text-align: center;
+}
+
+.title {
+    padding-bottom: 5px;
+}
+
+/* Overrides on Bootstrap styling */
+
+.accordion-button:not(.collapsed) {
+    color: #000;
+    background-color: white;
+}
+
+.accordion-body {
+    padding: 0 !important;
+}
+
+.list-group {
+    border-radius: 0;
+}
