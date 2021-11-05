@@ -18,8 +18,7 @@ export class HomePageComponent implements OnInit {
         this.message = response.message;
       },
       error => {
-        console.log(error);
-        alert("Error: could not get message from backend.");
+        console.log("Error: could not get message from backend.\n" + error);
       }
     );
   }
