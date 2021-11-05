@@ -21,7 +21,7 @@
                         <mat-chip *ngFor="let category of categories" [selectable]="selectable" [removable]="removable" (removed)="remove(category)">
                             {{category.name}}
                             <button matChipRemove *ngIf="removable">
-                                <mat-icon>delete</mat-icon>
+                                <mat-icon class="material-icons">delete</mat-icon>
                             </button>
                         </mat-chip>
                         <input placeholder="New category..."

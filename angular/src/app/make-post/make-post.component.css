@@ -9,6 +9,10 @@
     width: 100%;
 }
 
+.material-icons{
+    font-family: 'Material Icons' !important;
+}
+
 #categoriesList{
     font-size: smaller;
 }
