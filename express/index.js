@@ -1,12 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const flash = require('express-flash');
 const session = require('express-session');
 const mysql = require('mysql');
-const e = require('express');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
@@ -53,7 +49,7 @@ function sendEmail(email, token) {
     from: 'noreply@tigertalks.com',
     to: email,
     subject: 'Email verification - TigerTalks.com',
-    html: `<p>You requested for email verification, kindly <a href="` + hosturl + `/verifyToken/${encodeURIComponent(token)}/email/${encodeURIComponent(email)}">click here to verify your email</a>.</p>`
+    html: `<p>You requested for email verification, kindly <a href="` + hosturl + `/api/verifytoken/${encodeURIComponent(token)}/email/${encodeURIComponent(email)}">click here to verify your email</a>.</p>`
 
   };
 
@@ -69,7 +65,9 @@ function sendEmail(email, token) {
 }
 
 //body parser
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 app.use(session({
   secret: 'secret',
@@ -93,8 +91,7 @@ var connection = mysql.createConnection({
 connection.connect((err) => {
   if (!err) {
     console.log("Connected");
-  }
-  else {
+  } else {
     console.log("Connection Failed");
   }
 })
@@ -107,29 +104,27 @@ app.use(cors());
 // ============================================================
 // '/' is an "endpoint", more can be made to make requests to backend (e.g. app.get('/getRecentPosts) etc)
 
-// landing page
-app.get('/', (req, res) => {
-  res.send('Backend landing page...');
-});
 
 //display the host URL which can be an environmetal variable
-app.get('/hosturl', function (request, response) {
+app.get('/api/hosturl', function (request, response) {
   response.send(hosturl);
   console.log(hosturl);
 });
 
-app.get('/verifyToken/:token/email/:email', (req, res) => {
+app.get('/api/verifytoken/:token/email/:email', (req, res) => {
   let email = decodeURIComponent(req.params.email);
   let token = decodeURIComponent(req.params.token);
   let isVerified = 0;
   console.log(req.params)
   connection.query('SELECT * FROM user WHERE Email = ?', [email], function (error, results, fields) {
+    if (error) {
+      throw error;
+    }
     if (results.length > 0) {
       if (results[0].token == token) {
         isVerified = 1;
         console.log("did update to 1!")
-      }
-      else {
+      } else {
         res.send("Wrong token/email!");
       }
     } else {
@@ -141,7 +136,7 @@ app.get('/verifyToken/:token/email/:email', (req, res) => {
       connection.query(`UPDATE user SET isVerified='1' WHERE token =?`, [token], function (err, result) {
         if (err) throw err;
         console.log("Record updated");
-        res.redirect('/login');
+        res.redirect('/api/login');
 
       })
     }
@@ -149,7 +144,7 @@ app.get('/verifyToken/:token/email/:email', (req, res) => {
 })
 
 //Authorize login
-app.post('/auth', function (request, response) {
+app.post('/api/auth', function (request, response) {
   let netID = request.body.netID;
   let password = request.body.password;
   let neededVerification = 1;
@@ -157,6 +152,9 @@ app.post('/auth', function (request, response) {
   if (netID && password) {
     //query database for username
     connection.query('SELECT * FROM user WHERE ID = ?', [netID], function (error, results, fields) {
+      if (error) {
+        throw error;
+      }
       if (results.length > 0) {
         if (neededVerification != results[0].IsVerified) {
           response.send("Please Verify Email!")
@@ -167,7 +165,7 @@ app.post('/auth', function (request, response) {
             request.session.loggedin = true;
             request.session.netID = netID;
             request.session.name = results[0].FirstName;
-            response.redirect('/loggedIn');
+            response.redirect('/api/loggedin');
           } else {
             response.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
           }
@@ -184,7 +182,7 @@ app.post('/auth', function (request, response) {
 });
 
 //Verify if user is logged in
-app.get('/loggedIn', function (request, response) {
+app.get('/api/loggedin', function (request, response) {
   if (request.session.loggedin) {
     console.log(request.session);
     response.send('Welcome back, ' + request.session.name + '!');
@@ -195,7 +193,7 @@ app.get('/loggedIn', function (request, response) {
 });
 
 //reads req and verifies user doesnt exist already
-app.post('/registerVerify', (req, res) => {
+app.post('/api/registerverify', (req, res) => {
   let id = req.body.netID;
   let email = req.body.Email;
   let fName = req.body.fName;
@@ -207,10 +205,13 @@ app.post('/registerVerify', (req, res) => {
   let token = randtoken.generate(10);
   //check if user exists
   connection.query(`SELECT * FROM user WHERE ID=${id};`, function (err, result) {
+
+    if (err) {
+      throw err;
+    }
     if (!(typeof result[0] === "undefined")) {
       res.send('<script>alert("User already exists")</script>');
-    }
-    else {
+    } else {
       console.log("New user, proceeding to insert");
     }
   })
@@ -222,23 +223,164 @@ app.post('/registerVerify', (req, res) => {
   connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
     if (err) {
       console.log("Error: ", err);
-    }
-    else {
+    } else {
       sendEmail(email, token);
-      res.redirect('/login');
+      res.redirect('/api/login');
     }
   })
 
 });
 
+//Get comment by id
+app.get('/api/getcomment/:id', (req, res) => {
+
+  let commentId = decodeURIComponent(req.params.id);
+
+  connection.query(`SELECT * FROM comment WHERE ID=${commentId};`, function (err, result) {
+    if (err) {
+      throw err;
+    }
+    if (result.length > 0) {
+      res.status(200).json(result[0]);
+    } else {
+      res.json({
+        "Id": "N/A",
+        "FirstName": "N/A",
+        "LastName": "N/A",
+        "Email": "N/A",
+        "UserType": "N/A",
+        "Permission": "N/A",
+        "Bio": "N/A",
+        "PName": "N/A",
+        "Pronouns": "N/A",
+        "IsVerified": "N/A",
+        "Password": "N/A"
+      });
+    }
+
+  })
+
+});
+
+//Get user by ID
+app.get('/api/getuser/:id', (req, res) => {
+
+  let userID = decodeURIComponent(req.params.id);
+
+  connection.query(`SELECT * FROM user WHERE ID=${userID};`, function (err, result) {
+    if (err) {
+      throw err;
+    }
+    if (result.length > 0) {
+      res.status(200).json(result[0]);
+    } else {
+      res.status(200).json({
+        "Id": "N/A",
+        "FirstName": "N/A",
+        "LastName": "N/A",
+        "Email": "N/A",
+        "UserType": "N/A",
+        "Permission": "N/A",
+        "Bio": "N/A",
+        "PName": "N/A",
+        "Pronouns": "N/A",
+        "IsVerified": "N/A",
+        "Password": "N/A"
+      });
+    }
+
+  })
+
+});
+
+//Get tigerspace by id
+app.get('/api/gettigerspace/:id', (req, res) => {
+
+  let tigerId = decodeURIComponent(req.params.id);
+
+  connection.query(`SELECT * FROM tigerspace WHERE ID=${tigerId};`, function (err, result) {
+    if (err) {
+      throw err;
+    }
+    if (result.length > 0) {
+      res.status(200).json(result[0]);
+    } else {
+      res.status(200).json({
+        "Id": "N/A",
+        "UserId": "N/A",
+        "Title": "N/A",
+        "Description": "N/A",
+        "Type": "N/A"
+      });
+    }
+
+  })
+
+});
+
+//Get post by ID in URL
+app.get('/api/getpost/:id', (req, res) => {
+
+  let id = decodeURIComponent(req.params.id);
+
+  connection.query(`SELECT * FROM post WHERE ID=${id};`, function (err, result) {
+    if (err) {
+      throw err;
+
+    }
+    if (result.length > 0) {
+      res.status(200).json(result[0]);
+    } else {
+      res.status(200).json({
+        "Id": "N/A",
+        "Title": "N/A",
+        "Body": "N/A",
+        "Category": "N/A",
+        "Upvotes": "N/A",
+        "Timestamp": "N/A",
+        "UserId": "N/A",
+        "TIgerSpaceId": "N/A"
+      });
+    }
+
+  })
+
+});
+
+//Get comments by postid
+app.get('/api/getpostcomments/:postid', (req, res) => {
+
+  let postId = decodeURIComponent(req.params.postid);
+
+  connection.query(`SELECT * FROM comment WHERE PostId=${postId};`, function (err, result) {
+    if (err) {
+      throw err;
+    }
+    if (result.length > 0) {
+      res.status(200).json(result);
+    } else {
+      res.status(200).json({
+        "Id": "N/A",
+        "UserId": "N/A",
+        "PostId": "N/A",
+        "Timestamp": "N/A",
+        "Body": "N/A",
+        "Upvotes": "N/A"
+      });
+    }
+
+  })
+
+});
+
 // Temp Register page
-app.get('/register', (req, res) => {
-  res.send('Register Form<form id="logintest" action="/registerVerify" method="post" name="logintest">Net ID<input id="netID" name="netID" type="text" required/><br />Email<input id="netID" name="Email" type="Email" required/><br />First Name<input id="fName" name="fName" type="text" required/><br />Last Name<input id="lName" name="lName" type="text" required/><br />Preferred Name<input id="nName" name="nName" type="text" required/><br />Password<input id="pword" name="pword" type="text" required/><br />Verify Password<input id="vPword" name="vPword" type="text" /><br required/>Pronoun<input id="pronoun" name="pronoun" type="text" required/><br />Bio<input id="bio" name="bio" type="text" style="height:100px;width:500px" required/><br /><input type="submit" value="Register" /></form>');
+app.get('/api/register', (req, res) => {
+  res.send('Register Form<form id="logintest" action="/api/registerverify" method="post" name="logintest">Net ID<input id="netID" name="netID" type="text" required/><br />Email<input id="netID" name="Email" type="Email" required/><br />First Name<input id="fName" name="fName" type="text" required/><br />Last Name<input id="lName" name="lName" type="text" required/><br />Preferred Name<input id="nName" name="nName" type="text" required/><br />Password<input id="pword" name="pword" type="text" required/><br />Verify Password<input id="vPword" name="vPword" type="text" /><br required/>Pronoun<input id="pronoun" name="pronoun" type="text" required/><br />Bio<input id="bio" name="bio" type="text" style="height:100px;width:500px" required/><br /><input type="submit" value="Register" /></form>');
 });
 
 // Temp Login Page
-app.get('/login', (req, res) => {
-  res.send('<h1>Login Form</h1> <form action="/auth" method="POST"> <input type="text" name="netID" placeholder="Net-ID" required> <input type="password" name="password" placeholder="Password" required> <input type="submit"> </form>');
+app.get('/api/login', (req, res) => {
+  res.send('<h1>Login Form</h1> <form action="/api/auth" method="POST"> <input type="text" name="netID" placeholder="Net-ID" required> <input type="password" name="password" placeholder="Password" required> <input type="submit"> </form>');
 });
 
 // basic request
@@ -251,48 +393,13 @@ app.get('/api/hello', (req, res) => {
 
 
 //dump users from db
-app.get('/selectExample', (req, res) => {
+app.get('/api/selectexample', (req, res) => {
 
   connection.query("SELECT * FROM user", function (err, result, fields) {
     // if any error while executing above query, throw error
     if (err) throw err;
     // if there is no error, you have the result
-    res.send(result);
+    res.json(result);
   });
 
 });
-
-
-// Per group advice, changed to clickable link
-// Verify email and token from verifyEmailForm Page
-// app.post('/verifyEmail', (req,res)=> {
-//   let email=req.body.email;
-//   let token=req.body.token;
-//   let isVerified=0;
-//   connection.query('SELECT * FROM user WHERE Email = ?', [email], function(error, results, fields) {
-//     if(results.length>0){
-//       if (results[0].token==token){
-//           isVerified=1;
-//           console.log("did update to 1!")
-//       }
-//       else{
-//         res.send("Wrong token/email!");
-//       }
-//     } else {
-//       console.log("error here");
-//     }
-
-//     if(isVerified==1){
-//       console.log("Here");
-//     connection.query(`UPDATE user SET isVerified='1' WHERE token =?`,[token], function(err,result){
-//       if (err) throw err;
-//       console.log("Record updated");
-//       res.redirect('/login');
-
-//     })
-//   }
-//   })
-// })
-
-// Form to verify email before logging in, not needed with clickable link
-//app.get('/verifyEmailForm', (req, res) => {res.send('<form action="/verifyEmail" method="post" name="verifyEmail">Email: <input name="email" type="text" placeholder="Email goes here" /> <br>Token: <input name="token" type="text" placeholder="Token goes here" /><br /><input type="submit" value="Register" /></form>');})
