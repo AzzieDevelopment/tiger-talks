@@ -16,12 +16,17 @@
     	* http://localhost:3000/#/signup signup page
     	* http://localhost:3000/#/signin signin page
     * Backend
-    	* http://localhost:3000/loggedIn see if a users session is logged in
-    	* http://localhost:3000/register Registration Page
-    	* http://localhost:3000/login Login Page
+    	* http://localhost:3000/api/loggedIn see if a users session is logged in
+    	* http://localhost:3000/api/register Registration Page
+    	* http://localhost:3000/api/login Login Page
     	* http://localhost:3000/api/hello simple response string
-    	* http://localhost:3000/selectExample get all users from DB
-    	* http://localhost:3000/hosturl return host from env variable
+    	* http://localhost:3000/api/selectExample get all users from DB
+    	* http://localhost:3000/api/hosturl return host from env variable
+        * http://localhost:3000/api/getcomment/:id get id by comment
+        * http://localhost:3000/api/getuser/:id get user by id
+        * http://localhost:3000/api/gettigerspace/:id get tiger space by id
+        * http://localhost:3000/api/getpost/:id get post by id
+        * http://localhost:3000/api/getpostcomments/:postid return a posts comments
 
 * ## Getting Started
     * ### Clone Project
