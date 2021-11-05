@@ -13,8 +13,9 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.user (
     IsVerified BOOLEAN NOT NULL,
     Password VARCHAR(120),
     PRIMARY KEY(Id)
-    );
-    
+    )
+ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.student (
 	UserId VARCHAR(9) NOT NULL,
 	Major VARCHAR(32) NOT NULL,
@@ -23,7 +24,8 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.student (
 	GradYear varchar(4),
 	PRIMARY KEY(UserId),
 	FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.faculty (
 	UserId VARCHAR(9) NOT NULL,
@@ -31,7 +33,8 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.faculty (
     Department VARCHAR(32) NOT NULL,
 	PRIMARY KEY(UserId),
 	FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.tigerspace (
 	Id INT UNSIGNED NOT NULL,
@@ -41,7 +44,8 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.tigerspace (
     Type TINYINT NOT NULL,
     PRIMARY KEY(Id),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.post (
 	Id INT UNSIGNED NOT NULL,
@@ -55,7 +59,8 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.post (
     PRIMARY KEY(Id),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(TigerSpaceId) References azziedev_tigertalks.tigerspace(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.comment (
 	Id INT UNSIGNED NOT NULL,
@@ -67,25 +72,29 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.comment (
     Primary Key (Id),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(PostId) References azziedev_tigertalks.post(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.follow (
 	UserId VARCHAR(9) NOT NULL,
     TigerSpaceId INT UNSIGNED NOT NULL,
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(TigerSpaceId) References azziedev_tigertalks.tigerspace(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.flaggedpost (
 	UserId VARCHAR(9) NOT NULL,
     PostId INT UNSIGNED NOT NULL,
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(PostId) References azziedev_tigertalks.post(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.flaggedcomment (
 	UserId VARCHAR(9) NOT NULL,
     CommentId INT UNSIGNED NOT NULL,
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(CommentId) References azziedev_tigertalks.comment(Id) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;
