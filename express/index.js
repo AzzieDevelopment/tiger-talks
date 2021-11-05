@@ -2,12 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
-const mysql = require('mysql');
 const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
 const cors = require('cors');
+const connection = require ('./db');
+const userRouter = require ('./routes/user');
+const tempPageRouter = require ('./routes/tempPage')
 
 // ============================================================
 // Express Server Set Up
@@ -15,15 +17,15 @@ const cors = require('cors');
 
 const app = express();
 
+// Enable user routes in user.js
+app.use('/',userRouter);
+app.use('/',tempPageRouter);
+
+//Enable temp pages in tempPage.js
+
 // Middleware to connect Express and Angular
 app.use(express.static(path.join(__dirname, '../build/')));
 app.use(express.json());
-
-// Catch all requests and return Angular HTML file
-// app.all('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../build/index.html'))
-// });
-
 
 // Listen for requests on defined port
 const port = process.env.PORT || 3000;
@@ -75,26 +77,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// ============================================================
-// Database Connection Set Up
-// ============================================================
 
-//connection data for the database
-var connection = mysql.createConnection({
-  host: '64.20.43.250',
-  user: 'azziedev_tigertalksdb',
-  password: 'NOX3-PJ]9i-s',
-  database: 'azziedev_tigertalks'
-})
-
-//Database connect status
-connection.connect((err) => {
-  if (!err) {
-    console.log("Connected");
-  } else {
-    console.log("Connection Failed");
-  }
-})
 
 // Use cors to bypass cross origin security error
 app.use(cors());
@@ -228,178 +211,5 @@ app.post('/api/registerverify', (req, res) => {
       res.redirect('/api/login');
     }
   })
-
-});
-
-//Get comment by id
-app.get('/api/getcomment/:id', (req, res) => {
-
-  let commentId = decodeURIComponent(req.params.id);
-
-  connection.query(`SELECT * FROM comment WHERE ID=${commentId};`, function (err, result) {
-    if (err) {
-      throw err;
-    }
-    if (result.length > 0) {
-      res.status(200).json(result[0]);
-    } else {
-      res.json({
-        "Id": "N/A",
-        "FirstName": "N/A",
-        "LastName": "N/A",
-        "Email": "N/A",
-        "UserType": "N/A",
-        "Permission": "N/A",
-        "Bio": "N/A",
-        "PName": "N/A",
-        "Pronouns": "N/A",
-        "IsVerified": "N/A",
-        "Password": "N/A"
-      });
-    }
-
-  })
-
-});
-
-//Get user by ID
-app.get('/api/getuser/:id', (req, res) => {
-
-  let userID = decodeURIComponent(req.params.id);
-
-  connection.query(`SELECT * FROM user WHERE ID=${userID};`, function (err, result) {
-    if (err) {
-      throw err;
-    }
-    if (result.length > 0) {
-      res.status(200).json(result[0]);
-    } else {
-      res.status(200).json({
-        "Id": "N/A",
-        "FirstName": "N/A",
-        "LastName": "N/A",
-        "Email": "N/A",
-        "UserType": "N/A",
-        "Permission": "N/A",
-        "Bio": "N/A",
-        "PName": "N/A",
-        "Pronouns": "N/A",
-        "IsVerified": "N/A",
-        "Password": "N/A"
-      });
-    }
-
-  })
-
-});
-
-//Get tigerspace by id
-app.get('/api/gettigerspace/:id', (req, res) => {
-
-  let tigerId = decodeURIComponent(req.params.id);
-
-  connection.query(`SELECT * FROM tigerspace WHERE ID=${tigerId};`, function (err, result) {
-    if (err) {
-      throw err;
-    }
-    if (result.length > 0) {
-      res.status(200).json(result[0]);
-    } else {
-      res.status(200).json({
-        "Id": "N/A",
-        "UserId": "N/A",
-        "Title": "N/A",
-        "Description": "N/A",
-        "Type": "N/A"
-      });
-    }
-
-  })
-
-});
-
-//Get post by ID in URL
-app.get('/api/getpost/:id', (req, res) => {
-
-  let id = decodeURIComponent(req.params.id);
-
-  connection.query(`SELECT * FROM post WHERE ID=${id};`, function (err, result) {
-    if (err) {
-      throw err;
-
-    }
-    if (result.length > 0) {
-      res.status(200).json(result[0]);
-    } else {
-      res.status(200).json({
-        "Id": "N/A",
-        "Title": "N/A",
-        "Body": "N/A",
-        "Category": "N/A",
-        "Upvotes": "N/A",
-        "Timestamp": "N/A",
-        "UserId": "N/A",
-        "TIgerSpaceId": "N/A"
-      });
-    }
-
-  })
-
-});
-
-//Get comments by postid
-app.get('/api/getpostcomments/:postid', (req, res) => {
-
-  let postId = decodeURIComponent(req.params.postid);
-
-  connection.query(`SELECT * FROM comment WHERE PostId=${postId};`, function (err, result) {
-    if (err) {
-      throw err;
-    }
-    if (result.length > 0) {
-      res.status(200).json(result);
-    } else {
-      res.status(200).json({
-        "Id": "N/A",
-        "UserId": "N/A",
-        "PostId": "N/A",
-        "Timestamp": "N/A",
-        "Body": "N/A",
-        "Upvotes": "N/A"
-      });
-    }
-
-  })
-
-});
-
-// Temp Register page
-app.get('/api/register', (req, res) => {
-  res.send('Register Form<form id="logintest" action="/api/registerverify" method="post" name="logintest">Net ID<input id="netID" name="netID" type="text" required/><br />Email<input id="netID" name="Email" type="Email" required/><br />First Name<input id="fName" name="fName" type="text" required/><br />Last Name<input id="lName" name="lName" type="text" required/><br />Preferred Name<input id="nName" name="nName" type="text" required/><br />Password<input id="pword" name="pword" type="text" required/><br />Verify Password<input id="vPword" name="vPword" type="text" /><br required/>Pronoun<input id="pronoun" name="pronoun" type="text" required/><br />Bio<input id="bio" name="bio" type="text" style="height:100px;width:500px" required/><br /><input type="submit" value="Register" /></form>');
-});
-
-// Temp Login Page
-app.get('/api/login', (req, res) => {
-  res.send('<h1>Login Form</h1> <form action="/api/auth" method="POST"> <input type="text" name="netID" placeholder="Net-ID" required> <input type="password" name="password" placeholder="Password" required> <input type="submit"> </form>');
-});
-
-// basic request
-app.get('/api/hello', (req, res) => {
-  let jsonResponse = {
-    "message": "Hello friends!"
-  };
-  res.json(jsonResponse);
-});
-
-
-//dump users from db
-app.get('/api/selectexample', (req, res) => {
-
-  connection.query("SELECT * FROM user", function (err, result, fields) {
-    // if any error while executing above query, throw error
-    if (err) throw err;
-    // if there is no error, you have the result
-    res.json(result);
-  });
 
 });
