@@ -9,7 +9,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { TigerSpaceListComponent } from './tigerspace-list/tigerspace-list.component';
+import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-list.component';
 
 @NgModule({
   declarations: [
