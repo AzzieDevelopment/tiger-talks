@@ -16,3 +16,7 @@ h1 {
     margin-right: 5%; /* prevents box from sticking to the right side of the page */
     padding: 1%; /* adds some white space btwn content and border */
 }
+.right {
+    float: right;
+    border: 3px solid blue;
+}

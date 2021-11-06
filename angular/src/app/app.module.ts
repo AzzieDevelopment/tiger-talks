@@ -2,22 +2,27 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularMaterialModule } from './angular-material.module';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SigninComponent } from './components/signin/signin.component';
-import { SignupComponent } from './components/signup/signup.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpFormComponent} from './sign-up-form/sign-up-form.component'
 import { HomePageComponent } from './home-page/home-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MakePostComponent } from './make-post/make-post.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SigninComponent,
-    SignupComponent,
+    SignInComponent,
+    SignUpFormComponent,
+    HomePageComponent,
+    NavbarComponent,
     HomePageComponent,
     MakePostComponent
   ],
@@ -29,9 +34,10 @@ import { MakePostComponent } from './make-post/make-post.component';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

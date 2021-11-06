@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 nav {
     padding: 0;
-    background-color: #dddddd; /* Not sure if this did anything, wanted to change the navbar to contrast more */
 }
 
 .navbar-brand {
@@ -10,10 +8,12 @@ nav {
     align-items: center;
 }
 
+.navbar-nav {
+    font-size: 18px;
+}
+
 #brand-text {
     margin-left: 10px;
     font-size: 36px;
     font-weight: bold;
 }
-=======
->>>>>>> masterMrg
