@@ -11,6 +11,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-list.component';
 import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.component';
+import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
+import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thumbnail/tigerspace-thumbnail.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.comp
     NavbarComponent,
     SignInComponent,
     TigerSpaceListComponent,
-    RecentPostsComponent
+    RecentPostsComponent,
+    TigerSpacesGridComponent,
+    TigerspaceThumbnailComponent
   ],
   imports: [
     BrowserModule,
