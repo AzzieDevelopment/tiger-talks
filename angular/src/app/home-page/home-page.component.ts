@@ -8,19 +8,9 @@ import { AppService } from '../app.service';
 })
 export class HomePageComponent implements OnInit {
 
-  message: string = "default message...";
-  
-  constructor(public appService: AppService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.appService.getHello().subscribe(
-      response => {
-        this.message = response.message;
-      },
-      error => {
-        console.log("Error: could not get message from backend.\n" + error);
-      }
-    );
   }
 
 }
