@@ -20,3 +20,12 @@ a {
     color: var(--tu-orange);
     text-align: center;
 }
+
+.subtitle {
+    text-align: center;
+}
+
+.thumbnails {
+    justify-content: center;
+    align-content: center;
+}
