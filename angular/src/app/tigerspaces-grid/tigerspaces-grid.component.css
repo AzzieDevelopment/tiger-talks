@@ -19,6 +19,7 @@ a {
 .title {
     color: var(--tu-orange);
     text-align: center;
+    font-weight: bold;
 }
 
 .subtitle {
@@ -28,4 +29,5 @@ a {
 .thumbnails {
     justify-content: center;
     align-content: center;
+    font-weight: 500;
 }
