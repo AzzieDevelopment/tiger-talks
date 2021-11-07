@@ -1,5 +1,5 @@
 h1 {
-    color: orange;
+    color: var(--tu-orange);
 }
 
 /* .col-md-3 {
