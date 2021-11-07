@@ -2,25 +2,22 @@
     <div class="title">
         <h1>Tiger Spaces</h1>
     </div>
+    <hr>
     <div id="academic">
-        <h2>Academic</h2>
-        <div class="d-flex flex-wrap">
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
+        <h2 class="subtitle">Academic</h2>
+        <div class="thumbnails d-flex flex-wrap">
+            <ng-container *ngFor="let tigerspace of academicTigerSpaces">
+                <tigerspace-thumbnail [tigerspace]="tigerspace"></tigerspace-thumbnail>
+            </ng-container>
         </div>
     </div>
     <hr>
     <div id="social">
-        <h2>Social</h2>
-        <div class="d-flex flex-wrap">
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
-            <tigerspace-thumbnail></tigerspace-thumbnail>
+        <h2 class="subtitle">Social</h2>
+        <div class="thumbnails d-flex flex-wrap">
+            <ng-container *ngFor="let tigerspace of socialTigerSpaces">
+                <tigerspace-thumbnail [tigerspace]="tigerspace"></tigerspace-thumbnail>
+            </ng-container>
         </div>
     </div>
 </div>

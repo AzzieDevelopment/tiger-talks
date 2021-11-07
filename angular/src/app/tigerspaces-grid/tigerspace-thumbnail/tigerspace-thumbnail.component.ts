@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'tigerspace-thumbnail',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tigerspace-thumbnail.component.css']
 })
 export class TigerspaceThumbnailComponent implements OnInit {
+
+  @Input() tigerspace:any;
 
   constructor() { }
 
