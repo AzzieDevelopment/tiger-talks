@@ -14,7 +14,7 @@ let secretData = JSON.parse(rawdata);
 
 const connection = mysql.createConnection({
     host: secretData.dbhost ,
-    user: secretData.dbuser ,
+    user: secretData.dbusername ,
     password: secretData.dbpassword ,
     database: secretData.dbname
   })
