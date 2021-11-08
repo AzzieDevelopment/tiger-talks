@@ -1,20 +1,26 @@
 const mysql = require('mysql');
-const globalvars = require("./global")
+
+
+
+//read global secret vars
+const fs = require('fs');
+let rawdata = fs.readFileSync('express/global.json');
+let secretData = JSON.parse(rawdata);
+//end of global secret vars
 
 // ============================================================
 // Database Connection Set Up
 // ============================================================
 
 const connection = mysql.createConnection({
-    host: '64.20.43.250' ,
-    user: 'azziedev_tigertalksdb' ,
-    password: 'NOX3-PJ]9i-s' ,
-    database: 'azziedev_tigertalks'
+    host: secretData.dbhost ,
+    user: secretData.dbuser ,
+    password: secretData.dbpassword ,
+    database: secretData.dbname
   })
   
   //Database connect status
   connection.connect((err) => {
-    console.log(globalvars());
     if (!err) {
       console.log("Connected");
     } else {
