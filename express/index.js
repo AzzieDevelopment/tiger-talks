@@ -10,6 +10,12 @@ const cors = require('cors');
 const connection = require ('./db');
 const userRouter = require ('./routes/user');
 const tempPageRouter = require ('./routes/tempPage')
+const fs = require('fs');
+
+//read global vars
+let rawdata = fs.readFileSync('global.json');
+let secretData = JSON.parse(rawdata);
+console.log(secretData);
 
 // ============================================================
 // Express Server Set Up
