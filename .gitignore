@@ -2,4 +2,4 @@ node_modules
 
 /build
 
-/express/global.js
+/express/global.json
