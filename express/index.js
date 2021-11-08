@@ -10,12 +10,13 @@ const cors = require('cors');
 const connection = require ('./db');
 const userRouter = require ('./routes/user');
 const tempPageRouter = require ('./routes/tempPage')
-const fs = require('fs');
 
-//read global vars
-let rawdata = fs.readFileSync('global.json');
+
+//read global secret vars
+const fs = require('fs');
+let rawdata = fs.readFileSync('express/global.json');
 let secretData = JSON.parse(rawdata);
-console.log(secretData);
+//end of global secret vars
 
 // ============================================================
 // Express Server Set Up
@@ -45,11 +46,11 @@ var server = app.listen(port, 'localhost', function () {
 // Send email
 function sendEmail(email, token) {
   let mail = nodemailer.createTransport({
-    host: 'mail.azziedevelopment.com',
+    host: secretData.emailhost,
     port: '465',
     auth: {
-      user: 'tigertalks484@azziedevelopment.com', // Your email id
-      pass: 'cosc484JAL' // Your password
+      user: secretData.emailuser, // Your email id
+      pass: secretData.emailpassword // Your password
     }
   });
 
