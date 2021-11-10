@@ -2,7 +2,7 @@
     <div id="signup-div" class="mx-auto">
         <h1>Sign Up</h1>
         <hr />
-        <form id="signup-form" method="POST" action="/signupVerify" class="row g-3">
+        <form id="signup-form" method="POST" action="/api/signupVerify" class="row g-3">
             <div class="col-md-6">
                 <label for="netID" class="form-label">Net ID</label>
                 <input id="netID" name="netID" type="text" class="form-control" required>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
-                <input id="password" type="password" class="form-control" required>
+                <input id="password" name="password" type="password" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label for="verifyPassword" class="form-label">Verify Password</label>
@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-12">
                 <label for="bio" class="form-label">Bio</label>
-                <textarea id="bio" class="form-control" rows="3"></textarea>
+                <textarea id="bio" name="bio" class="form-control" rows="3"></textarea>
             </div>
             <div class="col-12">
                 <div class="form-check">

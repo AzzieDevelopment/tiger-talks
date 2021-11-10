@@ -122,11 +122,10 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
     }
 
     if (isVerified == 1) {
-      console.log("Here");
       connection.query(`UPDATE user SET isVerified='1' WHERE token =?`, [token], function (err, result) {
         if (err) throw err;
         console.log("Record updated");
-        res.redirect('/api/login');
+        res.redirect('/#/signin');
 
       })
     }
@@ -183,14 +182,15 @@ app.get('/api/loggedin', function (request, response) {
 });
 
 //reads req and verifies user doesnt exist already
-app.post('/api/registerverify', (req, res) => {
+app.post('/api/signupVerify', (req, res) => {
+  console.log(req.body);
   let id = req.body.netID;
-  let email = req.body.Email;
-  let fName = req.body.fName;
-  let lName = req.body.lName;
-  let nName = req.body.nName;
-  let pWord = req.body.pword;
-  let pNoun = req.body.pronoun;
+  let email = req.body.email;
+  let fName = req.body.firstName;
+  let lName = req.body.lastName;
+  let nName = req.body.preferredName;
+  let pWord = req.body.password;
+  let pNoun = req.body.pronouns;
   let bio = req.body.bio;
   let token = randtoken.generate(10);
   //check if user exists
@@ -215,7 +215,7 @@ app.post('/api/registerverify', (req, res) => {
       console.log("Error: ", err);
     } else {
       sendEmail(email, token);
-      res.redirect('/api/login');
+      res.redirect('/#/signin');
     }
   })
 
