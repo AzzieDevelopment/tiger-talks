@@ -1,3 +1,4 @@
+import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
@@ -9,6 +10,7 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'signup', component: SignUpFormComponent },
   { path: 'signin', component: SignInComponent },
+  { path: 'guidelines', component: GuidelinesComponent},
   { path: '**', redirectTo: '' }
 ];
 
