@@ -1,3 +1,4 @@
+import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'signin', component: SignInComponent},
   { path: 'signup', component: SignUpFormComponent },
   { path: 'makePost', component: MakePostComponent},
+  { path: 'guidelines', component: GuidelinesComponent},
   { path: '**', redirectTo: '' }
 ];
 

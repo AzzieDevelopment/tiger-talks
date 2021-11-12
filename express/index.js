@@ -11,6 +11,13 @@ const connection = require ('./db');
 const userRouter = require ('./routes/user');
 const tempPageRouter = require ('./routes/tempPage')
 
+
+//read global secret vars
+const fs = require('fs');
+let rawdata = fs.readFileSync('express/global.json');
+let secretData = JSON.parse(rawdata);
+//end of global secret vars
+
 // ============================================================
 // Express Server Set Up
 // ============================================================
@@ -39,11 +46,11 @@ var server = app.listen(port, 'localhost', function () {
 // Send email
 function sendEmail(email, token) {
   let mail = nodemailer.createTransport({
-    host: 'mail.azziedevelopment.com',
+    host: secretData.emailhost,
     port: '465',
     auth: {
-      user: 'tigertalks484@azziedevelopment.com', // Your email id
-      pass: 'cosc484JAL' // Your password
+      user: secretData.emailuser, // Your email id
+      pass: secretData.emailpassword // Your password
     }
   });
 
@@ -115,11 +122,10 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
     }
 
     if (isVerified == 1) {
-      console.log("Here");
       connection.query(`UPDATE user SET isVerified='1' WHERE token =?`, [token], function (err, result) {
         if (err) throw err;
         console.log("Record updated");
-        res.redirect('/api/login');
+        res.redirect('/#/signin');
 
       })
     }
@@ -176,14 +182,15 @@ app.get('/api/loggedin', function (request, response) {
 });
 
 //reads req and verifies user doesnt exist already
-app.post('/api/registerverify', (req, res) => {
+app.post('/api/signupVerify', (req, res) => {
+  console.log(req.body);
   let id = req.body.netID;
-  let email = req.body.Email;
-  let fName = req.body.fName;
-  let lName = req.body.lName;
-  let nName = req.body.nName;
-  let pWord = req.body.pword;
-  let pNoun = req.body.pronoun;
+  let email = req.body.email;
+  let fName = req.body.firstName;
+  let lName = req.body.lastName;
+  let nName = req.body.preferredName;
+  let pWord = req.body.password;
+  let pNoun = req.body.pronouns;
   let bio = req.body.bio;
   let token = randtoken.generate(10);
   //check if user exists
@@ -208,7 +215,7 @@ app.post('/api/registerverify', (req, res) => {
       console.log("Error: ", err);
     } else {
       sendEmail(email, token);
-      res.redirect('/api/login');
+      res.redirect('/#/signin');
     }
   })
 

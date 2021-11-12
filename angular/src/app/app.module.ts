@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MakePostComponent } from './make-post/make-post.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { GuidelinesComponent } from './guidelines/guidelines.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     SignUpFormComponent,
     HomePageComponent,
     NavbarComponent,
-    HomePageComponent,
-    MakePostComponent
+    MakePostComponent,
+    SignInComponent,
+    GuidelinesComponent
   ],
   imports: [
     BrowserModule,
