@@ -111,7 +111,7 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
       throw error;
     }
     if (results.length > 0) {
-      if (results[0].token == token) {
+      if (results[0].Token === token) {
         isVerified = 1;
         console.log("did update to 1!")
       } else {
@@ -122,7 +122,7 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
     }
 
     if (isVerified == 1) {
-      connection.query(`UPDATE user SET isVerified='1' WHERE token =?`, [token], function (err, result) {
+      connection.query(`UPDATE user SET isVerified='1' WHERE Token =?`, [token], function (err, result) {
         if (err) throw err;
         console.log("Record updated");
         res.redirect('/#/signin');
@@ -210,7 +210,7 @@ app.post('/api/signupVerify', (req, res) => {
   const hpWord = bcrypt.hashSync(pWord, 10);
 
   //insert into database. Report error if fail, otherwise redirect user to login page
-  connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
+  connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
     if (err) {
       console.log("Error: ", err);
     } else {
