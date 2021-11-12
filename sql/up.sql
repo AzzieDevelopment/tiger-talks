@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.post (
     Upvotes INT UNSIGNED NOT NULL,
     Timestamp DATETIME NOT NULL,
     UserId VARCHAR(20) NOT NULL,
-    TIgerSpaceId INT UNSIGNED NOT NULL,
+    TigerSpaceId INT UNSIGNED NOT NULL,
     PRIMARY KEY(Id),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(TigerSpaceId) References azziedev_tigertalks.tigerspace(Id) ON DELETE CASCADE
