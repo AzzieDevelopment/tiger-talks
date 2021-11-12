@@ -140,7 +140,7 @@ app.post('/api/auth', function (request, response) {
   //ensure user entered login
   if (netID && password) {
     //query database for username
-    connection.query('SELECT * FROM user WHERE ID = ?', [netID], function (error, results, fields) {
+    connection.query(`SELECT * FROM user WHERE Id = ?`, [netID], function (error, results, fields) {
       if (error) {
         throw error;
       }
@@ -194,7 +194,7 @@ app.post('/api/signupVerify', (req, res) => {
   let bio = req.body.bio;
   let token = randtoken.generate(10);
   //check if user exists
-  connection.query(`SELECT * FROM user WHERE ID=${id};`, function (err, result) {
+  connection.query(`SELECT * FROM user WHERE Id=\'${id}\';`, function (err, result) {
 
     if (err) {
       throw err;
@@ -210,7 +210,7 @@ app.post('/api/signupVerify', (req, res) => {
   const hpWord = bcrypt.hashSync(pWord, 10);
 
   //insert into database. Report error if fail, otherwise redirect user to login page
-  connection.query(`INSERT INTO user (ID,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
+  connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
     if (err) {
       console.log("Error: ", err);
     } else {
