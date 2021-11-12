@@ -11,6 +11,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-list.component';
+import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-
     NavbarComponent,
     SignInComponent,
     GuidelinesComponent,
-    TigerSpaceListComponent
+    TigerSpaceListComponent,
+    RecentPostsComponent
   ],
   imports: [
     BrowserModule,
