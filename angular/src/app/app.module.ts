@@ -16,6 +16,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { MakePostComponent } from './make-post/make-post.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-list.component';
+import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.component';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { GuidelinesComponent } from './guidelines/guidelines.component';
     HomePageComponent,
     NavbarComponent,
     TigerSpaceListComponent,
+    RecentPostsComponent,
     MakePostComponent,
     GuidelinesComponent
   ],
