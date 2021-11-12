@@ -9,7 +9,7 @@ INSERT INTO azziedev_tigertalks.user VALUES (
 	"Dorio", #PNAME
 	"he/him", #PRONOUNS
 	TRUE, #IS_VERFIED
-	"Testpass1!" #PASSWORD
+	"$2b$10$SOYIPstozo1kCRbeLYdAFuX/vmRXs8CJBToQ7F83ZfVWzd88Mlpu2" #PASSWORD --Testpass1!
 );
 
 INSERT INTO azziedev_tigertalks.user VALUES (
@@ -23,7 +23,7 @@ INSERT INTO azziedev_tigertalks.user VALUES (
 	"Gabe", #PNAME
 	"he/him", #PRONOUNS
 	TRUE, #IS_VERFIED
-	"Testpass2!" #PASSWORD
+	"$2b$10$47Eu6oTwWg/8yHoeXLZy5OMbhAXoFG5Pgjzkj7LOo235vjDcFVQcO" #PASSWORD --Testpass2!
 );
 
 INSERT INTO azziedev_tigertalks.user VALUES (
@@ -37,7 +37,7 @@ INSERT INTO azziedev_tigertalks.user VALUES (
 	"RJ", #PNAME
 	"they/them", #PRONOUNS
 	FALSE, #IS_VERFIED
-	"Testpass3!" #PASSWORD
+	"$2b$10$VEcyCwbO31udJMORnHR5oOVYA0xzs0qoeMvWriZolzO5tVuwPrUHG" #PASSWORD --Testpass3!
 );
 
 INSERT INTO azziedev_tigertalks.student VALUES (
