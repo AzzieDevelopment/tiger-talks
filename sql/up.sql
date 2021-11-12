@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.user (
     Pronouns VARCHAR(16),
     IsVerified BOOLEAN NOT NULL,
     Password VARCHAR(200),
+    Token VARCHAR(11),
     PRIMARY KEY(Id)
     )
 ENGINE = InnoDB;
