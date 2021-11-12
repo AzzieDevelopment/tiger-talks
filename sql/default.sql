@@ -9,7 +9,8 @@ INSERT INTO azziedev_tigertalks.user VALUES (
 	"Dorio", #PNAME
 	"he/him", #PRONOUNS
 	TRUE, #IS_VERFIED
-	"$2b$10$SOYIPstozo1kCRbeLYdAFuX/vmRXs8CJBToQ7F83ZfVWzd88Mlpu2" #PASSWORD --Testpass1!
+	"$2b$10$SOYIPstozo1kCRbeLYdAFuX/vmRXs8CJBToQ7F83ZfVWzd88Mlpu2", #PASSWORD --Testpass1!
+    "no token"
 );
 
 INSERT INTO azziedev_tigertalks.user VALUES (
@@ -23,7 +24,8 @@ INSERT INTO azziedev_tigertalks.user VALUES (
 	"Gabe", #PNAME
 	"he/him", #PRONOUNS
 	TRUE, #IS_VERFIED
-	"$2b$10$47Eu6oTwWg/8yHoeXLZy5OMbhAXoFG5Pgjzkj7LOo235vjDcFVQcO" #PASSWORD --Testpass2!
+	"$2b$10$47Eu6oTwWg/8yHoeXLZy5OMbhAXoFG5Pgjzkj7LOo235vjDcFVQcO", #PASSWORD --Testpass2!
+    "no token"
 );
 
 INSERT INTO azziedev_tigertalks.user VALUES (
@@ -36,8 +38,9 @@ INSERT INTO azziedev_tigertalks.user VALUES (
 	"Ralph John", #BIO
 	"RJ", #PNAME
 	"they/them", #PRONOUNS
-	FALSE, #IS_VERFIED
-	"$2b$10$VEcyCwbO31udJMORnHR5oOVYA0xzs0qoeMvWriZolzO5tVuwPrUHG" #PASSWORD --Testpass3!
+	TRUE, #IS_VERFIED
+	"$2b$10$VEcyCwbO31udJMORnHR5oOVYA0xzs0qoeMvWriZolzO5tVuwPrUHG", #PASSWORD --Testpass3!
+    "no token"
 );
 
 INSERT INTO azziedev_tigertalks.student VALUES (
