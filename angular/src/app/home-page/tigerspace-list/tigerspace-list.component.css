@@ -13,6 +13,15 @@
     padding: 0 !important;
 }
 
+.accordion-button:focus {
+    box-shadow: none !important;
+}
+
 .list-group {
     border-radius: 0;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
 }
