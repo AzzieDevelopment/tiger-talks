@@ -36,6 +36,7 @@
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-session": "^1.17.2",
+    "font-awesome": "^4.7.0",
     "fs": "^0.0.1-security",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
