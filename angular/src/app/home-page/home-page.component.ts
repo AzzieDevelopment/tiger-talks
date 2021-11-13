@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-home-page',
@@ -7,20 +6,10 @@ import { AppService } from '../app.service';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
-
-  message: string = "default message...";
   
-  constructor(public appService: AppService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.appService.getHello().subscribe(
-      response => {
-        this.message = response.message;
-      },
-      error => {
-        console.log("Error: could not get message from backend.\n" + error);
-      }
-    );
   }
 
 }
