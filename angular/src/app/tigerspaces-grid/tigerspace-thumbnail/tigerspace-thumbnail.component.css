@@ -1,0 +1,19 @@
+.tigerspace {
+    padding: 16px;
+    height: 200px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--tu-orange) !important;
+}
+
+.tigerspace:hover {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    text-align: center;
+}
