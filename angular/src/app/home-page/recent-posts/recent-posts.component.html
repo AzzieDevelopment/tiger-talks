@@ -1,6 +1,16 @@
 <div class="title">
-    <h1>Recent Posts</h1>
+  <h1>Recent Posts</h1>
 </div>
-<div class="container-fluid border">
-    <p>Recent posts will go here...</p>
+<div class="container-fluid border" *ngFor="let post of post">
+  <div class="card">
+    <div class="card-header"><i class="bi bi-person-circle"></i>
+      {{post.UserId}} | Post id: {{post.Id}}  </div>
+    <div class="card-body">
+      <h5 class="card-title">{{post.Title}} </h5>
+      <p class="card-text">{{post.Body}}</p>
+    </div>
+    <div class="card-footer"><button type="button" class="btn btn-outline-warning"><i class="bi bi-heart-fill"></i></button> {{post.Upvotes}} likes |    
+        <button type="button" class="btn btn-outline-warning"><i class="bi bi-chat-dots-fill"></i></button> () Comments |    
+        {{post.Timestamp}} </div>
+  </div>
 </div>
