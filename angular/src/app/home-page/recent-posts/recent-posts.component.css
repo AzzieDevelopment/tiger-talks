@@ -2,6 +2,6 @@
     padding-bottom: 5px;
 }
 
-.container-fluid {
-    padding: 0;
+.container-fluid.border {
+    padding: 25px;
 }
