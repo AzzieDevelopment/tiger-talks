@@ -11,7 +11,23 @@ export class posts {
     public Timestamp: string,
     public UserId: string,
     public TigerSpaceId: number
-){
+)
+// In preparation for backend changes
+// constructor(
+//   public Id: number,
+//   public Title: string, //(for post)
+//   public Body: string,
+//   public Category: string,
+//   public Upvotes: number,
+//   public Timestamp: string, // The backend should reformat this to look presentable
+//   public UserId: string,
+//   public TigerSpaceId: number,
+//   public Pronouns: string,
+//   public Major : string
+//   public Title : string //(for tiger spaces)
+//
+// )
+{
 }
 }
 
