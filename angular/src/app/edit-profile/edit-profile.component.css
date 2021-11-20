@@ -1,0 +1,10 @@
+#editProfile-div {
+    margin-top: 20px;
+    width: 70%;
+}
+
+#editProfile-btn {
+    float: right;
+    background-color: var(--tu-orange);
+    font-weight: bold;
+}

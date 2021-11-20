@@ -14,6 +14,8 @@ import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-
 import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thumbnail/tigerspace-thumbnail.component';
+import { ProfileDisplayComponent } from './profile-display/profile-display.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thum
     TigerSpaceListComponent,
     RecentPostsComponent,
     TigerSpacesGridComponent,
-    TigerspaceThumbnailComponent
+    TigerspaceThumbnailComponent,
+    ProfileDisplayComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
