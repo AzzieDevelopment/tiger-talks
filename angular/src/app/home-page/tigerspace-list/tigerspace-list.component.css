@@ -1,0 +1,27 @@
+.title {
+    padding-bottom: 5px;
+}
+
+/* Overrides on Bootstrap styling */
+
+.accordion-button:not(.collapsed) {
+    color: #000;
+    background-color: white;
+}
+
+.accordion-body {
+    padding: 0 !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none !important;
+}
+
+.list-group {
+    border-radius: 0;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+}

@@ -2,6 +2,14 @@ nav {
     padding: 0;
 }
 
+.navbar {
+    background-color: #000 !important;
+}
+
+a {
+    color: #fff !important;
+}
+
 .navbar-brand {
     display: flex;
     justify-content: center;
@@ -16,4 +24,8 @@ nav {
     margin-left: 10px;
     font-size: 36px;
     font-weight: bold;
+}
+
+.fa-bars {
+    color: white;
 }

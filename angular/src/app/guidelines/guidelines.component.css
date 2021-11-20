@@ -1,0 +1,19 @@
+.title {
+    color: var(--tu-orange);
+    font-weight: bold;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.guidelines {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guidelines > div {
+    padding-left: 50px;
+}
