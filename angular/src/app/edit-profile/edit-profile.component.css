@@ -3,7 +3,7 @@
     width: 70%;
 }
 
-#editProfile-btn {
+#updateProfile-btn {
     float: right;
     background-color: var(--tu-orange);
     font-weight: bold;
