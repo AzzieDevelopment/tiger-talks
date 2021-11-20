@@ -3,38 +3,15 @@
 
     </head>
     <body>
-        <div class="tb">
-            <form [formGroup]="postForm">
-                <!-- <mat-form-field>
-                    <mat-label for="title">Title: </mat-label> <br>
-                    <input id="title" type="text" formControlName="title">
-                    <br>
-                    <mat-label for="body">Body: </mat-label> <br>
-                    <textarea id="body" class="postBody" type="textarea" rows="10" formControlName="body"></textarea> <br>
-                    <button id="postButton">Post</button>
-                </mat-form-field>   -->
-                
-                <label for="title">Title: </label> <br>
-                <input id="title" type="text" formControlName="title">
-                <mat-form-field id="categoriesList" appearance="fill">
-                    <mat-chip-list #chipList aria-label="Category" formControlName="category">
-                        <mat-chip *ngFor="let category of categories" [selectable]="selectable" [removable]="removable" (removed)="remove(category)">
-                            {{category.name}}
-                            <button matChipRemove *ngIf="removable">
-                                <mat-icon class="material-icons">delete</mat-icon>
-                            </button>
-                        </mat-chip>
-                        <input placeholder="New category..."
-                                [matChipInputFor]="chipList"
-                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                [matChipInputAddOnBlur]="addOnBlur"
-                                (matChipInputTokenEnd)="add($event)">
-                    </mat-chip-list>
-                </mat-form-field>
+        <div class="row justify-content-md-center">
+            <form class="w-75">
+            <!-- <form [formGroup]="postForm">                 -->
+                <label for="title" class="form-label">Title: </label> <br>
+                <input id="title" type="text" class="form-control" formControlName="title">
                 <br>
-                <label for="body">Body: </label> <br>
-                <textarea id="body" class="postBody" type="textarea" rows="10" formControlName="body"></textarea> <br>
-                <button id="postButton">Post</button>
+                <label for="body" class="form-label">Body: </label> <br>
+                <textarea id="body" class="form-control" type="textarea" rows="10" formControlName="body"></textarea> <br>
+                <button id="postButton" class="btn btn-lg">Post</button>
 
             </form>
         </div>
