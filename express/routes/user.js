@@ -39,7 +39,7 @@ router.get('/api/getuser/:id', (req, res) => {
 
     let userID = decodeURIComponent(req.params.id);
 
-    connection.query(`SELECT * FROM user WHERE ID=${userID};`, function (err, result) {
+    connection.query(`SELECT * FROM user WHERE Id=\'${userID}\';`, function (err, result) {
         if (err) {
             throw err;
         }
