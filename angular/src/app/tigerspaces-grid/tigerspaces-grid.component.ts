@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TigerSpacesGridComponent implements OnInit {
 
+  pageTitle: string = "Tiger Space Explorer";
+
   academicTigerSpaces = [
     {
       id: 1,
