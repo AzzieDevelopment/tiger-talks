@@ -16,6 +16,8 @@ import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.co
 import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thumbnail/tigerspace-thumbnail.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { BannerComponent } from './banner/banner.component';
+import { UserService } from './services/user.service';
+import { LoggerService } from './services/logger.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,10 @@ import { BannerComponent } from './banner/banner.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy}, 
+    UserService, 
+    LoggerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
