@@ -1,12 +1,14 @@
-export interface User {
-    id: string, // netID
-    firstName: string,
-    lastName: string,
-    email: string,
-    type: number,
-    permission: number,
-    bio: string,
-    preferredName: string,
-    pronouns: string,
-    isVerified: number
+export interface IUser {
+    Id: string, // netID
+    FirstName: string,
+    LastName: string,
+    Email: string,
+    UserType: number,
+    Permission: number,
+    Bio: string,
+    PreferredName: string,
+    Pronouns: string,
+    IsVerified: number,
+    Password: string,
+    Token: string
 }
