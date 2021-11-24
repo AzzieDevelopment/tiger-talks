@@ -1,3 +1,6 @@
+-- *****************************************************
+-- USERS
+
 INSERT INTO azziedev_tigertalks.user VALUES (
 	"dbrim1", #ID
 	"Dorian", #FNAME
@@ -65,21 +68,91 @@ INSERT INTO azziedev_tigertalks.faculty VALUES (
     "Computer Sciences" #DEPARTMENT
 );
 
+-- *****************************************************
+-- TIGER SPACES
+
 INSERT INTO azziedev_tigertalks.tigerspace VALUES (
 	1, #ID
     "gcerpa1", #USERID
-    "Creative Writing", #TITLE
-    "Lets talk about creative writing!", #DESCRIPTION
-    1 #TYPE
+    "College of Business and Economics (CBE)", #TITLE
+    "The Tiger Space for posts related to CBE.", #DESCRIPTION
+    1 #TYPE -- Academic
 );
 
 INSERT INTO azziedev_tigertalks.tigerspace VALUES (
 	2, #ID
-    "dbrim1", #USERID
-    "Coding exercises", #TITLE
-    "Lets write some cool and efficient code", #DESCRIPTION
-    1 #TYPE
+    "gcerpa1", #USERID
+    "College of Education", #TITLE
+    "The Tiger Space for posts related to the College of Education.", #DESCRIPTION
+    1 #TYPE -- Academic
 );
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	3, #ID
+    "gcerpa1", #USERID
+    "College of Fine Arts and Communication (CFA)", #TITLE
+    "The Tiger Space for posts related to CFA.", #DESCRIPTION
+    1 #TYPE -- Academic
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	4, #ID
+    "gcerpa1", #USERID
+    "College of Health Professionals (CHP)", #TITLE
+    "The Tiger Space for posts related to CHP.", #DESCRIPTION
+    1 #TYPE -- Academic
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	5, #ID
+    "gcerpa1", #USERID
+    "College of Liberal Arts (CLA)", #TITLE
+    "The Tiger Space for posts related to CLA.", #DESCRIPTION
+    1 #TYPE -- Academic
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	6, #ID
+    "gcerpa1", #USERID
+    "Fisher College of Science and Mathematics (FCSM)", #TITLE
+    "The Tiger Space for posts related to FCSM.", #DESCRIPTION
+    1 #TYPE -- Academic
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	7, #ID
+    "gcerpa1", #USERID
+    "Honors College", #TITLE
+    "The Tiger Space for posts related to the Honors College.", #DESCRIPTION
+    1 #TYPE -- Academic
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	8, #ID
+    "gcerpa1", #USERID
+    "Housing", #TITLE
+    "The Tiger Space for posts related to housing at Towson University.", #DESCRIPTION
+    2 #TYPE -- Social
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	9, #ID
+    "gcerpa1", #USERID
+    "Clubs and Organizations", #TITLE
+    "The Tiger Space for posts related to clubs and organizations at Towson University.", #DESCRIPTION
+    2 #TYPE -- Social
+);
+
+INSERT INTO azziedev_tigertalks.tigerspace VALUES (
+	10, #ID
+    "gcerpa1", #USERID
+    "Campus Life", #TITLE
+    "The Tiger Space for posts related to campus life at Towson University.", #DESCRIPTION
+    2 #TYPE -- Social
+);
+
+-- *****************************************************
+-- POSTS
 
 INSERT INTO azziedev_tigertalks.post VALUES (
 	1, #ID
@@ -91,3 +164,6 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "gcerpa1", #USERID
     1 #TIGERSPACEID
 );
+
+-- *****************************************************
+-- COMMENTS
