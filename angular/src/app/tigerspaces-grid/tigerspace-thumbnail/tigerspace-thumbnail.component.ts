@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ITigerSpace } from 'src/app/models/tigerspace';
 
 @Component({
   selector: 'tigerspace-thumbnail',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TigerspaceThumbnailComponent implements OnInit {
 
-  @Input() tigerspace:any;
+  @Input() tigerspace!: ITigerSpace;
 
   constructor() { }
 

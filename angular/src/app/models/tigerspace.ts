@@ -5,3 +5,8 @@ export interface ITigerSpace {
     Description: string,
     Type: number // TODO: update DB to string? 
 }
+
+export enum TigerSpaceType {
+    Academic = 1,
+    Social = 2
+}
