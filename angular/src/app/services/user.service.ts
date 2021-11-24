@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../models/user';
-import { BackendService } from './backend.service';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { IUser } from '../models/user';
 import { LoggerService } from './logger.service';
 
 @Injectable({
@@ -9,17 +10,29 @@ import { LoggerService } from './logger.service';
 })
 export class UserService {
 
-  user!: User;
+  private baseUrl: string = '/api';
 
   constructor(
-    private backend: BackendService,
-    private logger: LoggerService) { }
+    private logger: LoggerService,
+    private http: HttpClient) { }
 
-  getUser(userID: string): any {
-    this.backend.getUser(userID).subscribe( (user: User) => {
-      this.logger.log(`Fetched user: ${JSON.stringify(user)}`);
-      this.user = user;
-      return this.user;
-    });
-  }
+    // get user from Id
+    public getUser(userID: string):Observable<IUser> {
+      return this.http.get<IUser>(`${this.baseUrl}/getuser/${userID}`)
+        .pipe(catchError(this.handleError<IUser>('getUser')));
+    }
+
+    // get all users
+    public getUsers(): Observable<IUser[]> {
+      return this.http.get<IUser[]>(`${this.baseUrl}/getusers`)
+        .pipe(catchError(this.handleError<IUser[]>('getUsers')));
+    }
+
+    private handleError<T> (operation = 'operation', result?: T) {
+      return (error: any): Observable<T> => {
+        this.logger.error(error);
+        return of(result as T);
+      }
+    }
+
 }
