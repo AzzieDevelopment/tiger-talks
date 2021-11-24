@@ -34,6 +34,35 @@ router.get('/api/getcomment/:id', (req, res) => {
 
 });
 
+//Get all users
+router.get('/api/getusers', (req, res) => {
+
+    connection.query(`SELECT * FROM user`, function (err, result) {
+        if (err) {
+            throw err;
+        }
+        if (result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(200).json({
+                "Id": "N/A",
+                "FirstName": "N/A",
+                "LastName": "N/A",
+                "Email": "N/A",
+                "UserType": "N/A",
+                "Permission": "N/A",
+                "Bio": "N/A",
+                "PName": "N/A",
+                "Pronouns": "N/A",
+                "IsVerified": "N/A",
+                "Password": "N/A"
+            });
+        }
+
+    })
+
+});
+
 //Get user by ID
 router.get('/api/getuser/:id', (req, res) => {
 
@@ -65,10 +94,10 @@ router.get('/api/getuser/:id', (req, res) => {
 
 });
 
-//Get all users
-router.get('/api/getusers', (req, res) => {
+//Get all tigerspaces
+router.get('/api/gettigerspaces', (req, res) => {
 
-    connection.query(`SELECT * FROM user`, function (err, result) {
+    connection.query(`SELECT * FROM tigerspace;`, function (err, result) {
         if (err) {
             throw err;
         }
@@ -77,16 +106,10 @@ router.get('/api/getusers', (req, res) => {
         } else {
             res.status(200).json({
                 "Id": "N/A",
-                "FirstName": "N/A",
-                "LastName": "N/A",
-                "Email": "N/A",
-                "UserType": "N/A",
-                "Permission": "N/A",
-                "Bio": "N/A",
-                "PName": "N/A",
-                "Pronouns": "N/A",
-                "IsVerified": "N/A",
-                "Password": "N/A"
+                "UserId": "N/A",
+                "Title": "N/A",
+                "Description": "N/A",
+                "Type": "N/A"
             });
         }
 
