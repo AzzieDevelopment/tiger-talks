@@ -19,6 +19,7 @@ import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
+import { TigerpageComponent } from './tigerpage/tigerpage.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { HomePageComponent } from './home-page/home-page.component';
     TigerSpacesGridComponent,
     TigerspaceThumbnailComponent,
     PageNotFoundComponent,
-    BannerComponent
+    BannerComponent,
+    TigerpageComponent
   ],
   imports: [
     BrowserModule,
