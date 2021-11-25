@@ -7,6 +7,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
+import { TigerpageComponent } from './tigerpage/tigerpage.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -21,7 +22,10 @@ const routes: Routes = [
   },
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },
   { path: '404', component: PageNotFoundComponent },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
+  { path: 'tigerspaces', component: TigerSpacesGridComponent },
+  { path: 'tigerpage', component: TigerpageComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

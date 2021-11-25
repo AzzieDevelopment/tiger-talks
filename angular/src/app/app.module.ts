@@ -18,6 +18,7 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
+import { TigerpageComponent } from './tigerpage/tigerpage.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LoggerService } from './services/logger.service';
     TigerSpacesGridComponent,
     TigerspaceThumbnailComponent,
     PageNotFoundComponent,
-    BannerComponent
+    BannerComponent,
+    TigerpageComponent
   ],
   imports: [
     BrowserModule,
