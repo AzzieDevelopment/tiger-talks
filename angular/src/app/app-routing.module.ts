@@ -5,6 +5,7 @@ import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
+import { TigerpageComponent } from './tigerpage/tigerpage.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
+  { path: 'tigerpage', component: TigerpageComponent },
   { path: '**', redirectTo: '' }
 ];
 
