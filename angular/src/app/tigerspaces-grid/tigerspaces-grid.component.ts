@@ -1,28 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ITigerSpace, TigerSpaceType } from '../models/tigerspace';
-import { TigerSpaceService } from '../services/tigerspace.service';
 
 @Component({
   templateUrl: './tigerspaces-grid.component.html',
   styleUrls: ['./tigerspaces-grid.component.css']
 })
-export class TigerSpacesGridComponent implements OnInit, OnDestroy {
+export class TigerSpacesGridComponent implements OnInit {
 
   pageTitle: string = "Tiger Space Explorer";
   tigerspaces: ITigerSpace[] = []; // all tiger spaces
   academicTigerSpaces: ITigerSpace[] = []; // academic only
   socialTigerSpaces: ITigerSpace[] = []; // social only
-  subscription!: any;
 
-  constructor(private tigerSpaceService: TigerSpaceService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.subscription = this.tigerSpaceService.getTigerSpaces().subscribe({
-      next: response => {
-        this.tigerspaces = response;
-        this.filterTigerSpaces();
-      },
-      error: error => console.log(error)
+    this.activatedRoute.data.subscribe(data => {
+      this.tigerspaces = data.tigerspaces;
+      this.filterTigerSpaces();
     });
   }
 
@@ -30,10 +27,6 @@ export class TigerSpacesGridComponent implements OnInit, OnDestroy {
   private filterTigerSpaces(): void {
     this.academicTigerSpaces = this.tigerspaces.filter(tigerSpace => tigerSpace.Type == TigerSpaceType.Academic);
     this.socialTigerSpaces = this.tigerspaces.filter(tigerSpace => tigerSpace.Type == TigerSpaceType.Social);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
 }
