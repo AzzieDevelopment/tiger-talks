@@ -29,3 +29,7 @@ a {
 .fa-bars {
     color: white;
 }
+
+.active {
+    color: var(--tu-orange) !important;
+}
