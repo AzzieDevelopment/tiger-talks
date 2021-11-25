@@ -17,11 +17,7 @@ export class tigerInfo {
     public Major : string,
     public PostTitle : string, //(for tiger spaces)
     public Comments: number //(amount of comments)
-
-)
-
-{
-}
+  ) {}
 }
 
 @Component({
