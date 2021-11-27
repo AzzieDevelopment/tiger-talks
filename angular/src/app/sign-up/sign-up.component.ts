@@ -14,6 +14,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
   passwordsMatch = true;
   validEmail = true;
+  errorMsg: string = "";
   subscription: any;
   
   constructor(
@@ -70,13 +71,17 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.subscription = this.registerService.register(user).subscribe(
       data => {
         console.log('Success!', data);
+        this.redirectToSignIn();
       },
       error => {
         if (error.status === 403) {
-          alert('User with this Net ID or Email already exists');
+          this.errorMsg = 'User with this Net ID or Email already exists';
         }
       }
     );
+  }
+
+  private redirectToSignIn() {
     // redirect to sign in page
     this.router.navigate(['signin']);
   }

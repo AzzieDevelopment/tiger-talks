@@ -1,7 +1,10 @@
 <app-banner [bannerTitle]="pageTitle"></app-banner>
 <div class="container">
     <div id="signup-div" class="mx-auto">
-        <!-- action="/api/signupVerify" -->
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMsg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <form #signupForm="ngForm" id="signup-form" method="POST" (ngSubmit)="onSubmit()" class="row g-3">
             <!-- Net ID -->
             <div class="col-md-6">
