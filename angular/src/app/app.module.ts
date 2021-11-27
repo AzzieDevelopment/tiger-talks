@@ -14,7 +14,7 @@ import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-
 import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thumbnail/tigerspace-thumbnail.component';
-import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
+import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.component';
 import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
