@@ -26,8 +26,8 @@ export class tigerInfo {
   styleUrls: ['./tigerpage.component.css']
 })
 export class TigerpageComponent implements OnInit {
-
   tigerInfo!:tigerInfo[];
+  pageTitle = "Tiger Space Name Goes Here!";
 
   constructor(private httpClient:HttpClient) { }
 
