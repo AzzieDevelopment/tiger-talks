@@ -7,9 +7,9 @@ const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
 const cors = require('cors');
-const connection = require ('./db');
-const userRouter = require ('./routes/user');
-const tempPageRouter = require ('./routes/tempPage')
+const connection = require('./db');
+const userRouter = require('./routes/user');
+const tempPageRouter = require('./routes/tempPage')
 
 
 //read global secret vars
@@ -25,8 +25,8 @@ let secretData = JSON.parse(rawdata);
 const app = express();
 
 // Enable user routes in user.js
-app.use('/',userRouter);
-app.use('/',tempPageRouter);
+app.use('/', userRouter);
+app.use('/', tempPageRouter);
 
 //Enable temp pages in tempPage.js
 
@@ -181,6 +181,8 @@ app.get('/api/loggedin', function (request, response) {
   response.end();
 });
 
+
+
 //reads req and verifies user doesnt exist already
 app.post('/api/signupVerify', (req, res) => {
   console.log(req.body);
@@ -219,4 +221,61 @@ app.post('/api/signupVerify', (req, res) => {
     }
   })
 
+});
+
+
+//create new post as most recent of previous posts
+app.post('/api/createPost', (req, res) => {
+
+  //SELECT COUNT(id) AS NumberOfPosts FROM post;
+
+  //get number of posts
+  connection.query(`SELECT COUNT(id) AS NumberOfPosts FROM post;`, function (err, result) {
+    if (err) {
+      throw err;
+    }
+    /*if (!(typeof result[0] === "undefined")) {
+      res.send('<script>alert("User already exists")</script>');
+    } else {
+      console.log("New user, proceeding to insert");
+    }*/
+    console.log(result)
+  })
+
+/*
+
+  console.log(req.body);
+  let title = req.body.title;
+  let postbody = req.body.postbody;
+  let category = req.body.category;
+  let upvotes = 1;
+  let userid = req.body.userid;
+  let tigerspaceid = req.body.tigerspaceid;
+  
+  //check if user exists
+  connection.query(`SELECT * FROM user WHERE Id=\'${id}\';`, function (err, result) {
+
+    if (err) {
+      throw err;
+    }
+    if (!(typeof result[0] === "undefined")) {
+      res.send('<script>alert("User already exists")</script>');
+    } else {
+      console.log("New user, proceeding to insert");
+    }
+  })
+
+  //hash/salting function
+  const hpWord = bcrypt.hashSync(pWord, 10);
+
+  //insert into database. Report error if fail, otherwise redirect user to login page
+  connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
+    if (err) {
+      console.log("Error: ", err);
+    } else {
+      sendEmail(email, token);
+      res.redirect('/#/signin');
+    }
+  })
+*/
 });
