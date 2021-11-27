@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from '../models/user';
-import { RegisterService } from '../services/register.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   templateUrl: './sign-up.component.html',
@@ -18,7 +18,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   subscription: any;
   
   constructor(
-    private registerService: RegisterService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -68,7 +68,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   onSubmit() {
     let user: IUser = this.getUserData();
 
-    this.subscription = this.registerService.register(user).subscribe(
+    this.subscription = this.authService.register(user).subscribe(
       data => {
         console.log('Success!', data);
         this.redirectToSignIn();

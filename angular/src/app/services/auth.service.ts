@@ -5,14 +5,14 @@ import { IUser } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterService {
+export class AuthService {
 
-  url = '/api/registerUser';
+  _registerUrl = '/api/registerUser';
 
   constructor(
     private http: HttpClient) { }
 
   register(user:IUser) {
-    return this.http.post<any>(this.url, user);
+    return this.http.post<any>(this._registerUrl, user);
   }
 }
