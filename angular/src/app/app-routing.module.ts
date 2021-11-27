@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpFormComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
+  { path: 'tigerpage', component: TigerpageComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
@@ -24,7 +25,6 @@ const routes: Routes = [
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: 'tigerpage', component: TigerpageComponent },
   { path: '**', redirectTo: '' }
 ];
 

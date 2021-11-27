@@ -32,9 +32,9 @@ import { TigerpageComponent } from './tigerpage/tigerpage.component';
     RecentPostsComponent,
     TigerSpacesGridComponent,
     TigerspaceThumbnailComponent,
+    TigerpageComponent,
     PageNotFoundComponent,
     BannerComponent,
-    TigerpageComponent
   ],
   imports: [
     BrowserModule,
