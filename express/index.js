@@ -253,7 +253,10 @@ app.post('/api/createPost', (req, res) => {
       if (err) {
         throw err;
       }
-      let highestPost = result[0].id;
+      let highestPost = 0;
+      if (result.length > 0) {
+        highestPost = result[0].id;
+      } 
       highestPost++;
       console.log(highestPost);
 
@@ -310,7 +313,6 @@ app.post('/api/createComment', (req, res) => {
         throw err;
       }
       let highestComment = 0;
-      console.log(result);
       if (result.length > 0) {
         highestComment = result[0].id;
       } 
