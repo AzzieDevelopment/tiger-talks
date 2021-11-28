@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +19,10 @@ import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { TigerSpaceService } from './services/tigerspace.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -43,8 +47,18 @@ import { HomePageComponent } from './home-page/home-page.component';
     AppRoutingModule
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}, 
+    {
+      provide: LocationStrategy, 
+      useClass: HashLocationStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    AuthService, AuthGuard,
     UserService, 
+    TigerSpaceService,
     LoggerService],
   bootstrap: [AppComponent]
 })
