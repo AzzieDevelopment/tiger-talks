@@ -1,0 +1,55 @@
+<div class="container">
+    <div id="signup-div" class="mx-auto">
+        <h1>Sign Up</h1>
+        <hr />
+        <form id="signup-form" method="POST" action="/api/signupVerify" class="row g-3">
+            <div class="col-md-6">
+                <label for="netID" class="form-label">Net ID</label>
+                <input id="netID" name="netID" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" name="email" type="email" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="firstName" class="form-label">First Name</label>
+                <input id="firstName" name="firstName" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input id="lastName" name="lastName" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="preferredName" class="form-label">Preferred Name</label>
+                <input id="preferredName" name="preferredName" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="pronouns" class="form-label">Preferred Pronouns</label>
+                <input id="pronouns" name="pronouns" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" name="password" type="password" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="verifyPassword" class="form-label">Verify Password</label>
+                <input id="verifyPassword" type="password" class="form-control" required>
+            </div>
+            <div class="col-md-12">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea id="bio" name="bio" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                  <input id="acceptTerms" class="form-check-input" type="checkbox">
+                  <label class="form-check-label" for="acceptTerms">
+                    Accept <a routerLink="/guidelines">Community Guidelines</a>
+                  </label>
+                </div>
+              </div>
+            <div class="col-12">
+                <button id="signup-btn" type="submit" class="btn btn-lg">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
