@@ -182,41 +182,49 @@ app.get('/api/loggedin', function (request, response) {
 });
 
 //reads req and verifies user doesnt exist already
-app.post('/api/signupVerify', (req, res) => {
-  console.log(req.body);
-  let id = req.body.netID;
-  let email = req.body.email;
-  let fName = req.body.firstName;
-  let lName = req.body.lastName;
-  let nName = req.body.preferredName;
-  let pWord = req.body.password;
-  let pNoun = req.body.pronouns;
-  let bio = req.body.bio;
-  let token = randtoken.generate(10);
+app.post('/api/registerUser', (req, res) => {
+  let user = {
+    id: req.body.Id,
+    fName: req.body.FirstName,
+    lName: req.body.LastName,
+    email: req.body.Email,
+    userType: req.body.UserType,
+    permission: req.body.Permission,
+    bio: req.body.Bio || '',
+    pName: req.body.PreferredName || '',
+    pronouns: req.body.Pronouns || '',
+    password: bcrypt.hashSync(req.body.Password, 10), //hash/salting function
+    isVerified: 0,
+    token: randtoken.generate(10)
+  }
+  
+  let userExists = false;
   //check if user exists
-  connection.query(`SELECT * FROM user WHERE Id=\'${id}\';`, function (err, result) {
-
+  connection.query(`SELECT * FROM user WHERE Id=\'${user.id}\' OR Email=\'${user.email}\';`, function (err, result) {
     if (err) {
+      console.log(err);
       throw err;
     }
-    if (!(typeof result[0] === "undefined")) {
-      res.send('<script>alert("User already exists")</script>');
+    if (result[0] !== undefined) {
+      userExists = true;
+      console.log('User exists');
+      res.status(403).send("User already exists");
     } else {
       console.log("New user, proceeding to insert");
+      //insert into database. Report error if fail, otherwise redirect user to login page
+      connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) 
+                        VALUES ('${user.id}','${user.fName}','${user.lName}','${user.email}','${user.userType}','${user.permission}','
+                                ${user.bio}','${user.pName}','${user.pronouns}','${user.isVerified}','${user.password}','${user.token}') `, 
+        function (err, result) {
+          if (err) {
+            console.log("Error: ", err);
+          } else {
+            sendEmail(user.email, user.token);
+            res.status(200).send({message: 'Account created'});
+          }
+        }
+      );
     }
   })
-
-  //hash/salting function
-  const hpWord = bcrypt.hashSync(pWord, 10);
-
-  //insert into database. Report error if fail, otherwise redirect user to login page
-  connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
-    if (err) {
-      console.log("Error: ", err);
-    } else {
-      sendEmail(email, token);
-      res.redirect('/#/signin');
-    }
-  })
-
+  
 });

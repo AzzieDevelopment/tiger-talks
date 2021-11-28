@@ -1,7 +1,7 @@
 import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
@@ -11,7 +11,7 @@ import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-g
 const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'home', component: HomePageComponent },
-  { path: 'signup', component: SignUpFormComponent },
+  { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
   { 

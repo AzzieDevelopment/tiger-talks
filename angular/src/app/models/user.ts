@@ -8,7 +8,7 @@ export interface IUser {
     Bio: string,
     PreferredName: string,
     Pronouns: string,
-    IsVerified: number,
+    IsVerified?: number,
     Password: string,
-    Token: string
+    Token?: string
 }
