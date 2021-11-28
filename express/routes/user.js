@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../db');
+const connection = require('../js/db');
+const verifyToken = require('../js/verifyToken');
 
 
 //Get comments by ID
@@ -95,7 +96,7 @@ router.get('/api/getuser/:id', (req, res) => {
 });
 
 //Get all tigerspaces
-router.get('/api/gettigerspaces', (req, res) => {
+router.get('/api/gettigerspaces', verifyToken, (req, res) => {
 
     connection.query(`SELECT * FROM tigerspace;`, function (err, result) {
         if (err) {
