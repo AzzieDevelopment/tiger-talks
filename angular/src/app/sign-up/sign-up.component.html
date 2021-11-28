@@ -1,0 +1,123 @@
+<app-banner [bannerTitle]="pageTitle"></app-banner>
+<div class="container">
+    <div id="signup-div" class="mx-auto">
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMsg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <form #signupForm="ngForm" id="signup-form" method="POST" (ngSubmit)="onSubmit()" class="row g-3">
+            <!-- Net ID -->
+            <div class="col-md-6">
+                <label for="netID" class="form-label">Net ID</label>
+                <input id="netID" #netID="ngModel" 
+                    [class.is-invalid]="netID.invalid && netID.touched"
+                    [(ngModel)]="signUpData.netID" name="netID" 
+                    type="text" class="form-control" required>
+                <small class="text-danger" [class.d-none]="!netID.errors || 
+                    netID.untouched">Net ID is required</small>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" #email="ngModel"
+                    pattern="^[A-Za-z0-9._%+-]+(@towson.edu|@students.towson.edu)$"
+                    (change)="validateEmail()" (blur)="validateEmail()"
+                    [class.is-invalid]="email.invalid && email.touched"
+                    [(ngModel)]="signUpData.email" name="email" 
+                    type="email" class="form-control" required>
+                <div *ngIf="email.errors && email.touched">
+                    <div *ngIf="email.errors.required"><small class="text-danger">Email is required</small></div>
+                    <div *ngIf="email.errors.pattern"><small class="text-danger">Must be a valid TU student or faculty email</small></div>
+                </div>
+            </div>
+
+            <!-- First Name -->
+            <div class="col-md-6">
+                <label for="firstName" class="form-label">First Name</label>
+                <input id="firstName" #firstName="ngModel"
+                    [class.is-invalid]="firstName.invalid && firstName.touched"
+                    [(ngModel)]="signUpData.firstName" name="firstName" 
+                    type="text" class="form-control" required>
+                <small class="text-danger" [class.d-none]="!firstName.errors || 
+                    firstName.untouched">First name is required</small>
+            </div>
+
+            <!-- Last Name -->
+            <div class="col-md-6">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input id="lastName" #lastName="ngModel"
+                    [class.is-invalid]="lastName.invalid && lastName.touched"
+                    [(ngModel)]="signUpData.lastName" name="lastName" 
+                    type="text" class="form-control" required>
+                <small class="text-danger" [class.d-none]="!lastName.errors || 
+                    lastName.untouched">Last name is required</small>
+                </div>
+
+            <!-- Preferred Name -->
+            <div class="col-md-6">
+                <label for="preferredName" class="form-label">Preferred Name</label>
+                <input id="preferredName" [(ngModel)]="signUpData.preferredName" 
+                    name="preferredName" type="text" class="form-control">
+            </div>
+
+            <!-- Pronouns -->
+            <div class="col-md-6">
+                <label for="pronouns" class="form-label">Preferred Pronouns</label>
+                <input id="pronouns" [(ngModel)]="signUpData.pronouns" 
+                    name="pronouns" type="text" class="form-control">
+            </div>
+
+            <!-- Password -->
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+                &nbsp;<i id="togglePassword" class="bi bi-eye-slash" (click)="togglePassword()"></i>
+                <input id="password" #password="ngModel"
+                    (blur)="validatePasswords()" (change)="validatePasswords()"
+                    [class.is-invalid]="password.touched && password.invalid"
+                    [(ngModel)]="signUpData.password" name="password" 
+                    type="password" class="form-control" required>
+                <small class="text-danger" [class.d-none]="!password.errors || 
+                    password.untouched">Password is required</small>
+            </div>
+
+            <!-- Verify Password -->
+            <div class="col-md-6">
+                <label for="verifyPassword" class="form-label">Verify Password</label>
+                &nbsp;<i id="toggleVerify" class="bi bi-eye-slash" (click)="toggleVerify()"></i>
+                <input id="verifyPassword" #verifyPassword="ngModel"
+                    (blur)="validatePasswords()" (change)="validatePasswords()"
+                    [class.is-invalid]="verifyPassword.touched && (!passwordsMatch || verifyPassword.invalid)"
+                    [(ngModel)]="signUpData.verifyPassword" name="verifyPassword" 
+                    type="password" class="form-control" required>
+                <div *ngIf="verifyPassword.touched && verifyPassword.errors?.required"><small class="text-danger">Please verify password</small></div>
+                <div *ngIf="!passwordsMatch"><small class="text-danger">Passwords do not match</small></div>
+            </div>
+
+            <!-- Bio -->
+            <div class="col-md-12">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea id="bio" [(ngModel)]="signUpData.bio" 
+                    name="bio" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Accept Terms -->
+            <div class="col-12">
+                <div class="form-check">
+                  <input id="acceptTerms" #acceptTerms="ngModel" [(ngModel)]="signUpData.acceptTerms" 
+                    name="acceptTerms" class="form-check-input" type="checkbox" required>
+                  <label class="form-check-label" for="acceptTerms">
+                    Accept <a routerLink="/guidelines" target="_blank">Community Guidelines</a>
+                  </label>
+                  <div *ngIf="acceptTerms.invalid"><small class="text-danger">Community guidelines must be accepted to create an account</small></div>
+                </div>
+            </div>
+
+            <!-- Sign Up Button -->
+            <div class="col-12">
+                <button id="signup-btn" [disabled]="signupForm.form.invalid || !passwordsMatch"
+                    type="submit" class="btn btn-lg">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>

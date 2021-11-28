@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
-import { HomePageComponent } from './home-page/home-page.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -18,11 +18,17 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
+import { HomePageComponent } from './home-page/home-page.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { TigerSpaceService } from './services/tigerspace.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpFormComponent,
+    SignInComponent,  
+    SignUpComponent,
     HomePageComponent,
     NavbarComponent,
     SignInComponent,
@@ -37,11 +43,22 @@ import { LoggerService } from './services/logger.service';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}, 
+    {
+      provide: LocationStrategy, 
+      useClass: HashLocationStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    AuthService, AuthGuard,
     UserService, 
+    TigerSpaceService,
     LoggerService],
   bootstrap: [AppComponent]
 })

@@ -6,10 +6,10 @@ const randtoken = require('rand-token');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
-const cors = require('cors');
-const connection = require ('./db');
+const cors = require('cors');s
+const connection = require ('./js/db');
 const userRouter = require ('./routes/user');
-const tempPageRouter = require ('./routes/tempPage')
+const tempPageRouter = require ('./routes/tempPage');
 
 
 //read global secret vars
@@ -133,10 +133,10 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
 })
 
 //Authorize login
-app.post('/api/auth', function (request, response) {
-  let netID = request.body.netID;
-  let password = request.body.password;
-  let neededVerification = 1;
+app.post('/api/testLogin', function (req, res) {
+  let netID = req.body.netID;
+  let password = req.body.password;
+  
   //ensure user entered login
   if (netID && password) {
     //query database for username
@@ -145,30 +145,73 @@ app.post('/api/auth', function (request, response) {
         throw error;
       }
       if (results.length > 0) {
-        if (neededVerification != results[0].IsVerified) {
-          response.send("Please Verify Email!")
+        if (results[0].IsVerified !== 1) {
+          res.status(403).send("Please Verify Email!")
         } else {
           //check password hash validity
           let hash = results[0].Password;
           if (bcrypt.compareSync(password, hash)) {
-            request.session.loggedin = true;
-            request.session.netID = netID;
-            request.session.name = results[0].FirstName;
-            response.redirect('/api/loggedin');
+            req.session.loggedin = true;
+            req.session.netID = netID;
+            req.session.name = results[0].FirstName;
+
+            // generate jwt token
+            let payload = { subject: netID };
+            let options = { expiresIn: secretData.jwtexpiration }
+            let token = jwt.sign(payload, secretData.jwtkey, options);
+            res.status(200).send({token});
           } else {
-            response.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
+            res.status(401).send('Incorrect Username and/or Password!'); //wrong password but don't tell user
           }
         }
       } else {
-        response.send('Incorrect Username and/or Password!'); //wrong username but don't tell user
+        res.status(401).send('Incorrect Username and/or Password!'); //wrong username but don't tell user
       }
-      response.end();
+      res.end();
     });
   } else {
-    response.send('Please enter Username and Password!');
-    response.end();
+    res.status(401).send('Please enter Username and Password!');
+    res.end();
   }
 });
+
+// //Authorize login
+// app.post('/api/auth', function (req, res) {
+//   let netID = req.body.netID;
+//   let password = req.body.password;
+//   let neededVerification = 1;
+//   //ensure user entered login
+//   if (netID && password) {
+//     //query database for username
+//     connection.query(`SELECT * FROM user WHERE Id = ?`, [netID], function (error, results, fields) {
+//       if (error) {
+//         throw error;
+//       }
+//       if (results.length > 0) {
+//         if (neededVerification != results[0].IsVerified) {
+//           res.send("Please Verify Email!")
+//         } else {
+//           //check password hash validity
+//           let hash = results[0].Password;
+//           if (bcrypt.compareSync(password, hash)) {
+//             req.session.loggedin = true;
+//             req.session.netID = netID;
+//             req.session.name = results[0].FirstName;
+//             res.redirect('/api/loggedin');
+//           } else {
+//             res.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
+//           }
+//         }
+//       } else {
+//         res.send('Incorrect Username and/or Password!'); //wrong username but don't tell user
+//       }
+//       res.end();
+//     });
+//   } else {
+//     res.send('Please enter Username and Password!');
+//     res.end();
+//   }
+// });
 
 //Verify if user is logged in
 app.get('/api/loggedin', function (request, response) {
@@ -225,8 +268,9 @@ app.post('/api/registerUser', (req, res) => {
       );
     }
   })
-
+  
 });
+
 
 
 //create post demo form

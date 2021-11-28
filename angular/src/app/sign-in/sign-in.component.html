@@ -1,18 +1,27 @@
+<app-banner [bannerTitle]="pageTitle"></app-banner>
 <div class="container">
     <div id="signin-div" class="mx-auto">
-        <h1>Sign In</h1>
-        <hr />
-        <form id="signin-form" method="POST" action="/api/auth" class="row g-3">
+        <!-- Alert for Errors -->
+        <div *ngIf="error?.message" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ error?.message }}
+            <div *ngIf="error.type === 403"><a routerLink="/signin" (click)="resend()">Resend verification email</a></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        
+        <!-- Form -->
+        <form id="signin-form" method="POST" class="row g-3">
             <div class="form-group">
                 <label for="netID" class="form-label">Net ID</label>
-                <input id="netID" name="netID" type="text" class="form-control" required>
+                <input id="netID" name="netID" [(ngModel)]="loginUserData.netID" 
+                    type="text" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input id="password" name="password" type="password" class="form-control" required>
+                <input id="password" name="password" [(ngModel)]="loginUserData.password" 
+                    type="password" class="form-control" required>
             </div>
             <div class="col-12">
-                <button id="signin-btn" type="submit" class="btn btn-lg">Sign In</button>
+                <button id="signin-btn" (click)="loginUser()" type="submit" class="btn btn-lg">Sign In</button>
             </div>
         </form>
     </div>
