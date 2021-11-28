@@ -226,14 +226,12 @@ app.post('/api/signupVerify', (req, res) => {
 
 //Verify if user is logged in
 app.get('/api/createPostDemo', function (request, response) {
-  // if (request.session.loggedin) {
-  //   console.log(request.session);
-  //   response.send('Welcome back, ' + request.session.name + '!');
-  // } else {
-  //   response.send('Please login to view this page!');
-  // }
-  response.send('<form method="post" action="createPost" name="createpost" id="createpost">Title:<input type="text" name="title" id="title"><br>postbody:<input type="text" name="postbody" id="postbody"><br>category:<input type="text" name="category" id="category"><br>tigerspaceid:<input type="text" name="tigerspaceid" id="tigerspaceid"><br>userid:<input type="text" name="userid" id="userid" value="' + request.session.name + '"><input type="submit"></form>');
-  //response.send("test message");
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="createPost" name="createpost" id="createpost">Title:<input type="text" name="title" id="title"><br>postbody:<input type="text" name="postbody" id="postbody"><br>category:<input type="text" name="category" id="category"><br>tigerspaceid:<input type="text" name="tigerspaceid" id="tigerspaceid"><br>userid:<input type="text" disabled name="userid" id="userid" value="' + request.session.netID + '"><input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
   response.end();
 });
 
@@ -242,82 +240,43 @@ app.get('/api/createPostDemo', function (request, response) {
 //create new post as most recent of previous posts
 app.post('/api/createPost', (req, res) => {
 
-  //first query the db to get the latest post ID
-  connection.query(`SELECT id FROM post ORDER BY id DESC LIMIT 1;`, function (err, result) {
-    if (err) {
-      throw err;
-    }
-    let highestPost = result[0].id;
-   // highestPost++;
-    console.log(highestPost);
-
-    connection.query(`SELECT id FROM post WHERE id ='${highestPost}\';`, function (err, result) {
-      //sanity check that if it ever fails, we need to restructure
-      if (!(typeof result[0] === "undefined")) {
-        console.log('crucial sanity check failed, restructure post ID incrementation');
-      } else {
-        console.log("New post, proceeding to insert");
-      }
-    })
-  })
+  let title = req.body.title;
+  let postbody = req.body.postbody;
+  let category = req.body.category;
+  let tigerspaceid = req.body.tigerspaceid;
 
 
-
-  //SELECT id FROM post ORDER BY id DESC LIMIT 1;
-  //next increment the ID +1
-  //sanity check, make sure new post ID doesn't exist
-  //SELECT id FROM post WHERE id = highestPost
-  //INSERT the post to db
-  //report success
-
-  //get number of posts
-
-    /*if (!(typeof result[0] === "undefined")) {
-      res.send('<script>alert("User already exists")</script>');
-    } else {
-      console.log("New user, proceeding to insert");
-    }*/
-    //let parsedNumberOfPosts = result[0].NumberOfPosts;
-   // res.send("Number of posts: " + parsedNumberOfPosts);
-    // res.send(result[0]);
-
-
-
-  /*
-
-
-    console.log(req.body);
-    let title = req.body.title;
-    let postbody = req.body.postbody;
-    let category = req.body.category;
-    let upvotes = 1;
-    let userid = req.body.userid;
-    let tigerspaceid = req.body.tigerspaceid;
-    
-    //check if user exists
-    connection.query(`SELECT * FROM user WHERE Id=\'${id}\';`, function (err, result) {
-  
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    //first query the db to get the latest post ID
+    connection.query(`SELECT id FROM post ORDER BY id DESC LIMIT 1;`, function (err, result) {
       if (err) {
         throw err;
       }
-      if (!(typeof result[0] === "undefined")) {
-        res.send('<script>alert("User already exists")</script>');
-      } else {
-        console.log("New user, proceeding to insert");
-      }
+      let highestPost = result[0].id;
+      highestPost++;
+      console.log(highestPost);
+
+      connection.query(`SELECT id FROM post WHERE id ='${highestPost}\';`, function (err, result) {
+        //sanity check that if it ever fails, we need to restructure
+        if (!(typeof result[0] === "undefined")) {
+          console.log('crucial sanity check failed, restructure post ID incrementation');
+        } else {
+          console.log("New post, proceeding to insert");
+          //insert into database. Report error if fail, otherwise redirect user to login page
+          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${req.session.netID}') `, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } else {
+              //optimally redirect user to their newly created post
+              res.redirect('/#/');
+            }
+          })
+        }
+      })
     })
-  
-    //hash/salting function
-    const hpWord = bcrypt.hashSync(pWord, 10);
-  
-    //insert into database. Report error if fail, otherwise redirect user to login page
-    connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) VALUES ('${id}','${fName}','${lName}','${email}','1','1','${bio}','${nName}','${pNoun}','0','${hpWord}','${token}') `, function (err, result) {
-      if (err) {
-        console.log("Error: ", err);
-      } else {
-        sendEmail(email, token);
-        res.redirect('/#/signin');
-      }
-    })
-  */
+  } else {
+    console.log("User isn't logged in, therefore can't submit a post.");
+    res.redirect('/#/signin');
+  }
 });
