@@ -7,9 +7,9 @@ const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
 const cors = require('cors');
-const connection = require('./db');
-const userRouter = require('./routes/user');
-const tempPageRouter = require('./routes/tempPage')
+const connection = require ('./db');
+const userRouter = require ('./routes/user');
+const tempPageRouter = require ('./routes/tempPage')
 
 
 //read global secret vars
@@ -25,8 +25,8 @@ let secretData = JSON.parse(rawdata);
 const app = express();
 
 // Enable user routes in user.js
-app.use('/', userRouter);
-app.use('/', tempPageRouter);
+app.use('/',userRouter);
+app.use('/',tempPageRouter);
 
 //Enable temp pages in tempPage.js
 
@@ -181,7 +181,6 @@ app.get('/api/loggedin', function (request, response) {
   response.end();
 });
 
-
 //reads req and verifies user doesnt exist already
 app.post('/api/registerUser', (req, res) => {
   let user = {
@@ -198,7 +197,6 @@ app.post('/api/registerUser', (req, res) => {
     isVerified: 0,
     token: randtoken.generate(10)
   }
-
   let userExists = false;
   //check if user exists
   connection.query(`SELECT * FROM user WHERE Id=\'${user.id}\' OR Email=\'${user.email}\';`, function (err, result) {
