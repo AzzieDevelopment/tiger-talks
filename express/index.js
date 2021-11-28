@@ -224,7 +224,7 @@ app.post('/api/signupVerify', (req, res) => {
 });
 
 
-//Verify if user is logged in
+//create post demo form
 app.get('/api/createPostDemo', function (request, response) {
   if (request.session.loggedin) {
     console.log(request.session);
@@ -256,7 +256,7 @@ app.post('/api/createPost', (req, res) => {
       let highestPost = 0;
       if (result.length > 0) {
         highestPost = result[0].id;
-      } 
+      }
       highestPost++;
       console.log(highestPost);
 
@@ -285,11 +285,11 @@ app.post('/api/createPost', (req, res) => {
 });
 
 
-//Verify if user is logged in
+//create comment demo form
 app.get('/api/createCommentDemo', function (request, response) {
   if (request.session.loggedin) {
     console.log(request.session);
-    response.send('<form method="post" action="createComment" name="createComment" id="createComment">PostId:<input type="text" name="postid" id="postid"><br>comment body:<input type="text" name="commentbody" id="commentbody"><br>userid: '+ request.session.netID + '<input type="submit"></form>');
+    response.send('<form method="post" action="createComment" name="createComment" id="createComment">PostId:<input type="text" name="postid" id="postid"><br>comment body:<input type="text" name="commentbody" id="commentbody"><br>userid: ' + request.session.netID + '<input type="submit"></form>');
   } else {
     response.send('Please login to view this page!');
   }
@@ -315,7 +315,7 @@ app.post('/api/createComment', (req, res) => {
       let highestComment = 0;
       if (result.length > 0) {
         highestComment = result[0].id;
-      } 
+      }
 
       highestComment++;
       console.log(highestComment);
@@ -343,3 +343,27 @@ app.post('/api/createComment', (req, res) => {
     res.redirect('/#/signin');
   }
 });
+
+
+//view post
+app.get('/api/viewPost/:postid/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM post WHERE id ='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        res.send(result[0]);
+      } else {
+        res.send("Post not found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view posts.");
+    res.redirect('/#/signin');
+  }
+});
+
+
