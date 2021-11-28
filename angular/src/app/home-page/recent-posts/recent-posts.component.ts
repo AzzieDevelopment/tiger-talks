@@ -25,6 +25,7 @@ export class posts {
 //   public Pronouns: string,
 //   public Major : string
 //   public Title : string //(for tiger spaces)
+//   public Comments: number //(amount of comments)
 //
 // )
 {
@@ -40,9 +41,7 @@ export class RecentPostsComponent implements OnInit {
 
   post!:posts[];
 
-  constructor(
-    private httpClient:HttpClient
-  ) { }
+  constructor(private httpClient:HttpClient) { }
 
   ngOnInit(): void {
     this.getPosts();

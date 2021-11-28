@@ -4,13 +4,14 @@
 <div class="container-fluid border" *ngFor="let post of post">
   <div class="card">
     <div class="card-header"><i class="bi bi-person-circle"></i>
-      {{post.UserId}} | Post id: {{post.Id}}  </div>
+      {{post.UserId}} | Post id: {{post.Id}} | Major Here | Pronouns Here  <button type="button" style="float:right;" class="btn btn-outline-warning"><i class="bi bi-flag-fill"></i></button></div>
     <div class="card-body">
       <h5 class="card-title">{{post.Title}} </h5>
       <p class="card-text">{{post.Body}}</p>
     </div>
     <div class="card-footer"><button type="button" class="btn btn-outline-warning"><i class="bi bi-heart-fill"></i></button> {{post.Upvotes}} likes |    
-        <button type="button" class="btn btn-outline-warning"><i class="bi bi-chat-dots-fill"></i></button> () Comments |    
-        {{post.Timestamp}} </div>
+        <button type="button" class="btn btn-outline-warning"><i class="bi bi-chat-dots-fill"></i></button> no of comments Comments    
+        <div class="time-stamp"> {{post.Timestamp}}</div> 
+      </div>
   </div>
 </div>
