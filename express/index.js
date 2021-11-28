@@ -228,7 +228,7 @@ app.post('/api/signupVerify', (req, res) => {
 app.get('/api/createPostDemo', function (request, response) {
   if (request.session.loggedin) {
     console.log(request.session);
-    response.send('<form method="post" action="createPost" name="createpost" id="createpost">Title:<input type="text" name="title" id="title"><br>postbody:<input type="text" name="postbody" id="postbody"><br>category:<input type="text" name="category" id="category"><br>tigerspaceid:<input type="text" name="tigerspaceid" id="tigerspaceid"><br>userid:<input type="text" disabled name="userid" id="userid" value="' + request.session.netID + '"><input type="submit"></form>');
+    response.send('<form method="post" action="createPost" name="createpost" id="createpost">Title:<input type="text" name="title" id="title"><br>postbody:<input type="text" name="postbody" id="postbody"><br>category:<input type="text" name="category" id="category"><br>tigerspaceid:<input type="text" name="tigerspaceid" id="tigerspaceid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
   } else {
     response.send('Please login to view this page!');
   }
@@ -277,6 +277,67 @@ app.post('/api/createPost', (req, res) => {
     })
   } else {
     console.log("User isn't logged in, therefore can't submit a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+//Verify if user is logged in
+app.get('/api/createCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="createComment" name="createComment" id="createComment">PostId:<input type="text" name="postid" id="postid"><br>comment body:<input type="text" name="commentbody" id="commentbody"><br>userid: '+ request.session.netID + '<input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+
+//create new comment as most recent of previous posts
+app.post('/api/createComment', (req, res) => {
+
+  let postid = req.body.postid;
+  let commentbody = req.body.commentbody;
+
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    //first query the db to get the latest comment ID
+    connection.query(`SELECT id FROM comment ORDER BY id DESC LIMIT 1;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      let highestComment = 0;
+      console.log(result);
+      if (result.length > 0) {
+        highestComment = result[0].id;
+      } 
+
+      highestComment++;
+      console.log(highestComment);
+
+      connection.query(`SELECT id FROM comment WHERE id ='${highestComment}\';`, function (err, result) {
+        //sanity check that if it ever fails, we need to restructure
+        if (!(typeof result[0] === "undefined")) {
+          console.log('crucial sanity check failed, restructure comment ID incrementation');
+        } else {
+          console.log("New comment, proceeding to insert");
+          //insert into database. Report error if fail, otherwise redirect user to login page
+          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID) VALUES ('${highestComment}','${postid}','${commentbody}','1','${req.session.netID}') `, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } else {
+              //optimally refresh the post page with the new comment now posted
+              res.redirect('/#/');
+            }
+          })
+        }
+      })
+    })
+  } else {
+    console.log("User isn't logged in, therefore can't submit a comment.");
     res.redirect('/#/signin');
   }
 });
