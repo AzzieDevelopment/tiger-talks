@@ -11,5 +11,8 @@
     padding-top: 3.9em;
 }
 
-p {
+.time-stamp {
+    text-align: left;
+    color:#6c757d;
 }
+
