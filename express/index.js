@@ -223,7 +223,6 @@ app.post('/api/signupVerify', (req, res) => {
 
 });
 
-
 //create post demo form
 app.get('/api/createPostDemo', function (request, response) {
   if (request.session.loggedin) {
@@ -235,8 +234,6 @@ app.get('/api/createPostDemo', function (request, response) {
   response.end();
 });
 
-
-
 //create new post as most recent of previous posts
 app.post('/api/createPost', (req, res) => {
 
@@ -244,7 +241,6 @@ app.post('/api/createPost', (req, res) => {
   let postbody = req.body.postbody;
   let category = req.body.category;
   let tigerspaceid = req.body.tigerspaceid;
-
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
@@ -284,7 +280,6 @@ app.post('/api/createPost', (req, res) => {
   }
 });
 
-
 //create comment demo form
 app.get('/api/createCommentDemo', function (request, response) {
   if (request.session.loggedin) {
@@ -295,8 +290,6 @@ app.get('/api/createCommentDemo', function (request, response) {
   }
   response.end();
 });
-
-
 
 //create new comment as most recent of previous posts
 app.post('/api/createComment', (req, res) => {
@@ -385,6 +378,59 @@ app.get('/api/viewPostComments/:postid/', (req, res) => {
 
   } else {
     console.log("User isn't logged in, therefore can't view posts.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+
+//  can't show 10 most recent bumped posts until we have bump date timestamp added to schema
+//  sample 10 most recent
+//  connection.query(`SELECT id FROM post ORDER BY bumpdate DESC LIMIT 10;`, function (err, result) 
+
+
+
+//delete post/comments demo
+app.get('/api/adminDeletePost', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="deletePost" name="deletePost" id="deletePost">POST ID TO BE PURGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+
+//imagine the following people can delete posts/comments
+//any administrators can delete all posts/comments
+//a tigerspace moderator can delete posts/comments on their space
+//any post creator can wipe their individual post body, but not the comments 
+//any commenter can delete their individual comments
+
+app.post('/api/deletePost', (req, res) => {
+
+  let postid = req.body.postid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to get the latest post ID
+    connection.query(`DELETE FROM comment WHERE PostId = ${postid}\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      connection.query(`DELETE FROM post WHERE Id = ${postid}\;`, function (err, result) {
+        if (err) {
+          throw err;
+        }
+        console.log("Post deleted.");
+        res.redirect('/#/');
+      })
+    })
+  } else {
+    console.log("User isn't logged in, therefore can't submit a post.");
     res.redirect('/#/signin');
   }
 });
