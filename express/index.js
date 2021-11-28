@@ -416,7 +416,7 @@ app.post('/api/deletePost', (req, res) => {
   //ensure the user is logged in before anything
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
-    //first query the db to get the latest post ID
+    //purge comments before purging the post
     connection.query(`DELETE FROM comment WHERE PostId = ${postid}\;`, function (err, result) {
       if (err) {
         throw err;
@@ -428,6 +428,57 @@ app.post('/api/deletePost', (req, res) => {
         console.log("Post deleted.");
         res.redirect('/#/');
       })
+    })
+  } else {
+    console.log("User isn't logged in, therefore can't submit a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+
+
+//delete comments as a user demo
+app.get('/api/userDeleteOwnCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="userDeleteOwnComment" name="deleteComment" id="deleteComment">COMMENT ID TO BE PURGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+app.post('/api/userDeleteOwnComment', (req, res) => {
+
+  let commentid = req.body.commentid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify user is author of the comment
+    connection.query(`SELECT UserID FROM comment WHERE Id = ${commentid}\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+        //if signed in user is comment author
+        if (result[0].UserID == req.session.netID) {
+          //purge it 
+          connection.query(`DELETE FROM comment WHERE Id = ${commentid}\;`, function (err, result) {
+            if (err) {
+              throw err;
+            }
+            console.log("Comment deleted.");
+          })
+        } else {
+          res.send("Permission not granted!");
+        }
+      } else {
+        res.send("Comment not found.");
+      }
+
     })
   } else {
     console.log("User isn't logged in, therefore can't submit a post.");
