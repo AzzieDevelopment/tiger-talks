@@ -87,7 +87,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   private getUserData(): IUser {
-    console.log('[', this.signUpData.bio.trim(), ']');
     return {
       Id: this.signUpData.netID,
       FirstName: this.signUpData.firstName,
@@ -95,7 +94,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       Email: this.signUpData.email,
       UserType: 1,
       Permission: 1,
-      Bio: this.signUpData.bio.trim(),
+      Bio: this.signUpData.bio,
       PreferredName: this.signUpData.preferredName,
       Pronouns: this.signUpData.pronouns,
       Password: this.signUpData.password
