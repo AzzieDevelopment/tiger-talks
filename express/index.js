@@ -227,7 +227,7 @@ app.post('/api/signupVerify', (req, res) => {
 app.get('/api/createPostDemo', function (request, response) {
   if (request.session.loggedin) {
     console.log(request.session);
-    response.send('<form method="post" action="createPost" name="createpost" id="createpost">Title:<input type="text" name="title" id="title"><br>postbody:<input type="text" name="postbody" id="postbody"><br>category:<input type="text" name="category" id="category"><br>tigerspaceid:<input type="text" name="tigerspaceid" id="tigerspaceid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+    response.send('<form method="post" action="createPost" name="createpost" id="createpost">Title:<input type="text" name="Title" id="Title"><br>postbody:<input type="text" name="Body" id="Body"><br>category:<input type="text" name="Category" id="Category"><br>tigerspaceid:<input type="text" name="TigerSpaceId" id="TigerSpaceId"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
   } else {
     response.send('Please login to view this page!');
   }
@@ -237,10 +237,10 @@ app.get('/api/createPostDemo', function (request, response) {
 //create new post as most recent of previous posts
 app.post('/api/createPost', (req, res) => {
 
-  let title = req.body.title;
-  let postbody = req.body.postbody;
-  let category = req.body.category;
-  let tigerspaceid = req.body.tigerspaceid;
+  let title = req.body.Title;
+  let postbody = req.body.Body;
+  let category = req.body.Category;
+  let tigerspaceid = req.body.TigerSpaceId;
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
