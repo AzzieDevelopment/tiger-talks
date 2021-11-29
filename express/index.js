@@ -375,7 +375,7 @@ app.post('/api/createComment', (req, res) => {
               console.log("Error: ", err);
             } 
             else {
-              connection.query(`UPDATE comment SET Bump = '${Date.now().format('YYYY-MM-DD HH:mm:ss')}' WHERE PostId = '${postid}'`, function (err, result) {
+              connection.query(`UPDATE post SET Bump = '${Date.now().format('YYYY-MM-DD HH:mm:ss')}' WHERE PostId = '${postid}'`, function (err, result) {
                 if (err) {
                   console.log("Error: ", err);
                 } else {
