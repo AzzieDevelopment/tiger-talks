@@ -6,7 +6,6 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { MakePostComponent } from './make-post/make-post.component';
-import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 
 const routes: Routes = [

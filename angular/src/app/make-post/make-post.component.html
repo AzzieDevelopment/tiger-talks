@@ -6,8 +6,29 @@
         <div class="row justify-content-md-center">
             <form class="w-75">
             <!-- <form [formGroup]="postForm">                 -->
-                <label for="title" class="form-label">Title: </label> <br>
-                <input id="title" type="text" class="form-control" formControlName="title">
+                <div>
+                    <label for="title" class="form-label">Title: </label>
+                    <input id="title" type="text" class="form-control" formControlName="title">
+                    <!-- <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <label for="category" class="form-label">Category: </label>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item" formControlName="category">Academic</a></li>
+                          <li><a class="dropdown-item" formControlName="category">Social</a></li>
+                        </ul>
+                    </div> -->
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                          Category
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                          <li><a href="#" data-value="academic">Academic</a></li>
+                          <li><a href="#" data-value="social">Social</a></li>
+                        </ul>
+                      </div>
+                </div>
                 <br>
                 <label for="body" class="form-label">Body: </label> <br>
                 <textarea id="body" class="form-control" type="textarea" rows="10" formControlName="body"></textarea> <br>

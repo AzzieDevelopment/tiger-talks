@@ -1,7 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AngularMaterialModule } from './angular-material.module';
-import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -40,11 +38,9 @@ import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thum
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularMaterialModule,
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule,
     HttpClientModule,
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
