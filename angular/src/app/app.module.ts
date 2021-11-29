@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,7 +19,14 @@ import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
+<<<<<<< HEAD
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
+=======
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { TigerSpaceService } from './services/tigerspace.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+>>>>>>> 3b7ae134614909e82c160cd23a69006db0c3c3e0
 
 @NgModule({
   declarations: [
@@ -45,8 +52,18 @@ import { TigerpageComponent } from './tigerpage/tigerpage.component';
     AppRoutingModule
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}, 
+    {
+      provide: LocationStrategy, 
+      useClass: HashLocationStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    AuthService, AuthGuard,
     UserService, 
+    TigerSpaceService,
     LoggerService],
   bootstrap: [AppComponent]
 })
