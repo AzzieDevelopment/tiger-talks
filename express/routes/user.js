@@ -210,6 +210,17 @@ router.get('/api/selectexample', (req, res) => {
 
 });
 
+router.get('/api/getrecentposts', (req, res) => {
+
+    connection.query("SELECT * FROM post", function (err, result, fields) {
+        // if any error while executing above query, throw error
+        if (err) throw err;
+        // if there is no error, you have the result
+        res.json(result);
+    });
+
+});
+
 // basic request
 router.get('/api/hello', (req, res) => {
     let jsonResponse = {
