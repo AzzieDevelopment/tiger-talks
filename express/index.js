@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
 const cors = require('cors');
+const moment = require('moment');
 const connection = require ('./js/db');
 const userRouter = require ('./routes/user');
 const tempPageRouter = require ('./routes/tempPage');
@@ -175,43 +176,43 @@ app.post('/api/testLogin', function (req, res) {
   }
 });
 
-// //Authorize login
-// app.post('/api/auth', function (req, res) {
-//   let netID = req.body.netID;
-//   let password = req.body.password;
-//   let neededVerification = 1;
-//   //ensure user entered login
-//   if (netID && password) {
-//     //query database for username
-//     connection.query(`SELECT * FROM user WHERE Id = ?`, [netID], function (error, results, fields) {
-//       if (error) {
-//         throw error;
-//       }
-//       if (results.length > 0) {
-//         if (neededVerification != results[0].IsVerified) {
-//           res.send("Please Verify Email!")
-//         } else {
-//           //check password hash validity
-//           let hash = results[0].Password;
-//           if (bcrypt.compareSync(password, hash)) {
-//             req.session.loggedin = true;
-//             req.session.netID = netID;
-//             req.session.name = results[0].FirstName;
-//             res.redirect('/api/loggedin');
-//           } else {
-//             res.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
-//           }
-//         }
-//       } else {
-//         res.send('Incorrect Username and/or Password!'); //wrong username but don't tell user
-//       }
-//       res.end();
-//     });
-//   } else {
-//     res.send('Please enter Username and Password!');
-//     res.end();
-//   }
-// });
+//Authorize login
+app.post('/api/auth', function (req, res) {
+  let netID = req.body.netID;
+  let password = req.body.password;
+  let neededVerification = 1;
+  //ensure user entered login
+  if (netID && password) {
+    //query database for username
+    connection.query(`SELECT * FROM user WHERE Id = ?`, [netID], function (error, results, fields) {
+      if (error) {
+        throw error;
+      }
+      if (results.length > 0) {
+        if (neededVerification != results[0].IsVerified) {
+          res.send("Please Verify Email!")
+        } else {
+          //check password hash validity
+          let hash = results[0].Password;
+          if (bcrypt.compareSync(password, hash)) {
+            req.session.loggedin = true;
+            req.session.netID = netID;
+            req.session.name = results[0].FirstName;
+            res.redirect('/api/loggedin');
+          } else {
+            res.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
+          }
+        }
+      } else {
+        res.send('Incorrect Username and/or Password!'); //wrong username but don't tell user
+      }
+      res.end();
+    });
+  } else {
+    res.send('Please enter Username and Password!');
+    res.end();
+  }
+});
 
 //Verify if user is logged in
 app.get('/api/loggedin', function (request, response) {
@@ -313,7 +314,7 @@ app.post('/api/createPost', (req, res) => {
         } else {
           console.log("New post, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,Title,Body,Category,Upvotes,TigerSpaceId, Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${Date.now().format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,Title,Body,Category,Upvotes,TigerSpaceId, Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } else {
@@ -375,7 +376,7 @@ app.post('/api/createComment', (req, res) => {
               console.log("Error: ", err);
             } 
             else {
-              connection.query(`UPDATE post SET Bump = '${Date.now().format('YYYY-MM-DD HH:mm:ss')}' WHERE PostId = '${postid}'`, function (err, result) {
+              connection.query(`UPDATE post SET Bump = '${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}' WHERE PostId = '${postid}'`, function (err, result) {
                 if (err) {
                   console.log("Error: ", err);
                 } else {
@@ -539,6 +540,28 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
     })
   } else {
     console.log("User isn't logged in, therefore can't submit a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+//view post
+app.get('/api/viewRecentPosts/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM post ORDER BY;`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        res.send(result[0]);
+      } else {
+        res.send("Post not found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view posts.");
     res.redirect('/#/signin');
   }
 });
