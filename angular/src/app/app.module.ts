@@ -20,6 +20,7 @@ import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { TigerpageComponent } from './tigerpage/tigerpage.component';
     TigerpageComponent,
     PageNotFoundComponent,
     BannerComponent,
+    ModeratorDisplayComponent,
   ],
   imports: [
     BrowserModule,
