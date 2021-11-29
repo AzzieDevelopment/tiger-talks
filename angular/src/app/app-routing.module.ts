@@ -20,7 +20,7 @@ const routes: Routes = [
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },
