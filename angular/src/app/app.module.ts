@@ -21,6 +21,9 @@ import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
 import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
+import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
+import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
+import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { ModeratorDisplayComponent } from './moderator-display/moderator-display
     PageNotFoundComponent,
     BannerComponent,
     ModeratorDisplayComponent,
+    FlaggedPostsComponent,
+    BannedUsersComponent,
+    GuestPostsComponent,
   ],
   imports: [
     BrowserModule,
