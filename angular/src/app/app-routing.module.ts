@@ -8,6 +8,10 @@ import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.co
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
+import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
+import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
+import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -22,6 +26,10 @@ const routes: Routes = [
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },
+  { path: 'banned-users', component: BannedUsersComponent },
+  { path: 'flagged-posts', component: FlaggedPostsComponent },
+  { path: 'guest-posts', component: GuestPostsComponent },
+  { path: 'moderator', component: ModeratorDisplayComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
