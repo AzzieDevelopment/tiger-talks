@@ -551,10 +551,10 @@ app.get('/api/viewRecentPosts/', (req, res) => {
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
-    connection.query(`SELECT * FROM post ORDER BY;`, function (err, result) {
+    connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
       //sanity check that if it ever fails, we need to restructure
       if (result.length > 0) {
-        res.send(result[0]);
+        res.send(result);
       } else {
         res.send("Post not found.");
       }
