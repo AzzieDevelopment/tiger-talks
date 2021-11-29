@@ -313,7 +313,7 @@ app.post('/api/createPost', (req, res) => {
         } else {
           console.log("New post, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId, Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${Date.now().format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,Title,Body,Category,Upvotes,TigerSpaceId, Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${Date.now().format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } else {
