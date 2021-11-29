@@ -313,7 +313,7 @@ app.post('/api/createPost', (req, res) => {
         } else {
           console.log("New post, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${req.session.netID}') `, function (err, result) {
+          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId, Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${Date.now().format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } else {
@@ -373,9 +373,16 @@ app.post('/api/createComment', (req, res) => {
           connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID) VALUES ('${highestComment}','${postid}','${commentbody}','1','${req.session.netID}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
-            } else {
-              //optimally refresh the post page with the new comment now posted
-              res.redirect('/#/');
+            } 
+            else {
+              connection.query(`UPDATE comment SET Bump = '${Date.now().format('YYYY-MM-DD HH:mm:ss')}' WHERE PostId = '${postid}'`, function (err, result) {
+                if (err) {
+                  console.log("Error: ", err);
+                } else {
+                  //optimally refresh the post page with the new comment now posted
+                  res.redirect('/#/');
+                }
+              })
             }
           })
         }

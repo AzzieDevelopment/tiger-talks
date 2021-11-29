@@ -161,6 +161,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Category1", #CATEGORY
     100, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     1 #TIGERSPACEID
 );
