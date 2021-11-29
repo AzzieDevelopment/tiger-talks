@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModeratorDisplayComponent implements OnInit {
 
+  pageTitle = "Moderator";
+
   constructor() { }
 
   ngOnInit(): void {
