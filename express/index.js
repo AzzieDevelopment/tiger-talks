@@ -314,7 +314,7 @@ app.post('/api/createPost', (req, res) => {
         } else {
           console.log("New post, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,Title,Body,Category,Upvotes,TigerSpaceId, Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
+          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId,Timestamp,Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } else {
@@ -371,12 +371,12 @@ app.post('/api/createComment', (req, res) => {
         } else {
           console.log("New comment, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID) VALUES ('${highestComment}','${postid}','${commentbody}','1','${req.session.netID}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${highestComment}','${postid}','${commentbody}','1','${req.session.netID}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } 
             else {
-              connection.query(`UPDATE post SET Bump = '${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}' WHERE PostId = '${postid}'`, function (err, result) {
+              connection.query(`UPDATE post SET Bump = '${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}' WHERE Id = '${postid}'`, function (err, result) {
                 if (err) {
                   console.log("Error: ", err);
                 } else {
