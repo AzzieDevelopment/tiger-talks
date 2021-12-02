@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.post (
     Category VARCHAR(32) NOT NULL,
     Upvotes INT UNSIGNED NOT NULL,
     Timestamp DATETIME NOT NULL,
+    Bump DATETIME NOT NULL,
     UserId VARCHAR(20) NOT NULL,
     TigerSpaceId INT UNSIGNED NOT NULL,
     PRIMARY KEY(Id),

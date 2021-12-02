@@ -29,6 +29,20 @@
         * http://localhost:3000/api/gettigerspace/:id get tiger space by id
         * http://localhost:3000/api/getpost/:id get post by id
         * http://localhost:3000/api/getpostcomments/:postid return a posts comments
+        * http://localhost:3000/api/createPost post a post to the database
+        * http://localhost:3000/api/createComment post a comment to the database and bump the parent post
+        * http://localhost:3000/api/viewPost/:postid/ get a post's data from the post table (can be joined with other tables if data isn't retrieved separately, currently only retrieves the single table's results)
+        * http://localhost:3000/api/viewPostComments/:postid/ get all comments for a particular post (can be joined with other tables if data isn't retrieved separately, currently only retrieves the single table's results)
+        * http://localhost:3000/api/deletePost deletes all child comments of a post, and then deletes the post
+        * http://localhost:3000/api/userDeleteOwnComment allows user to delete a comment created by their user account (can be adjusted to also work by an admin user)
+        * http://localhost:3000/api/viewRecentPosts/ returns the 10 most recent posts ordered by Bump column
+
+        * demos that can be removed when implemented in FE
+        * http://localhost:3000/api/createPostDemo form to post a Post to database 
+        * http://localhost:3000/api/createCommentDemo form to post a comment to the database
+        * http://localhost:3000/api/adminDeletePost form for the deletePost endpoint
+        * http://localhost:3000/api/userDeleteOwnCommentDemo form for the userDeleteOwnComment endpoint
+
 
 * ## Getting Started
     * ### Clone Project
