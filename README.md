@@ -1,5 +1,7 @@
 # ReadMe
 
+* ## Prerequisite
+    * Grab the most recent copy of global.json from our shared drive, otherwise sign in functionality will not work. 
 
 * ## Assumptions
     * Late(est) version of node/npm installed
@@ -15,7 +17,7 @@
     	* http://localhost:3000/#/ landing page
     	* http://localhost:3000/#/signup signup page
     	* http://localhost:3000/#/signin signin page
-    * Backend
+    * Backend (list needs updating)
     	* http://localhost:3000/api/loggedIn see if a users session is logged in
     	* http://localhost:3000/api/register Registration Page
     	* http://localhost:3000/api/login Login Page
