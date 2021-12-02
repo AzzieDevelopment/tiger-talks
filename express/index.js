@@ -7,9 +7,11 @@ const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
 const hosturl = process.env.hosturl || "http://localhost:3000";
 const cors = require('cors');
-const connection = require ('./db');
+const jwt = require('jsonwebtoken');
+
+const connection = require ('./js/db');
 const userRouter = require ('./routes/user');
-const tempPageRouter = require ('./routes/tempPage')
+const tempPageRouter = require ('./routes/tempPage');
 
 
 //read global secret vars
@@ -73,6 +75,12 @@ function sendEmail(email, token) {
   });
 }
 
+function generateJWT(id) {
+  let payload = { subject: id };
+  let options = { expiresIn: secretData.jwtexpiration };
+  return jwt.sign(payload, secretData.jwtkey, options);
+}
+
 //body parser
 app.use(bodyParser.urlencoded({
   extended: true
@@ -132,11 +140,11 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
   })
 })
 
-//Authorize login
-app.post('/api/auth', function (request, response) {
-  let netID = request.body.netID;
-  let password = request.body.password;
-  let neededVerification = 1;
+// Authorize login
+app.post('/api/auth', function (req, res) {
+  let netID = req.body.netID;
+  let password = req.body.password;
+  
   //ensure user entered login
   if (netID && password) {
     //query database for username
@@ -145,29 +153,43 @@ app.post('/api/auth', function (request, response) {
         throw error;
       }
       if (results.length > 0) {
-        if (neededVerification != results[0].IsVerified) {
-          response.send("Please Verify Email!")
+        if (results[0].IsVerified !== 1) {
+          res.status(403).send("Please Verify Email!")
         } else {
           //check password hash validity
           let hash = results[0].Password;
           if (bcrypt.compareSync(password, hash)) {
-            request.session.loggedin = true;
-            request.session.netID = netID;
-            request.session.name = results[0].FirstName;
-            response.redirect('/api/loggedin');
+            req.session.loggedin = true;
+            req.session.netID = netID;
+            req.session.name = results[0].FirstName;
+
+            // generate jwt token
+            let token = generateJWT(netID);
+            res.status(200).cookie('token', token).send({message: 'Login successful!'});
           } else {
-            response.send('Incorrect Username and/or Password!'); //wrong password but don't tell user
+            res.status(401).send('Incorrect Username and/or Password!'); //wrong password but don't tell user
           }
         }
       } else {
-        response.send('Incorrect Username and/or Password!'); //wrong username but don't tell user
+        res.status(401).send('Incorrect Username and/or Password!'); //wrong username but don't tell user
       }
-      response.end();
+      res.end();
     });
   } else {
-    response.send('Please enter Username and Password!');
-    response.end();
+    res.status(401).send('Please enter Username and Password!');
+    res.end();
   }
+});
+
+// logout user; delete server-session and local cookie
+app.get('/api/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+    res.redirect('/#/home');
+  });
+  res.clearCookie('token');
 });
 
 //Verify if user is logged in
@@ -198,7 +220,6 @@ app.post('/api/registerUser', (req, res) => {
     token: randtoken.generate(10)
   }
   
-  let userExists = false;
   //check if user exists
   connection.query(`SELECT * FROM user WHERE Id=\'${user.id}\' OR Email=\'${user.email}\';`, function (err, result) {
     if (err) {
@@ -206,7 +227,6 @@ app.post('/api/registerUser', (req, res) => {
       throw err;
     }
     if (result[0] !== undefined) {
-      userExists = true;
       console.log('User exists');
       res.status(403).send("User already exists");
     } else {
@@ -219,12 +239,33 @@ app.post('/api/registerUser', (req, res) => {
           if (err) {
             console.log("Error: ", err);
           } else {
+            // send verification email
             sendEmail(user.email, user.token);
-            res.status(200).send({message: 'Account created'});
+            res.status(200).send({message: 'Account created.'});
           }
         }
       );
     }
   })
   
+});
+
+app.get('/api/sendEmail/verify/:id', (req, res) => {
+  let userID = decodeURIComponent(req.params.id);
+  
+  connection.query(`SELECT Email, Token FROM user WHERE Id=\'${userID}\';`, function (err, result) {
+    if (err) {
+        throw err;
+    }
+    if (result.length > 0) {
+      let email = result[0].Email;
+      let token = result[0].Token;
+      sendEmail(email, token);
+      res.status(200).send({ message: 'Verification email sent!'});
+    } else {
+      console.log('User does not exist');
+      res.status(401).send({ message: 'User does not exist.'});
+    }
+
+  })
 });

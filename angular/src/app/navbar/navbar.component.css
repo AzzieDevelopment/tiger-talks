@@ -33,3 +33,7 @@ a {
 .active {
     color: var(--tu-orange) !important;
 }
+
+#signout-btn {
+    cursor: pointer;
+}

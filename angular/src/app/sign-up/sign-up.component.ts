@@ -68,7 +68,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   onSubmit() {
     let user: IUser = this.getUserData();
 
-    this.subscription = this.authService.register(user).subscribe(
+    this.subscription = this.authService.registerUser(user).subscribe(
       data => {
         console.log('Success!', data);
         this.redirectToSignIn();

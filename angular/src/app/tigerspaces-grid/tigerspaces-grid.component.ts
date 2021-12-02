@@ -25,8 +25,8 @@ export class TigerSpacesGridComponent implements OnInit {
 
   // filter array of all tiger spaces to specific types
   private filterTigerSpaces(): void {
-    this.academicTigerSpaces = this.tigerspaces.filter(tigerSpace => tigerSpace.Type == TigerSpaceType.Academic);
-    this.socialTigerSpaces = this.tigerspaces.filter(tigerSpace => tigerSpace.Type == TigerSpaceType.Social);
+    this.academicTigerSpaces = this.tigerspaces?.filter(tigerSpace => tigerSpace.Type == TigerSpaceType.Academic);
+    this.socialTigerSpaces = this.tigerspaces?.filter(tigerSpace => tigerSpace.Type == TigerSpaceType.Social);
   }
 
 }
