@@ -8,9 +8,10 @@ import { IUser } from '../models/user';
 export class AuthService {
 
   private _registerUrl = '/api/registerUser';
-  // private _loginUrl = '/api/auth';
-  private _loginUrl = '/api/testLogin';
-  private _resendEmailUrl = '/api/sendemail/verify'
+  private _loginUrl = '/api/auth';
+  private _logoutUrl = '/api/logout';
+  private _resendEmailUrl = '/api/sendemail/verify';
+  private _tokenName = 'token';
 
   constructor(
     private http: HttpClient) { }
@@ -23,15 +24,19 @@ export class AuthService {
     return this.http.post<any>(this._loginUrl, user);
   }
 
+  logoutUser() {
+    return this.http.get<any>(this._logoutUrl);
+  }
+
   resendEmail(userId: string) {
     return this.http.get<any>(`${this._resendEmailUrl}/${userId}`);
   }
 
   loggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return document.cookie.split('; ').find(row => row.startsWith(`${this._tokenName}=`))?.split('=')[1];
   }
 }

@@ -9,19 +9,26 @@
         </div>
         
         <!-- Form -->
-        <form id="signin-form" method="POST" class="row g-3">
+        <form id="signin-form" #signinForm="ngForm" method="POST" class="row g-3">
             <div class="form-group">
                 <label for="netID" class="form-label">Net ID</label>
-                <input id="netID" name="netID" [(ngModel)]="loginUserData.netID" 
+                <input id="netID" #netID="ngModel" 
+                    [(ngModel)]="loginUserData.netID" name="netID"
                     type="text" class="form-control" required>
+                <small class="text-danger" [class.d-none]="!netID.errors || 
+                    netID.untouched">Net ID is required</small>
             </div>
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input id="password" name="password" [(ngModel)]="loginUserData.password" 
+                <input id="password" #password="ngModel"
+                    name="password" [(ngModel)]="loginUserData.password" 
                     type="password" class="form-control" required>
+                <small class="text-danger" [class.d-none]="!password.errors || 
+                    password.untouched">Password is required</small>
             </div>
             <div class="col-12">
-                <button id="signin-btn" (click)="loginUser()" type="submit" class="btn btn-lg">Sign In</button>
+                <button id="signin-btn" (click)="loginUser()" [disabled]="signinForm.form.invalid"
+                    type="submit" class="btn btn-lg">Sign In</button>
             </div>
         </form>
     </div>

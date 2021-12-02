@@ -7,11 +7,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
-<<<<<<< HEAD
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
-=======
 import { AuthGuard } from './guards/auth.guard';
->>>>>>> 3b7ae134614909e82c160cd23a69006db0c3c3e0
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -23,7 +20,7 @@ const routes: Routes = [
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },

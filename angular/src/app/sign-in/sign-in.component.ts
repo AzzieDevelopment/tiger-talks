@@ -27,7 +27,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   loginUser() {
     this.subscription = this.auth.loginUser(this.loginUserData).subscribe(
       res => {
-        localStorage.setItem('token', res.token);
         this.router.navigate(['/home']);
       },
       error => {
@@ -44,7 +43,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   resend() {
     this.subscription = this.auth.resendEmail(this.loginUserData?.netID).subscribe(
-      res => console.log('Success!', res),
+      res => console.log('Email sent!', res),
       error => console.log('Error!', error)
     );
   }
