@@ -30,6 +30,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { TigerSpaceService } from './services/tigerspace.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CommentsComponent } from './comments/comments.component';
+import { MakePostComponent } from './make-post/make-post.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CommentsComponent } from './comments/comments.component';
     GuestPostsComponent,
     FlaggedCommentsComponent,
     CommentsComponent,
+    MakePostComponent,
   ],
   imports: [
     BrowserModule,
