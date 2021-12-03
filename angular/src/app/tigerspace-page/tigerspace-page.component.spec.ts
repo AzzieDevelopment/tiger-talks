@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TigerpageComponent } from './tigerpage.component';
+import { TigerSpacePageComponent } from './tigerspace-page.component';
 
 describe('TigerpageComponent', () => {
-  let component: TigerpageComponent;
-  let fixture: ComponentFixture<TigerpageComponent>;
+  let component: TigerSpacePageComponent;
+  let fixture: ComponentFixture<TigerSpacePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TigerpageComponent ]
+      declarations: [ TigerSpacePageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TigerpageComponent);
+    fixture = TestBed.createComponent(TigerSpacePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

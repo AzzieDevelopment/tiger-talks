@@ -21,11 +21,10 @@ export class tigerInfo {
 }
 
 @Component({
-  selector: 'app-tigerpage',
-  templateUrl: './tigerpage.component.html',
-  styleUrls: ['./tigerpage.component.css']
+  templateUrl: './tigerspace-page.component.html',
+  styleUrls: ['./tigerspace-page.component.css']
 })
-export class TigerpageComponent implements OnInit {
+export class TigerSpacePageComponent implements OnInit {
   tigerInfo!:tigerInfo[];
   pageTitle = "Tiger Space Name Goes Here!";
 

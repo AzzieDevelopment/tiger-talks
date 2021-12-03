@@ -7,7 +7,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
-import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { TigerSpacePageComponent } from './tigerspace-page/tigerspace-page.component';
 import { AuthGuard } from './guards/auth.guard';
 import {CommentsComponent} from './comments/comments.component'
 
@@ -16,16 +16,16 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
-  { path: 'guidelines', component: GuidelinesComponent},
-  {path:'comment/:postId',component:CommentsComponent},
-  { path: 'tigerpage', component: TigerpageComponent },
+  { path: 'guidelines', component: GuidelinesComponent },
+  { path: 'comment/:postId', component:CommentsComponent },
+  { path: 'tigerpage', component: TigerSpacePageComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
     canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
-  { path: 'tigerspaces/:id', component: TigerpageComponent },
+  { path: 'tigerspaces/:id', component: TigerSpacePageComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
