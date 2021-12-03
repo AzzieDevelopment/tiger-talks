@@ -95,6 +95,51 @@ router.get('/api/getuser/:id', (req, res) => {
 
 });
 
+//Get student by ID
+router.get('/api/getstudent/:id', (req, res) => {
+
+    let userID = decodeURIComponent(req.params.id);
+
+    connection.query(`SELECT * FROM student WHERE UserId=\'${userID}\';`, function (err, result) {
+        if (err) {
+            throw err;
+        }
+        if (result.length > 0) {
+            res.status(200).json(result[0]);
+        } else {
+            res.status(200).json({
+                "UserId": "N/A",
+                "Major": "N/A"
+            });
+        }
+
+    })
+
+});
+
+//Get faculty by ID
+router.get('/api/getfaculty/:id', (req, res) => {
+
+    let userID = decodeURIComponent(req.params.id);
+
+    connection.query(`SELECT * FROM faculty WHERE UserId=\'${userID}\';`, function (err, result) {
+        if (err) {
+            throw err;
+        }
+        if (result.length > 0) {
+            res.status(200).json(result[0]);
+        } else {
+            res.status(200).json({
+                "UserId": "N/A",
+                "Title": "N/A",
+                "Department": "N/A"
+            });
+        }
+
+    })
+
+});
+
 // Get all tigerspaces
 // TODO: remove middleware
 router.get('/api/gettigerspaces', verifyToken, (req, res) => {
@@ -124,7 +169,7 @@ router.get('/api/gettigerspace/:id', (req, res) => {
 
     let tigerId = decodeURIComponent(req.params.id);
 
-    connection.query(`SELECT * FROM tigerspace WHERE ID=${tigerId};`, function (err, result) {
+    connection.query(`SELECT * FROM tigerspace WHERE Id=${tigerId};`, function (err, result) {
         if (err) {
             throw err;
         }
@@ -149,7 +194,7 @@ router.get('/api/getpost/:id', (req, res) => {
 
     let id = decodeURIComponent(req.params.id);
 
-    connection.query(`SELECT * FROM post WHERE ID=${id};`, function (err, result) {
+    connection.query(`SELECT * FROM post WHERE Id=${id};`, function (err, result) {
         if (err) {
             throw err;
 
