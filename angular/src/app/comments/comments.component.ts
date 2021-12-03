@@ -58,6 +58,9 @@ export class CommentsComponent implements OnInit {
   onSubmit(){
     let comment: IComment=this.getCommentData();
     console.log(comment);
+    this.httpClient.post<any>('/api/createComment/',comment).subscribe(
+    )
+    
   }
 
   getComments(postId:any){
