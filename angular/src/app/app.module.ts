@@ -19,11 +19,13 @@ import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
-import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { TigerSpacePageComponent } from './tigerspace-page/tigerspace-page.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { TigerSpaceService } from './services/tigerspace.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { PostComponent } from './post/post.component';
+import { PostService } from './services/post.service';
 
 @NgModule({
   declarations: [
@@ -38,9 +40,10 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     RecentPostsComponent,
     TigerSpacesGridComponent,
     TigerspaceThumbnailComponent,
-    TigerpageComponent,
+    TigerSpacePageComponent,
     PageNotFoundComponent,
     BannerComponent,
+    PostComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +63,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     },
     AuthService, AuthGuard,
     UserService, 
+    PostService,
     TigerSpaceService,
     LoggerService],
   bootstrap: [AppComponent]

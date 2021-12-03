@@ -1,0 +1,16 @@
+.post {
+    margin-bottom: 1.5em;
+}
+
+.time-stamp {
+    float: right;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+}
+
+.post-footer {
+    
+}
