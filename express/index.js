@@ -395,7 +395,46 @@ app.get('/api/viewPost/:postid/', (req, res) => {
   }
 });
 
+app.get('/api/getpostdata/:postid/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
 
+  //ensure the user is logged in before anything
+ 
+    connection.query(`SELECT s.UserId,u.Id, s.Major,u.Pronouns, p.Timestamp,p.Body,p.Upvotes, p.Id,p.Title
+    FROM user AS u INNER JOIN student AS s ON s.UserId= u.Id
+    INNER JOIN post AS p ON p.UserId=s.UserId
+    WHERE p.Id='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      console.log(result);
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("Post not found.");
+      }
+    })
+
+});
+
+app.get('/api/getcommentdata/:postid/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+ 
+    connection.query(`SELECT u.Id, s.Major,u.Pronouns, c.Timestamp,c.Body,c.Upvotes, c.PostId 
+    FROM user AS u INNER JOIN student AS s ON s.UserId= u.Id
+    INNER JOIN comment AS c ON c.UserId=s.UserId
+    WHERE c.PostId='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      console.log(result);
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("Post not found.");
+      }
+    })
+
+ 
+});
 
 //view post comments
 app.get('/api/viewPostComments/:postid/', (req, res) => {
@@ -403,7 +442,7 @@ app.get('/api/viewPostComments/:postid/', (req, res) => {
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
-    connection.query(`SELECT * FROM comment WHERE PostId ='${postid}\';`, function (err, result) {
+    connection.query(`SELECT * FROM comment WHERE PostId ='${postid}';`, function (err, result) {
       //sanity check that if it ever fails, we need to restructure
       if (result.length > 0) {
         res.send(result);
