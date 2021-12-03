@@ -1,18 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IPost } from 'src/app/models/post';
+import { PostService } from 'src/app/services/post.service';
 
-export class posts {
-  constructor(
-    public Id: number,
-    public Title: string,
-    public Body: string,
-    public Category: string,
-    public Upvotes: number,
-    public Timestamp: string,
-    public UserId: string,
-    public TigerSpaceId: number
-)
 // In preparation for backend changes
 // constructor(
 //   public Id: number,
@@ -28,37 +18,36 @@ export class posts {
 //   public Title : string //(for tiger spaces)
 //   public Comments: number //(amount of comments)
 //
-// )
-{
-}
-}
+// ) {}
+//}
 
 @Component({
   selector: 'recent-posts',
   templateUrl: './recent-posts.component.html',
   styleUrls: ['./recent-posts.component.css']
 })
-export class RecentPostsComponent implements OnInit {
+export class RecentPostsComponent implements OnInit, OnDestroy {
 
-  post!:posts[];
+  posts: IPost[] = [];
+  subscription: any;
 
-  constructor(private httpClient:HttpClient, private router:Router) { }
+  constructor(
+    private router:Router, 
+    private postService: PostService) { }
 
   commentRedirect(postId: any){
     this.router.navigate([`comment/${postId}`]);
   }
 
   ngOnInit(): void {
-    this.getPosts();
+    this.subscription = this.postService.getRecentPosts().subscribe(
+      res => this.posts = res,
+      err => console.log(err)
+    );
   }
 
-  getPosts(){
-    this.httpClient.get<any>('/api/getrecentposts').subscribe(
-      response => {
-        console.log(response);
-        this.post=response;
-      }
-    )
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
