@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.user (
     Pronouns VARCHAR(16),
     IsVerified BOOLEAN NOT NULL,
     Password VARCHAR(200),
+    Token VARCHAR(11),
     PRIMARY KEY(Id)
     )
 ENGINE = InnoDB;
@@ -54,8 +55,9 @@ CREATE TABLE IF NOT EXISTS azziedev_tigertalks.post (
     Category VARCHAR(32) NOT NULL,
     Upvotes INT UNSIGNED NOT NULL,
     Timestamp DATETIME NOT NULL,
+    Bump DATETIME NOT NULL,
     UserId VARCHAR(20) NOT NULL,
-    TIgerSpaceId INT UNSIGNED NOT NULL,
+    TigerSpaceId INT UNSIGNED NOT NULL,
     PRIMARY KEY(Id),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(TigerSpaceId) References azziedev_tigertalks.tigerspace(Id) ON DELETE CASCADE

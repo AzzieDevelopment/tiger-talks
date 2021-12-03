@@ -1,27 +1,46 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a href="/" class="navbar-brand">
             <img src="../assets/logo/logo.png" alt="Tiger Talks logo" width="65" height="65" class="d-inline-block align-text-top" />
             <div id="brand-text">Tiger Talks</div>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa fa-lg fa-bars" aria-hidden="true"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#/home">Home</a>
+                    <a class="nav-link" aria-current="page" routerLink="/home" routerLinkActive="active">
+                        <i class="bi bi-house-fill fa-lg"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#/guidelines">Community Guidelines</a>
+                    <a class="nav-link" aria-current="page" routerLink="/tigerspaces" routerLinkActive="active">
+                        <i class="bi bi-grid-fill fa-lg"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink ="/guidelines" routerLinkActive="active">
+                        <i class="bi bi-egg-fried fa-lg"></i>
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav">
-                <li id="signup-btn" class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#/signup">Sign Up</a>
+                <li id="signup-btn" class="nav-item" *ngIf="!loggedIn()">
+                    <a class="nav-link" aria-current="page" routerLink ="/signup" routerLinkActive="active">Sign Up</a>
                 </li>
-                <li id="signin-btn" class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#/signin">Sign In</a>
+                <li id="signin-btn" class="nav-item" *ngIf="!loggedIn()">
+                    <a class="nav-link" aria-current="page" routerLink ="/signin" routerLinkActive="active">Sign In</a>
+                </li>
+                <li id="profile-btn" class="nav-item" *ngIf="loggedIn()">
+                    <a class="nav-link" aria-current="page" routerLink ="/profile" routerLinkActive="active">
+                        <i class="bi bi-person-circle fa-lg"></i>
+                    </a>
+                </li>
+                <li id="signout-btn" class="nav-item" *ngIf="loggedIn()">
+                    <a class="nav-link" aria-current="page" (click)="signout()">
+                        <i class="fa fa-lg fa-sign-out" aria-hidden="true"></i>
+                    </a>
                 </li>
             </ul>
         </div>

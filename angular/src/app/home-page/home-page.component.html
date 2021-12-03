@@ -1,33 +1,13 @@
 <ng-container>
-    <div>
-        <h1 style="text-align: center;">Welcome to Tiger Talks!</h1>
-        <h2 style="text-align: center;">{{ message }}</h2>
-    </div>
-    <div class="tiger_spaces">
-        <h5>Tiger Spaces</h5>
-        <ul>
-            <li>Academic
-                <ul>
-                    <li><a href="">College of Business and Economics (CBE)</a></li>
-                    <li><a href="">College of Education</a></li>
-                    <li><a href="">College of Fine Arts and Communication (CFA)</a></li>
-                    <li><a href="">College of Health Professions (CHP)</a></li>
-                    <li><a href="">College of Liberal Arts (CLA)</a></li>
-                    <li><a href="">Fisher College of Science and Mathematics (FCSM)</a></li>
-                    <li><a href="">Honors College</a></li>
-                    <li><a href="">Others</a></li>
-                </ul>
-            </li>
-            <li>Social
-                <ul>
-                    <li><a href="">Housing</a></li>
-                    <li><a href="">Club and Organizations</a></li>
-                    <li><a href="">Campus Life</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="right">
-        <p>Posts will go here.</p>
+    <app-banner [bannerTitle]="pageTitle"></app-banner>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <tigerspace-list></tigerspace-list>
+            </div>
+            <div class="col-md-8">
+                <recent-posts></recent-posts>
+            </div>
+        </div>
     </div>
 </ng-container>

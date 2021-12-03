@@ -1,0 +1,9 @@
+.subtitle {
+    text-align: center;
+}
+
+.thumbnails {
+    justify-content: center;
+    align-content: center;
+    font-weight: 500;
+}
