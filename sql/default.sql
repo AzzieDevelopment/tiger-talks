@@ -399,7 +399,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
 
 INSERT INTO azziedev_tigertalks.post VALUES (
 	25, #ID
-	"", #TITLE
+	"Where Is Everyone?", #TITLE
     "Sometimes I feel like only three people are making posts here", #CATEGORY
     349, #UpvoteS
     NOW(), #TIMESTAMP
