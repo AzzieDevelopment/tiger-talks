@@ -1,0 +1,22 @@
+<div class="card post">
+    <div class="card-header">
+      <div class="row post-header">
+        <div class="col-md-11">
+          <i class="bi fa-lg bi-person-circle"></i>
+          {{user?.FirstName+' '+user?.LastName}} | {{getInfo()}} | {{user?.Pronouns}} | Post id: {{post.Id}}
+        </div>
+        <div class="col-md-1">
+          <button type="button" class="btn flag-btn btn-outline-warning"><i class="bi bi-flag-fill"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{post.Title}} </h5>
+      <p class="card-text text-truncate">{{post.Body}}</p>
+    </div>
+    <div class="card-footer post-footer">
+        <button type="button" class="btn btn-outline-warning"><i class="bi bi-heart-fill"></i></button> {{post.Upvotes}} likes |    
+        <button type="button" class="btn btn-outline-warning"><i class="bi bi-chat-dots-fill"></i></button> no of comments Comments    
+        <div class="time-stamp"> {{post.Timestamp | date: 'short'}}</div> 
+      </div>
+  </div>
