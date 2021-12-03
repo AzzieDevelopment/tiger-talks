@@ -18,6 +18,7 @@ import { CommentsComponent } from './comments/comments.component'
 import { MakePostComponent } from './make-post/make-post.component';
 
 const routes: Routes = [
+  { path: 'makepost', component: MakePostComponent },
   { path: '', component: HomePageComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'signup', component: SignUpComponent },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'guidelines', component: GuidelinesComponent},
   {path:'comment/:postId',component:CommentsComponent},
   { path: 'tigerpage', component: TigerpageComponent },
-  { path: 'makepost', component: MakePostComponent },
+  
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
@@ -41,8 +42,8 @@ const routes: Routes = [
   { path: 'moderator', component: ModeratorDisplayComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
-  { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  // { path: 'tigerspaces', component: TigerSpacesGridComponent },
+  // { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
