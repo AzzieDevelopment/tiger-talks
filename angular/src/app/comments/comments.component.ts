@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { IComment } from '../models/comment';
 
 export class comments {
   constructor(
@@ -40,17 +41,23 @@ export class posts {
 })
 export class CommentsComponent implements OnInit {
   constructor(private route: ActivatedRoute,private httpClient:HttpClient) { }
-  
+  commentData:any = {};
   comment!:comments[];
   post!:posts[];
+  id=this.route.snapshot.paramMap.get('postId');
   ngOnInit(): void {
     
 
-    let id=this.route.snapshot.paramMap.get('postId');
-    this.getComments(id);
-    this.getOriginalPost(id);
+    
+    this.getComments(this.id);
+    this.getOriginalPost(this.id);
 
 
+  }
+
+  onSubmit(){
+    let comment: IComment=this.getCommentData();
+    console.log(comment);
   }
 
   getComments(postId:any){
@@ -69,6 +76,13 @@ export class CommentsComponent implements OnInit {
         this.post=response;
       }
     )
+  }
+
+  private getCommentData(): IComment {
+    return {
+      body:this.commentData.body,
+      postId:this.id!
+    };
   }
 
 }
