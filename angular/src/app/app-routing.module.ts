@@ -20,6 +20,7 @@ import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged
 import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
 import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
 import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
+import { MakePostComponent } from './make-post/make-post.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -37,6 +38,7 @@ const routes: Routes = [
     }
   },
   { path: 'guidelines', component: GuidelinesComponent},
+  { path: 'makepost', component: MakePostComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
