@@ -28,6 +28,7 @@ const routes: Routes = [
     path: 'home', component: HomePageComponent,
     resolve: { recentPosts: RecentPostsResolverService } 
   },
+  { path: 'makepost', component: MakePostComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent },
@@ -38,7 +39,6 @@ const routes: Routes = [
     }
   },
   { path: 'guidelines', component: GuidelinesComponent},
-  { path: 'makepost', component: MakePostComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
