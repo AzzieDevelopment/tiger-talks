@@ -1,16 +1,5 @@
-/* .tb {
-    float: left;
-    margin: 5%;
-    width: 70%;
-    height: 35%;
-} */
-
 .postBody{
     width: 100%;
-}
-
-.material-icons{
-    font-family: 'Material Icons' !important;
 }
 
 #categoriesList{

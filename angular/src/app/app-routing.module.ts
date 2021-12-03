@@ -15,6 +15,7 @@ import { BannedUsersComponent } from './moderator-display/banned-users/banned-us
 import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CommentsComponent } from './comments/comments.component'
+import { MakePostComponent } from './make-post/make-post.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -24,12 +25,14 @@ const routes: Routes = [
   { path: 'guidelines', component: GuidelinesComponent},
   {path:'comment/:postId',component:CommentsComponent},
   { path: 'tigerpage', component: TigerpageComponent },
+  { path: 'makepost', component: MakePostComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
     canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
+  
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },
   { path: 'banned-users', component: BannedUsersComponent },
   { path: 'flagged-posts', component: FlaggedPostsComponent },
@@ -39,7 +42,7 @@ const routes: Routes = [
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
