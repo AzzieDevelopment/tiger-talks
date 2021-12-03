@@ -12,13 +12,14 @@ import { AuthGuard } from './guards/auth.guard';
 import { MakePostComponent } from './make-post/make-post.component';
 
 const routes: Routes = [
+  { path: 'makepost', component: MakePostComponent },
   { path: '', component: HomePageComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
   { path: 'tigerpage', component: TigerpageComponent },
-  { path: 'makepost', component: MakePostComponent },
+  
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
@@ -29,8 +30,8 @@ const routes: Routes = [
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
-  { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  // { path: 'tigerspaces', component: TigerSpacesGridComponent },
+  // { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
