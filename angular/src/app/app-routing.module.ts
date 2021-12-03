@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
 import { AuthGuard } from './guards/auth.guard';
+import {CommentsComponent} from './comments/comments.component'
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
+  {path:'comment/:postId',component:CommentsComponent},
   { path: 'tigerpage', component: TigerpageComponent },
   { 
     path: 'tigerspaces', 
