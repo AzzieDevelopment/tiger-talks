@@ -1,7 +1,7 @@
  <div class="container">
    <div>
      <h1 class="title">Comments</h1>
-     <h5 id='tiger-description'>"Be Nice!"</h5>
+     <h5 id='page-description'>"Be Nice!"</h5>
      <hr>
    </div>
    <div class="row">
@@ -44,6 +44,12 @@
              </div>
              <br>
            </div>
+           <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+             <textarea class="form-control" id="body"  [(ngModel)]="commentData.body" name="body"   placeholder="Add a comment" rows="3"></textarea>
+             <button type="submit" class="btn btn-primary">Submit</button>
+           </div>
+         </form>
          </div>
        </div>
      </div>
