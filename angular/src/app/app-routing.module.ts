@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
 import { AuthGuard } from './guards/auth.guard';
+import { MakePostComponent } from './make-post/make-post.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -17,17 +18,19 @@ const routes: Routes = [
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
   { path: 'tigerpage', component: TigerpageComponent },
+  { path: 'makepost', component: MakePostComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
     canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
+  
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
