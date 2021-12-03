@@ -173,6 +173,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     435, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     2 #TIGERSPACEID
 );
@@ -184,6 +185,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     527, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     2 #TIGERSPACEID
 );
@@ -195,6 +197,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     652, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     3 #TIGERSPACEID
 );
@@ -206,6 +209,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     495, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     4 #TIGERSPACEID
 );
@@ -217,6 +221,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     728, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     5 #TIGERSPACEID
 );
@@ -226,8 +231,9 @@ INSERT INTO azziedev_tigertalks.post VALUES (
 	"TEAM FCSM", #TITLE
     "The Fisher College of Science and Mathematics Tigerspace is the best Tigerspace of all time.", #BODY
     "Tigerspace Spirit", #CATEGORY
-    944 #UpvoteS
+    944, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     6 #TIGERSPACEID
 );
@@ -239,6 +245,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     525, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     7 #TIGERSPACEID
 );
@@ -250,6 +257,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     445, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     8 #TIGERSPACEID
 );
@@ -261,6 +269,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     315, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     9 #TIGERSPACEID
 );
@@ -272,6 +281,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Tigerspace Spirit", #CATEGORY
     415, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     10 #TIGERSPACEID
 );
@@ -283,6 +293,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "shhhhh", #CATEGORY
     192, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     8 #TIGERSPACEID
 );
@@ -294,6 +305,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "shhhhh", #CATEGORY
     738, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "rpisci1", #USERID
     6 #TIGERSPACEID
 );
@@ -305,6 +317,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "pain", #CATEGORY
     711, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     6 #TIGERSPACEID
 );
@@ -316,6 +329,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Advice", #CATEGORY
     133, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     8 #TIGERSPACEID
 );
@@ -327,6 +341,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Event", #CATEGORY
     315, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     9 #TIGERSPACEID
 );
@@ -338,6 +353,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "pain", #CATEGORY
     572, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     8 #TIGERSPACEID
 );
@@ -349,6 +365,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Advice", #CATEGORY
     991, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "rpisci1", #USERID
     7 #TIGERSPACEID
 );
@@ -360,6 +377,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Question", #CATEGORY
     820, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "rpisci1", #USERID
     3 #TIGERSPACEID
 );
@@ -371,6 +389,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Advice", #CATEGORY
     264, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     10 #TIGERSPACEID
 );
@@ -382,6 +401,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Event", #CATEGORY
     808, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "dbrim1", #USERID
     6 #TIGERSPACEID
 );
@@ -393,6 +413,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     "Advice", #CATEGORY
     197, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     4 #TIGERSPACEID
 );
@@ -400,9 +421,11 @@ INSERT INTO azziedev_tigertalks.post VALUES (
 INSERT INTO azziedev_tigertalks.post VALUES (
 	25, #ID
 	"Where Is Everyone?", #TITLE
-    "Sometimes I feel like only three people are making posts here", #CATEGORY
+    "Sometimes I feel like only three people are making posts here", #BODY
+    "Other", #CATEGORY
     349, #UpvoteS
     NOW(), #TIMESTAMP
+    NOW(), #BUMP
     "gcerpa1", #USERID
     9 #TIGERSPACEID
 );
@@ -416,7 +439,7 @@ INSERT INTO azziedev_tigertalks.comment VALUES (
     3, #POSTID
     NOW(), #TIMESTAMP
     "The College of Education doesn't even have a cool acronym.", #BODY
-    660, #UpvoteS
+    660 #UpvoteS
 );
 
 INSERT INTO azziedev_tigertalks.comment VALUES (
@@ -425,7 +448,7 @@ INSERT INTO azziedev_tigertalks.comment VALUES (
     13, #POSTID
     NOW(), #TIMESTAMP
     "this is a public website, now everyone knows your crimes", #BODY
-    416, #UpvoteS
+    416 #UpvoteS
 );
 
 INSERT INTO azziedev_tigertalks.comment VALUES (
@@ -434,7 +457,7 @@ INSERT INTO azziedev_tigertalks.comment VALUES (
     17, #POSTID
     NOW(), #TIMESTAMP
     "run while you still can", #BODY
-    259, #UpvoteS
+    259 #UpvoteS
 );
 
 INSERT INTO azziedev_tigertalks.comment VALUES (
@@ -443,7 +466,7 @@ INSERT INTO azziedev_tigertalks.comment VALUES (
     19, #POSTID
     NOW(), #TIMESTAMP
     "honey, you got a big storm comin'", #BODY
-    300, #UpvoteS
+    300 #UpvoteS
 );
 
 INSERT INTO azziedev_tigertalks.comment VALUES (
@@ -452,7 +475,7 @@ INSERT INTO azziedev_tigertalks.comment VALUES (
     22, #POSTID
     NOW(), #TIMESTAMP
     "you can't get free tuition if you're dead", #BODY
-    545, #UpvoteS
+    545 #UpvoteS
 );
 
 INSERT INTO azziedev_tigertalks.comment VALUES (
@@ -461,5 +484,5 @@ INSERT INTO azziedev_tigertalks.comment VALUES (
     25, #POSTID
     NOW(), #TIMESTAMP
     "I don't know what you're talking about", #BODY
-    336, #UpvoteS
+    336 #UpvoteS
 );
