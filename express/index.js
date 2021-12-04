@@ -166,6 +166,7 @@ app.post('/api/auth', function (req, res) {
 
             // generate jwt token
             let token = generateJWT(netID);
+            res.cookie('netId',netID);
             res.status(200).cookie('token', token).send({message: 'Login successful!'});
           } else {
             res.status(401).send('Incorrect Username and/or Password!'); //wrong password but don't tell user
@@ -191,6 +192,7 @@ app.get('/api/logout', (req, res) => {
     res.redirect('/#/home');
   });
   res.clearCookie('token');
+  res.clearCookie('netId');
 });
 
 //Verify if user is logged in
@@ -323,12 +325,14 @@ app.get('/api/createCommentDemo', function (request, response) {
 //create new comment as most recent of previous posts
 app.post('/api/createComment', (req, res) => {
 
-  let postid = req.body.postid;
-  let commentbody = req.body.commentbody;
-
+  console.log("HIT");
+  let unfilteredNetId=(req.headers.cookie).split(';');
+  let filteredNetId=unfilteredNetId[0].replace('netId=','');
+  let postid = req.body.postId;
+  let commentbody = req.body.body;
 
   //ensure the user is logged in before anything
-  if (req.session.loggedin) {
+  if (filteredNetId.length<30) {
     //first query the db to get the latest comment ID
     connection.query(`SELECT id FROM comment ORDER BY id DESC LIMIT 1;`, function (err, result) {
       if (err) {
@@ -349,7 +353,7 @@ app.post('/api/createComment', (req, res) => {
         } else {
           console.log("New comment, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${highestComment}','${postid}','${commentbody}','1','${req.session.netID}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${highestComment}','${postid}','${commentbody}','1','${filteredNetId}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } 
@@ -395,7 +399,46 @@ app.get('/api/viewPost/:postid/', (req, res) => {
   }
 });
 
+app.get('/api/getpostdata/:postid/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
 
+  //ensure the user is logged in before anything
+ 
+    connection.query(`SELECT s.UserId,u.Id, s.Major,u.Pronouns, p.Timestamp,p.Body,p.Upvotes, p.Id,p.Title
+    FROM user AS u INNER JOIN student AS s ON s.UserId= u.Id
+    INNER JOIN post AS p ON p.UserId=s.UserId
+    WHERE p.Id='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      console.log(result);
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("Post not found.");
+      }
+    })
+
+});
+
+app.get('/api/getcommentdata/:postid/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+ 
+    connection.query(`SELECT u.Id, s.Major,u.Pronouns, c.Timestamp,c.Body,c.Upvotes, c.PostId 
+    FROM user AS u INNER JOIN student AS s ON s.UserId= u.Id
+    INNER JOIN comment AS c ON c.UserId=s.UserId
+    WHERE c.PostId='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      console.log(result);
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("Post not found.");
+      }
+    })
+
+ 
+});
 
 //view post comments
 app.get('/api/viewPostComments/:postid/', (req, res) => {
@@ -403,7 +446,7 @@ app.get('/api/viewPostComments/:postid/', (req, res) => {
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
-    connection.query(`SELECT * FROM comment WHERE PostId ='${postid}\';`, function (err, result) {
+    connection.query(`SELECT * FROM comment WHERE PostId ='${postid}';`, function (err, result) {
       //sanity check that if it ever fails, we need to restructure
       if (result.length > 0) {
         res.send(result);

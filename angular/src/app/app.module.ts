@@ -26,6 +26,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { TigerSpaceService } from './services/tigerspace.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     TigerpageComponent,
     PageNotFoundComponent,
     BannerComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
