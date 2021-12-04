@@ -1,9 +1,9 @@
-#signup-div {
+#tigerspace-div {
     margin-top: 20px;
-    width: 600px;
+    width: 450px;
 }
 
-#signup-btn {
+#submit-btn {
     background-color: var(--tu-orange);
     font-weight: bold;
 }

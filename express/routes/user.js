@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../db');
+const connection = require('../js/db');
+const verifyToken = require('../js/verifyToken');
 
 
 //Get comments by ID
@@ -34,12 +35,41 @@ router.get('/api/getcomment/:id', (req, res) => {
 
 });
 
+//Get all users
+router.get('/api/getusers', (req, res) => {
+
+    connection.query(`SELECT * FROM user`, function (err, result) {
+        if (err) {
+            throw err;
+        }
+        if (result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(200).json({
+                "Id": "N/A",
+                "FirstName": "N/A",
+                "LastName": "N/A",
+                "Email": "N/A",
+                "UserType": "N/A",
+                "Permission": "N/A",
+                "Bio": "N/A",
+                "PName": "N/A",
+                "Pronouns": "N/A",
+                "IsVerified": "N/A",
+                "Password": "N/A"
+            });
+        }
+
+    })
+
+});
+
 //Get user by ID
 router.get('/api/getuser/:id', (req, res) => {
 
     let userID = decodeURIComponent(req.params.id);
 
-    connection.query(`SELECT * FROM user WHERE ID=${userID};`, function (err, result) {
+    connection.query(`SELECT * FROM user WHERE Id=\'${userID}\';`, function (err, result) {
         if (err) {
             throw err;
         }
@@ -58,6 +88,30 @@ router.get('/api/getuser/:id', (req, res) => {
                 "Pronouns": "N/A",
                 "IsVerified": "N/A",
                 "Password": "N/A"
+            });
+        }
+
+    })
+
+});
+
+// Get all tigerspaces
+// TODO: remove middleware
+router.get('/api/gettigerspaces', verifyToken, (req, res) => {
+
+    connection.query(`SELECT * FROM tigerspace;`, function (err, result) {
+        if (err) {
+            throw err;
+        }
+        if (result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(200).json({
+                "Id": "N/A",
+                "UserId": "N/A",
+                "Title": "N/A",
+                "Description": "N/A",
+                "Type": "N/A"
             });
         }
 
@@ -149,6 +203,17 @@ router.get('/api/getpostcomments/:postid', (req, res) => {
 router.get('/api/selectexample', (req, res) => {
 
     connection.query("SELECT * FROM user", function (err, result, fields) {
+        // if any error while executing above query, throw error
+        if (err) throw err;
+        // if there is no error, you have the result
+        res.json(result);
+    });
+
+});
+
+router.get('/api/getrecentposts', (req, res) => {
+
+    connection.query("SELECT * FROM post", function (err, result, fields) {
         // if any error while executing above query, throw error
         if (err) throw err;
         // if there is no error, you have the result

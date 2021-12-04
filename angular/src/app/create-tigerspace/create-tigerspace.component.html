@@ -1,0 +1,27 @@
+<div class="container">
+    <div id="tigerspace-div" class="mx-auto">
+        <h1>Create New Tigerspace</h1>
+        <hr />
+        <form id="tigerspace-form" method="POST" action="/api/auth" class="row g-3">
+            <div class="col-md-12">
+                <label for="title" class="form-label">Title</label>
+                <input id="title" name="title" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-12">
+                <label for="description" class="form-label">Description</label>
+                <input id="description" name="description" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-12">
+                <label for="tigerspace-list" class="form-label">Choose a category: </label> <br>
+                <input list="tigerspace-list" name="tigerspace-type">
+                <datalist id="tigerspace-list">
+                    <option value="Academic">Academic</option>
+                    <option value="Social">Social</option>
+                </datalist>
+            </div>
+            <div class="col-12">
+                <button id="submit-btn" type="submit" class="btn btn-lg">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

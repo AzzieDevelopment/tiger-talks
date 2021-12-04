@@ -29,3 +29,11 @@ a {
 .fa-bars {
     color: white;
 }
+
+.active {
+    color: var(--tu-orange) !important;
+}
+
+#signout-btn {
+    cursor: pointer;
+}

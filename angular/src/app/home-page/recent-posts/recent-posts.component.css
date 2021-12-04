@@ -2,6 +2,23 @@
     padding-bottom: 5px;
 }
 
-.container-fluid {
-    padding: 0;
+.container-fluid.border {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 15px;
+    border: none;
+    border-width:0;
+
+}
+
+.container-fluid.border:last-of-type {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+
+}
+
+.time-stamp {
+    text-align: left;
+    color:#6c757d;
 }
