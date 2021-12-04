@@ -27,6 +27,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { CommentsComponent } from './comments/comments.component';
 import { PostComponent } from './post/post.component';
 import { PostService } from './services/post.service';
+import { CommentsPageComponent } from './comments-page/comments-page.component';
+import { CommentComponent } from './comments-page/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { PostService } from './services/post.service';
     BannerComponent,
     CommentsComponent,
     PostComponent,
+    CommentsPageComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

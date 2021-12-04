@@ -13,6 +13,8 @@ import { CommentsComponent } from './comments/comments.component';
 import { RecentPostsResolverService } from './home-page/recent-posts/recent-posts-resolver.service';
 import { TigerSpaceResolverService } from './tigerspace-page/tigerspace-page-resolver.service';
 import { TigerspacePostsResolverService } from './tigerspace-page/tigerspace-posts-resolver.service';
+import { CommentsPageComponent } from './comments-page/comments-page.component';
+import { CommentsPagePostResolverService } from './comments-page/comments-page-post-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,7 +25,11 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent },
-  { path: 'comments/:postId', component:CommentsComponent },
+  { path: 'comments/:postId', component: CommentsComponent },
+  { 
+    path: 'comment-page/:postId', component: CommentsPageComponent,
+    resolve: { post: CommentsPagePostResolverService }
+  },
   { path: 'guidelines', component: GuidelinesComponent},
   { 
     path: 'tigerspaces', 
