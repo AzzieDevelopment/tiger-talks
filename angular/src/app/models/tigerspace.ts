@@ -3,7 +3,7 @@ export interface ITigerSpace {
     UserId: string, // creator
     Title: string,
     Description: string,
-    Type: number // TODO: update DB to string? 
+    Type: number 
 }
 
 export enum TigerSpaceType {
