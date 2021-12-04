@@ -13,8 +13,7 @@ export class comments {
     public Upvotes: number,
     public PostId: number
 
-  )
-  {}
+  ) {}
 }
 
 export class posts {
@@ -22,37 +21,32 @@ export class posts {
     public Id: string,
     public UserId: string,
     public Major: string,
-    public  Pronouns: string,
+    public Pronouns: string,
     public Timestamp: string,
     public Body: string,
     public Upvotes: number,
     public PostId: number,
     public Title: string
-
-  )
-  {}
+  ) {}
 }
 
-
 @Component({
-  selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
-  constructor(private route: ActivatedRoute,private httpClient:HttpClient) { }
+  pageTitle: string = "Comments";
+  pageDescription: string = "Be Nice!";
   commentData:any = {};
   comment!:comments[];
   post!:posts[];
   id=this.route.snapshot.paramMap.get('postId');
-  ngOnInit(): void {
-    
 
-    
+  constructor(private route: ActivatedRoute,private httpClient:HttpClient) { }
+
+  ngOnInit(): void {
     this.getComments(this.id);
     this.getOriginalPost(this.id);
-
-
   }
 
   onSubmit(){
@@ -83,8 +77,8 @@ export class CommentsComponent implements OnInit {
 
   private getCommentData(): IComment {
     return {
-      body:this.commentData.body,
-      postId:this.id!
+      Body:this.commentData.body,
+      PostId: Number(this.id)
     };
   }
 
