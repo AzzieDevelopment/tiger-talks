@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent },
-  { path: 'comment/:postId', component:CommentsComponent },
+  { path: 'comments/:postId', component:CommentsComponent },
   { path: 'guidelines', component: GuidelinesComponent},
   { 
     path: 'tigerspaces', 
