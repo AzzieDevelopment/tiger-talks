@@ -9,7 +9,7 @@ import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.compon
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
 import { TigerSpacePageComponent } from './tigerspace-page/tigerspace-page.component';
 import { AuthGuard } from './guards/auth.guard';
-import {CommentsComponent} from './comments/comments.component'
+import { CommentsComponent } from './comments/comments.component';
 import { RecentPostsResolverService } from './home-page/recent-posts/recent-posts-resolver.service';
 import { TigerSpaceResolverService } from './tigerspace-page/tigerspace-page-resolver.service';
 import { TigerspacePostsResolverService } from './tigerspace-page/tigerspace-posts-resolver.service';
