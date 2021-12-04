@@ -566,23 +566,16 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
 
 //view post
 app.get('/api/viewRecentPosts/', (req, res) => {
-  let postid = decodeURIComponent(req.params.postid);
 
-  //ensure the user is logged in before anything
-  if (req.session.loggedin) {
-    connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
-      //sanity check that if it ever fails, we need to restructure
-      if (result.length > 0) {
-        res.send(result);
-      } else {
-        res.send("Post not found.");
-      }
-    })
+  connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
+    //sanity check that if it ever fails, we need to restructure
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send("Posts not found.");
+    }
+  })
 
-  } else {
-    console.log("User isn't logged in, therefore can't view posts.");
-    res.redirect('/#/signin');
-  }
 });
 
 app.get('/api/sendEmail/verify/:id', (req, res) => {
