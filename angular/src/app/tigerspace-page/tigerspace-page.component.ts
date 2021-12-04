@@ -1,44 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-
-export class tigerInfo {
-  constructor(
-    public Id: number, // post id 
-    public Title: string, // of tiger space 
-    public Description: string, // of tiger space
-    public TigerId: number,
-    public Body: string,
-    public Category: string,
-    public Upvotes: number,
-    public Timestamp: string, // The backend should reformat this to look presentable
-    public UserId: string,
-    public TigerSpaceId: number,
-    public Pronouns: string,
-    public Major : string,
-    public PostTitle : string, //(for tiger spaces)
-    public Comments: number //(amount of comments)
-  ) {}
-}
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IPost } from '../models/post';
+import { ITigerSpace } from '../models/tigerspace';
 
 @Component({
   templateUrl: './tigerspace-page.component.html',
   styleUrls: ['./tigerspace-page.component.css']
 })
-export class TigerSpacePageComponent implements OnInit {
-  tigerInfo!:tigerInfo[];
+export class TigerSpacePageComponent implements OnInit, OnDestroy {
   pageTitle = "Tiger Space Name Goes Here!";
+  tigerspace!: ITigerSpace;
+  subscription: any;
+  posts: IPost[] = [];
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    //this.getTigerInfo();
+    this.subscription = this.route.data.subscribe(
+      data => {
+        this.tigerspace = data.tigerspace;
+        this.posts = data.posts;
+        this.pageTitle = this.tigerspace?.Title;
+      }
+    );
   }
-  // getTigerInfo(){
-  //   this.httpClient.get<any>('/api/endpointfortigerspacepage').subscribe(
-  //     response => {
-  //       console.log(response);
-  //       this.tigerInfo=response;
-  //     }
-  //   )
-  // }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 }
