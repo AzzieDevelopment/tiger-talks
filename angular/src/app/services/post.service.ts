@@ -8,12 +8,17 @@ import { IPost } from '../models/post';
 })
 export class PostService {
 
+  _getPostBaseUrl = '/api/getpost';
   _recentPostsUrl = '/api/viewRecentPosts';
   _getPostsBaseUrl = '/api/getposts'; // for tiger space posts
   _getRecentPostsUserInfoUrl = 'api/getRecentPostsUserInfo';
   _getNumCommentsBaseURL = '/api/commentcount/';
 
   constructor(private httpClient: HttpClient) { }
+
+  getPost(postId: number): Observable<IPost> {
+    return this.httpClient.get<IPost>(`${this._getPostBaseUrl}/${postId}`);
+  }
 
   getRecentPosts(): Observable<IPost[]> {
     return this.httpClient.get<IPost[]>(this._recentPostsUrl);
