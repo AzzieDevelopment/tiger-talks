@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { IPost } from 'src/app/models/post';
 
 @Component({
@@ -11,12 +10,7 @@ export class RecentPostsComponent implements OnInit {
 
   @Input() posts: IPost[] = [];
 
-  constructor(
-    private router:Router) { }
-
-  commentRedirect(postId: any){
-    this.router.navigate([`comment/${postId}`]);
-  }
+  constructor() { }
 
   ngOnInit(): void {
   }

@@ -15,9 +15,15 @@
       <p class="card-text text-truncate">{{post.Body}}</p>
     </div>
     <div class="card-footer post-footer">
-        <button type="button" class="btn btn-outline-warning"><i class="bi bi-heart-fill"></i></button> {{post.Upvotes}} likes |    
-        <button type="button" class="btn btn-outline-warning"><i class="bi bi-chat-dots-fill"></i></button> {{ numComments }} Comments |
-        <button type="button" (click)="goToTigerSpace()" class="btn btn-outline-warning"><i class="fa fa-paw" aria-hidden="true"></i></button> Tiger Space
+        <button type="button" class="btn btn-outline-warning">
+          <i class="bi bi-heart-fill"></i>
+        </button> {{post.Upvotes}} likes |    
+        <button type="button" (click)="commentRedirect(post.Id)" class="btn btn-outline-warning">
+          <i class="bi bi-chat-dots-fill"></i>
+        </button> {{ numComments }} Comments |
+        <button type="button" (click)="goToTigerSpace()" class="btn btn-outline-warning">
+          <i class="fa fa-paw" aria-hidden="true"></i>
+        </button> Tiger Space
         <div class="time-stamp"> {{post.Bump | date: 'short'}}</div> 
       </div>
   </div>

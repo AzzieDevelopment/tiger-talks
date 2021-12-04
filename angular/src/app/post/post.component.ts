@@ -82,4 +82,8 @@ export class PostComponent implements OnInit, OnDestroy {
     this.router.navigate(['tigerspace', this.post.TigerSpaceId]);
   }
 
+  commentRedirect(postId: any){
+    this.router.navigate([`comments/${postId}`]);
+  }
+
 }
