@@ -24,6 +24,7 @@ import { ModeratorDisplayComponent } from './moderator-display/moderator-display
 import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
 import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
 import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
+import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts
     FlaggedPostsComponent,
     BannedUsersComponent,
     GuestPostsComponent,
+    FlaggedCommentsComponent,
   ],
   imports: [
     BrowserModule,
