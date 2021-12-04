@@ -1,0 +1,8 @@
+.comment {
+    margin-bottom: 1.5em;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+}

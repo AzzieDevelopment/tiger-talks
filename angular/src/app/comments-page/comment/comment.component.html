@@ -1,0 +1,21 @@
+<div class="card comment">
+    <div class="card-header">
+      <div class="row comment-header">
+        <div class="col-md-11">
+          <i class="bi fa-lg bi-person-circle"></i>
+          {{comment?.UserId}} | Comment id: {{ comment?.Id }}
+        </div>
+        <div class="col-md-1">
+          <button type="button" style="float:right;" class="btn btn-outline-warning">
+            <i class="bi bi-flag-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      {{comment?.Body}}
+    </div>
+    <div class="card-footer">
+      <div class="time-stamp"> {{comment?.Timestamp | date: 'short'}}</div>
+    </div>
+  </div>
