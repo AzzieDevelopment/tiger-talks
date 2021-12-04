@@ -2,28 +2,28 @@
     <app-banner [bannerTitle]="pageTitle"></app-banner>
     <div class="container">
         <div>
-            <h5 id='tiger-description'>"Description of the tiger space can go here"</h5>
+            <h5 id='tiger-description'>{{tigerspace?.Description}}</h5>
             <hr>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <tigerspace-list></tigerspace-list>
             </div>
-            <!-- <div class="col-md-8"> <recent-posts></recent-posts> </div> This will replace below when data is provided from backend team-->
             
-            <div class="col-sm-8">
-                    <div class="card">
-                      <div class="card-header"><i class="bi bi-person-circle"></i>
-                        UserID | Post id </div>
-                      <div class="card-body">
-                        <h5 class="card-title">Title </h5>
-                        <p class="card-text">Body</p>
-                      </div>
-                      <div class="card-footer">
-                          <button type="button" class="btn btn-outline-warning"><i class="bi bi-heart-fill"></i></button> #ofupvotes likes |    
-                          <button type="button" class="btn btn-outline-warning"><i class="bi bi-chat-dots-fill"></i></button> () Comments <div class="time-stamp"> 11/26/2021 (timestamp)</div>
-                        </div>
-                    </div>    
+            <div class="col-md-8">
+              <div class="list-title">
+                <h1>Posts 
+                  <span class="make-post">
+                    <a aria-current="page" routerLink ="/makepost">
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                  </span>
+                </h1>
+                  
+              </div>
+              <div class="container-fluid" *ngFor="let post of posts">
+                <post [post]="post"></post>
+              </div>
             </div>
         </div>
     </div>
