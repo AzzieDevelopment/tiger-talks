@@ -9,7 +9,7 @@ export interface IUser {
     PreferredName: string,
     Pronouns: string,
     IsVerified?: number,
-    Password: string,
+    Password?: string,
     Token?: string
 }
 
