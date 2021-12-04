@@ -91,7 +91,7 @@ router.get('/api/getuser/:id', (req, res) => {
             });
         }
 
-    })
+    });
 
 });
 
@@ -167,25 +167,52 @@ router.get('/api/gettigerspaces', verifyToken, (req, res) => {
 //Get tigerspace by id
 router.get('/api/gettigerspace/:id', (req, res) => {
 
-    let tigerId = decodeURIComponent(req.params.id);
+    if (!isNaN(req.params.id)) {
+        let tigerId = decodeURIComponent(req.params.id);
 
-    connection.query(`SELECT * FROM tigerspace WHERE Id=${tigerId};`, function (err, result) {
-        if (err) {
-            throw err;
-        }
-        if (result.length > 0) {
-            res.status(200).json(result[0]);
-        } else {
-            res.status(200).json({
-                "Id": "N/A",
-                "UserId": "N/A",
-                "Title": "N/A",
-                "Description": "N/A",
-                "Type": "N/A"
-            });
-        }
+        connection.query(`SELECT * FROM tigerspace WHERE Id=${tigerId};`, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            if (result.length > 0) {
+                res.status(200).json(result[0]);
+            } else {
+                res.status(200).json({
+                    "Id": "N/A",
+                    "UserId": "N/A",
+                    "Title": "N/A",
+                    "Description": "N/A",
+                    "Type": "N/A"
+                });
+            }
 
-    })
+        });
+    } else {
+        res.status(404).send({message: 'Tiger space id in url is not a number.'});
+    }
+
+});
+
+//Get tigerspace posts by tigerspace id
+router.get('/api/getposts/:id', (req, res) => {
+
+    if (!isNaN(req.params.id)) {
+        let tigerId = decodeURIComponent(req.params.id);
+
+        connection.query(`SELECT * FROM post WHERE TigerSpaceId=${tigerId} ORDER BY Bump DESC;`, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            if (result.length > 0) {
+                res.status(200).json(result);
+            } else {
+                res.status(200).send({message: "Could not fetch tigerspace posts."})
+            }
+
+        });
+    } else {
+        res.status(404).send({message: 'Tiger space id in url is not a number.'});
+    }
 
 });
 
@@ -256,14 +283,29 @@ router.get('/api/selectexample', (req, res) => {
 
 });
 
+// get 5 most recent posts
 router.get('/api/getrecentposts', (req, res) => {
 
-    connection.query("SELECT * FROM post", function (err, result, fields) {
+    connection.query("SELECT * FROM post ORDER BY Bump DESC LIMIT 5;", function (err, result, fields) {
         // if any error while executing above query, throw error
         if (err) throw err;
         // if there is no error, you have the result
         res.json(result);
     });
+
+});
+
+router.get('/api/commentcount/:postid', (req, res) => {
+
+    let postId = decodeURIComponent(req.params.postid);
+
+    connection.query(`SELECT COUNT(*) AS NumComments FROM azziedev_tigertalks.comment WHERE PostId = ${postId};`, 
+        function (err, result, fields) {
+            // if any error while executing above query, throw error
+            if (err) throw err;
+            res.json(result[0]);
+        }
+    );
 
 });
 
