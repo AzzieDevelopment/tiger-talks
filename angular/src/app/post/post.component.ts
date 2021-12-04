@@ -1,6 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IPost } from '../models/post';
 import { IFaculty, IStudent, IUser, UserType } from '../models/user';
+import { PostService } from '../services/post.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -14,10 +16,14 @@ export class PostComponent implements OnInit, OnDestroy {
   user!: IUser;
   studentInfo?: IStudent;
   facultyInfo?: IFaculty;
+  numComments: number = 0;
   userSub: any; // subscription for user data
   userInfoSub: any;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private postService: PostService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.userSub = this.userService.getUser(this.post?.UserId).subscribe(
@@ -31,6 +37,12 @@ export class PostComponent implements OnInit, OnDestroy {
       },
       err => console.log(err)
     );
+    this.postService.getNumberOfComments(this.post?.Id).subscribe(
+      data => {
+        this.numComments = data.NumComments;
+      },
+      err => console.log(err)
+    );
   }
 
   ngOnDestroy(): void {
@@ -41,7 +53,6 @@ export class PostComponent implements OnInit, OnDestroy {
   getStudentInfo() {
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
-        console.log(data);
         this.studentInfo = data;
       },
       err => console.log(err)
@@ -51,7 +62,6 @@ export class PostComponent implements OnInit, OnDestroy {
   getFacultyInfo() {
     this.userInfoSub = this.userService.getFaculty(this.user.Id).subscribe(
       data => {
-        console.log(data);
         this.facultyInfo = data;
       },
       err => console.log(err)
@@ -67,4 +77,9 @@ export class PostComponent implements OnInit, OnDestroy {
     }
     return info;
   }
+  
+  goToTigerSpace() {
+    this.router.navigate(['tigerspace', this.post.TigerSpaceId]);
+  }
+
 }
