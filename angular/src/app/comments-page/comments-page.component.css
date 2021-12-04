@@ -1,0 +1,11 @@
+#page-description {
+    text-align: center;
+}
+
+.submit-btn {
+    color: var(--tu-orange);
+    font-weight: bold;
+    background-color: #000;
+    margin-top: 15px;
+    float: right;
+}
