@@ -3,16 +3,23 @@
     text-align: center;
     font-weight: bold;
 }
+
 #tiger-description{
     text-align: center;
 }
 
-.col-sm-8 {
-    padding-top: 3.9em;
+.list-title {
+    padding-bottom: 5px;
 }
 
-.time-stamp {
-    text-align: left;
-    color:#6c757d;
+.container-fluid {
+    padding: 0;
 }
 
+.make-post {
+    float: right;
+}
+
+.make-post a {
+    color: #000;
+}
