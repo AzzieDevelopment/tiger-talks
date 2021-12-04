@@ -1,19 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { IUser } from '../models/user';
+import { UserService } from '../services/user.service';
 
-export class profile{
-  constructor(
-    public Id: string,
-    public FirstName: string,
-    public LastName: string,
-    public UserType: number,
-    public Major: string,
-    public Pronouns: string,
-    public PName: string,
-    public Bio: string,
-  ){};
-}
 
 @Component({
   selector: 'app-profile-display',
@@ -22,23 +11,18 @@ export class profile{
 })
 export class ProfileDisplayComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private httpClient:HttpClient) { }
+  constructor(private route: ActivatedRoute, private userService: UserService) { }
 
-  prof!: profile;
+
   id=this.route.snapshot.paramMap.get('userId');
+  prof!: IUser;
 
   ngOnInit(): void {
-    this.getProfile(this.id);
-
+    this.getUser(this.id);
   }
 
-  getProfile(userId:any){
-    this.httpClient.get<any>(`/api/getuser/${userId}`).subscribe(
-      response => {
-        console.log(response);
-        this.prof=response;
-      }
-    )
+  getUser(uid:any): void {
+    this.prof = this.userService.getUser(uid);
   }
 
 }
