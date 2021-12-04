@@ -338,22 +338,21 @@ app.post('/api/createComment', (req, res) => {
       if (err) {
         throw err;
       }
-      let highestComment = 0;
+      let nextCommentId = 0;
       if (result.length > 0) {
-        highestComment = result[0].id;
+        nextCommentId = result[0].id;
       }
+      nextCommentId++;
+      console.log(nextCommentId);
 
-      highestComment++;
-      console.log(highestComment);
-
-      connection.query(`SELECT id FROM comment WHERE id ='${highestComment}\';`, function (err, result) {
+      connection.query(`SELECT id FROM comment WHERE id ='${nextCommentId}\';`, function (err, result) {
         //sanity check that if it ever fails, we need to restructure
         if (!(typeof result[0] === "undefined")) {
           console.log('crucial sanity check failed, restructure comment ID incrementation');
         } else {
           console.log("New comment, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${highestComment}','${postid}','${commentbody}','1','${filteredNetId}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${nextCommentId}','${postid}','${commentbody}','1','${filteredNetId}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } 
@@ -363,7 +362,7 @@ app.post('/api/createComment', (req, res) => {
                   console.log("Error: ", err);
                 } else {
                   //optimally refresh the post page with the new comment now posted
-                  res.redirect('/#/');
+                  res.status(200).send({message:"Comment added"});
                 }
               })
             }
