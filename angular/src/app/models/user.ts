@@ -18,6 +18,11 @@ export enum UserType {
     Student = 1
 }
 
+export enum Permission {
+    Basic = 0,
+    Moderator = 1
+}
+
 export interface IStudent {
     UserId: string,
     Major: string,
