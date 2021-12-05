@@ -22,6 +22,11 @@ import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
+import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
+import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
+import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
+import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { TigerSpaceService } from './services/tigerspace.service';
@@ -46,6 +51,11 @@ import { CommentsComponent } from './comments/comments.component';
     TigerpageComponent,
     PageNotFoundComponent,
     BannerComponent,
+    ModeratorDisplayComponent,
+    FlaggedPostsComponent,
+    BannedUsersComponent,
+    GuestPostsComponent,
+    FlaggedCommentsComponent,
     CommentsComponent,
   ],
   imports: [
