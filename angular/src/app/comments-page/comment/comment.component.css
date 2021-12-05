@@ -5,4 +5,27 @@
 .comment-header {
     display: flex;
     align-items: center;
+    padding: 8px;
+}
+
+.comment-footer {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.time-stamp {
+    margin-left: auto;
+}
+
+button {
+    margin: 0 5px;
+}
+
+#user-icon {
+    margin: 0px 5px;
+}
+
+#flag-btn {
+    margin-left: auto;
 }
