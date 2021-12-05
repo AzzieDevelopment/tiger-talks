@@ -1,29 +1,37 @@
-<div class="card post">
-    <div class="card-header">
-      <div class="row post-header">
-        <div class="col-md-11">
-          <i class="bi fa-lg bi-person-circle"></i>
-          {{user?.FirstName+' '+user?.LastName}} | {{getInfo()}} | {{user?.Pronouns}} | Post id: {{post.Id}}
-        </div>
-        <div class="col-md-1">
-          <button type="button" class="btn flag-btn btn-outline-warning"><i class="bi bi-flag-fill"></i></button>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">{{post.Title}} </h5>
-      <p class="card-text text-truncate">{{post.Body}}</p>
-    </div>
-    <div class="card-footer post-footer">
-        <button type="button" class="btn btn-outline-warning">
-          <i class="bi fa-lg bi-heart-fill"></i>
-        </button> {{post.Upvotes}} likes   
-        <button type="button" (click)="commentRedirect(post.Id)" class="btn btn-outline-warning">
-          <i class="bi fa-lg bi-chat-dots-fill"></i>
-        </button> {{ numComments }} Comments
-        <button type="button" (click)="goToTigerSpace()" class="btn btn-outline-warning">
-          <i class="fa fa-lg fa-paw" aria-hidden="true"></i>
-        </button> Tiger Space
-        <div class="time-stamp"> {{post.Bump | date: 'short'}}</div> 
-      </div>
+<!-- Only show component when fully loaded -->
+<div *ngIf="isAllDataLoaded" class="card post">
+  <div class="card-header post-header">
+    <i id="user-icon" class="bi fa-lg bi-person-circle"></i>
+    <span>{{ getUserName() }}&nbsp;|&nbsp;</span>
+    <span>{{ getUserType() }}&nbsp;|&nbsp;</span>
+    <span>{{ getInfo() }}&nbsp;|&nbsp;</span>
+    <span>{{ user?.Pronouns }}&nbsp;|&nbsp;</span>
+    <span>Post id: {{ post.Id }}</span>
+    <button id="flag-btn" type="button" class="btn btn-outline-warning">
+      <i class="bi bi-flag-fill"></i>
+    </button>
   </div>
+  <div class="card-body">
+    <h5 class="card-title">{{post.Title}} </h5>
+    <p class="card-text text-truncate">{{post.Body}}</p>
+  </div>
+  <div class="card-footer post-footer">
+    <button type="button" class="btn btn-outline-warning">
+      <i class="bi fa-lg bi-heart-fill"></i>
+    </button><span>{{ post.Upvotes }} Upvotes </span>  
+    <button type="button" (click)="commentRedirect(post.Id)" class="btn btn-outline-warning">
+      <i class="bi fa-lg bi-chat-dots-fill"></i>
+    </button><span>{{ numComments }} Comments</span>
+    <button type="button" (click)="goToTigerSpace()" class="btn btn-outline-warning">
+      <i class="fa fa-lg fa-paw" aria-hidden="true"></i>
+    </button> Tiger Space
+    <div class="time-stamp">{{ post.Bump | date: 'short' }}</div> 
+  </div>
+</div>
+
+<!-- Spinner for loading post -->
+<div *ngIf="!isAllDataLoaded" class="text-center">
+  <div class="spinner-border spinner-border-sm" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

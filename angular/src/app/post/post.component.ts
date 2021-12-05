@@ -13,12 +13,13 @@ import { UserService } from '../services/user.service';
 export class PostComponent implements OnInit, OnDestroy {
 
   @Input() post!: IPost;
+  numComments: number = 0;
   user!: IUser;
   studentInfo?: IStudent;
   facultyInfo?: IFaculty;
-  numComments: number = 0;
-  userSub: any; // subscription for user data
-  userInfoSub: any;
+  userSub: any; // subscription for user table data
+  userInfoSub: any; // subscription for user type info data (faculty/student)
+  isAllDataLoaded: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -54,6 +55,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
         this.studentInfo = data;
+        this.isAllDataLoaded = true;
       },
       err => console.log(err)
     );
@@ -63,6 +65,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userInfoSub = this.userService.getFaculty(this.user.Id).subscribe(
       data => {
         this.facultyInfo = data;
+        this.isAllDataLoaded = true;
       },
       err => console.log(err)
     );
@@ -84,6 +87,18 @@ export class PostComponent implements OnInit, OnDestroy {
 
   commentRedirect(postId: any){
     this.router.navigate([`comments/${postId}`]);
+  }
+
+  getUserType(): string {
+    if (this.user?.UserType === UserType.Student) {
+      return "Student";
+    } else {
+      return "Faculty"
+    }
+  }
+
+  getUserName() : string {
+    return this.user?.FirstName + ' ' + this.user?.LastName 
   }
 
 }
