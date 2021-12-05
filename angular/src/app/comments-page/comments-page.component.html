@@ -15,10 +15,13 @@
             <div *ngFor="let comment of comments">
                 <comment [comment]="comment"></comment>
             </div>
-            <form (ngSubmit)="onSubmit()">
+            <form #commentForm="ngForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <textarea class="form-control" id="body" name="body" placeholder="Add a comment" rows="3"></textarea>
-                    <button type="submit" class="btn submit-btn btn-primary">Submit</button>
+                    <textarea class="form-control" id="body" 
+                        #body="ngModel" [(ngModel)]="newCommentData.body"
+                        name="body" placeholder="Add a comment" rows="3" required></textarea>
+                    <small class="text-danger" [class.d-none]="loggedIn || body.untouched">Must be logged in to comment on a post.</small>
+                    <button type="submit" [disabled]="commentForm.form.invalid || !loggedIn" class="btn submit-btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>

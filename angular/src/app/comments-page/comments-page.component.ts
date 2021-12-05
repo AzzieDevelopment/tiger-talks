@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IComment } from '../models/comment';
 import { IPost } from '../models/post';
+import { AuthService } from '../services/auth.service';
+import { CommentService } from '../services/comment.service';
 
 @Component({
   templateUrl: './comments-page.component.html',
@@ -11,34 +13,58 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
   pageTitle: string = "Comments";
   pageDescription: string = "Be Nice!";
   post!: IPost;
-  comments?: IComment[] = [{
-    Id: 1,
-    UserId: 'shallc1',
-    PostId: 1,
-    Timestamp: '2021-12-03 23:38:47',
-    Body: 'Test comment',
-    Upvotes: 0
-  }];
-  subscription: any;
+  currentUserId!: string;
+  loggedIn: boolean = false;
+  comments?: IComment[] = [];
+  newCommentData: any = {};
+  routeSub: any; // subscription for route data
+  commentSub: any; // subscription for comment creation
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+    private commentService: CommentService) { }
 
   ngOnInit(): void {
-    this.subscription = this.route.data.subscribe(
+    this.routeSub = this.route.data.subscribe(
       data => {
         this.post = data.post;
+        this.comments = data.comments;
       }
     );
+    this.currentUserId = this.authService.getNetID();
+    this.loggedIn = !!this.currentUserId;
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.routeSub?.unsubscribe();
+    this.commentSub?.unsubscribe();
+  }
+
+  private getCommentData(): IComment {
+    return {
+      UserId: this.currentUserId,
+      Body:this.newCommentData.body,
+      PostId: this.post.Id,
+      Upvotes: 0
+    };
   }
 
   onSubmit(){
-    // let comment: IComment=this.getCommentData();
-    // console.log(comment);
-    // this.httpClient.post<any>('/api/createComment/',comment).subscribe(
-    // )
+    if (!this.authService.loggedIn()) {
+      // shouldn't be able to get here, but just in case
+      this.router.navigate(['signin']);
+    }
+    let comment: IComment = this.getCommentData();
+    this.commentSub = this.commentService.createComment(comment).subscribe(
+      data => {
+        console.log('Comment created.', data);
+        window.location.reload(); // reload entire page to show new comment
+      },
+      error => {
+        console.log('Error: ', error);
+      }
+    );
   }
 }

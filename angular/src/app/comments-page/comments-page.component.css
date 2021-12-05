@@ -3,9 +3,16 @@
 }
 
 .submit-btn {
-    color: var(--tu-orange);
+    color: #000;
+    background-color: var(--tu-orange);
+    border: 1px solid var(--tu-orange);
     font-weight: bold;
-    background-color: #000;
-    margin-top: 15px;
+    margin: 15px 0;
     float: right;
+}
+
+.submit-btn:hover {
+    color: var(--tu-orange);
+    background-color: #000;
+    border: 1px solid #000;
 }
