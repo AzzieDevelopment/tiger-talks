@@ -189,10 +189,10 @@ app.get('/api/logout', (req, res) => {
     if (err) {
       console.log(err);
     }
-    res.redirect('/#/home');
   });
   res.clearCookie('token');
   res.clearCookie('netId');
+  res.send({message: "Logout successful."});
 });
 
 //Verify if user is logged in
@@ -325,14 +325,16 @@ app.get('/api/createCommentDemo', function (request, response) {
 //create new comment as most recent of previous posts
 app.post('/api/createComment', (req, res) => {
 
-  console.log("HIT");
-  let unfilteredNetId=(req.headers.cookie).split(';');
-  let filteredNetId=unfilteredNetId[0].replace('netId=','');
-  let postid = req.body.postId;
-  let commentbody = req.body.body;
+  // console.log("HIT");
+  // let unfilteredNetId=(req.headers.cookie).split(';');
+  // let filteredNetId=unfilteredNetId[0].replace('netId=','');
+  let netid = req.body.UserId;
+  let postid = req.body.PostId;
+  let commentbody = req.body.Body;
+  let upvotes = 0;
 
   //ensure the user is logged in before anything
-  if (filteredNetId.length<30) {
+  if (req.session.loggedin) {
     //first query the db to get the latest comment ID
     connection.query(`SELECT id FROM comment ORDER BY id DESC LIMIT 1;`, function (err, result) {
       if (err) {
@@ -352,7 +354,7 @@ app.post('/api/createComment', (req, res) => {
         } else {
           console.log("New comment, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${nextCommentId}','${postid}','${commentbody}','1','${filteredNetId}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${nextCommentId}','${postid}',"${commentbody}",'${upvotes}','${netid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } 
@@ -368,8 +370,8 @@ app.post('/api/createComment', (req, res) => {
             }
           })
         }
-      })
-    })
+      });
+    });
   } else {
     console.log("User isn't logged in, therefore can't submit a comment.");
     res.redirect('/#/signin');

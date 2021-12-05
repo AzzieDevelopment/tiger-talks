@@ -254,20 +254,8 @@ router.get('/api/getpostcomments/:postid', (req, res) => {
         if (err) {
             throw err;
         }
-        if (result.length > 0) {
-            res.status(200).json(result);
-        } else {
-            res.status(200).json({
-                "Id": "N/A",
-                "UserId": "N/A",
-                "PostId": "N/A",
-                "Timestamp": "N/A",
-                "Body": "N/A",
-                "Upvotes": "N/A"
-            });
-        }
-
-    })
+        res.status(200).json(result);
+    });
 
 });
 
