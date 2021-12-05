@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,11 @@ import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged
 import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
 import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
 import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { TigerSpaceService } from './services/tigerspace.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +52,7 @@ import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/f
     BannedUsersComponent,
     GuestPostsComponent,
     FlaggedCommentsComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,8 +61,18 @@ import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/f
     AppRoutingModule
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}, 
+    {
+      provide: LocationStrategy, 
+      useClass: HashLocationStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    AuthService, AuthGuard,
     UserService, 
+    TigerSpaceService,
     LoggerService],
   bootstrap: [AppComponent]
 })

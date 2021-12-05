@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 export class posts {
   constructor(
@@ -41,7 +42,11 @@ export class RecentPostsComponent implements OnInit {
 
   post!:posts[];
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private router:Router) { }
+
+  commentRedirect(postId: any){
+    this.router.navigate([`comment/${postId}`]);
+  }
 
   ngOnInit(): void {
     this.getPosts();

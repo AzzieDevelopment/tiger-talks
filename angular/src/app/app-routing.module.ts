@@ -13,6 +13,8 @@ import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged
 import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
 import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
 import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
+import { AuthGuard } from './guards/auth.guard';
+import { CommentsComponent } from './comments/comments.component'
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -20,10 +22,12 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'guidelines', component: GuidelinesComponent},
+  {path:'comment/:postId',component:CommentsComponent},
   { path: 'tigerpage', component: TigerpageComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
+    canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
   { path: 'tigerspaces/:id', component: PageNotFoundComponent },

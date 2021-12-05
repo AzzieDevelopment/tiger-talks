@@ -26,11 +26,21 @@
                 </li>
             </ul>
             <ul class="navbar-nav">
-                <li id="signup-btn" class="nav-item">
+                <li id="signup-btn" class="nav-item" *ngIf="!loggedIn()">
                     <a class="nav-link" aria-current="page" routerLink ="/signup" routerLinkActive="active">Sign Up</a>
                 </li>
-                <li id="signin-btn" class="nav-item">
+                <li id="signin-btn" class="nav-item" *ngIf="!loggedIn()">
                     <a class="nav-link" aria-current="page" routerLink ="/signin" routerLinkActive="active">Sign In</a>
+                </li>
+                <li id="profile-btn" class="nav-item" *ngIf="loggedIn()">
+                    <a class="nav-link" aria-current="page" routerLink ="/profile" routerLinkActive="active">
+                        <i class="bi bi-person-circle fa-lg"></i>
+                    </a>
+                </li>
+                <li id="signout-btn" class="nav-item" *ngIf="loggedIn()">
+                    <a class="nav-link" aria-current="page" (click)="signout()">
+                        <i class="fa fa-lg fa-sign-out" aria-hidden="true"></i>
+                    </a>
                 </li>
             </ul>
         </div>
