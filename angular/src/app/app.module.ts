@@ -24,7 +24,6 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { TigerSpaceService } from './services/tigerspace.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { CommentsComponent } from './comments/comments.component';
 import { PostComponent } from './post/post.component';
 import { PostService } from './services/post.service';
 import { CommentsPageComponent } from './comments-page/comments-page.component';
@@ -46,7 +45,6 @@ import { CommentComponent } from './comments-page/comment/comment.component';
     TigerSpacePageComponent,
     PageNotFoundComponent,
     BannerComponent,
-    CommentsComponent,
     PostComponent,
     CommentsPageComponent,
     CommentComponent,
