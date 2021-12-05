@@ -379,7 +379,7 @@ app.post('/api/createComment', (req, res) => {
 
 
 //view post
-app.get('/api/viewPost/:postid/', (req, res) => {
+app.get('/api/getPost/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -399,7 +399,7 @@ app.get('/api/viewPost/:postid/', (req, res) => {
   }
 });
 
-app.get('/api/getpostdata/:postid/', (req, res) => {
+app.get('/api/getPostData/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -419,7 +419,7 @@ app.get('/api/getpostdata/:postid/', (req, res) => {
 
 });
 
-app.get('/api/getcommentdata/:postid/', (req, res) => {
+app.get('/api/getCommentData/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -441,7 +441,7 @@ app.get('/api/getcommentdata/:postid/', (req, res) => {
 });
 
 //view post comments
-app.get('/api/viewPostComments/:postid/', (req, res) => {
+app.get('/api/getPostComments/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -565,7 +565,7 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
 
 
 //view post
-app.get('/api/viewRecentPosts/', (req, res) => {
+app.get('/api/getRecentPosts/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
