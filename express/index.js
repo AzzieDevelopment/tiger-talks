@@ -611,7 +611,7 @@ app.get('/api/flagCommentDemo', function (request, response) {
   response.end();
 });
 
-
+//flag comment
 app.post('/api/flagComment', (req, res) => {
 
   let commentid = req.body.commentid;
@@ -639,6 +639,51 @@ app.post('/api/flagComment', (req, res) => {
     
   } else {
     console.log("User isn't logged in, therefore can't flag a comment.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+
+//flag post demo
+app.get('/api/flagPostDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="flagPost" name="flagPost" id="flagPost">POST ID TO BE FLAGGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+//flag post
+app.post('/api/flagPost', (req, res) => {
+
+  let postid = req.body.postid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM post WHERE Id = ${postid}\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`INSERT INTO flaggedpost (Postid,UserId) VALUES ('${postid}','${req.session.netID}') `), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+                            
+      } else {
+        result.send("Post not found.");
+      }
+    })
+    
+  } else {
+    console.log("User isn't logged in, therefore can't flag a post.");
     res.redirect('/#/signin');
   }
 });
