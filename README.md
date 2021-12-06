@@ -36,12 +36,18 @@
         * http://localhost:3000/api/deletePost deletes all child comments of a post, and then deletes the post
         * http://localhost:3000/api/userDeleteOwnComment allows user to delete a comment created by their user account (can be adjusted to also work by an admin user)
         * http://localhost:3000/api/getRecentPosts/ returns the 10 most recent posts ordered by Bump column
+        * http://localhost:300/api/getFlaggedPosts/ returns all flagged posts
+        * http://localhost:300/api/getFlaggedComments/ returns all flagged comments
+        * http://localhost:300/api/flagPost/ flag a post 
+        * http://localhost:300/api/flagComment/ flag a comment
 
         * demos that can be removed when implemented in FE
         * http://localhost:3000/api/createPostDemo form to post a Post to database 
         * http://localhost:3000/api/createCommentDemo form to post a comment to the database
         * http://localhost:3000/api/adminDeletePost form for the deletePost endpoint
         * http://localhost:3000/api/userDeleteOwnCommentDemo form for the userDeleteOwnComment endpoint
+        * http://localhost:300/api/flagPostDemo form to flag a post
+        * http://localhost:300/api/flagCommentDemo form to flag a comment
 
 
 * ## Getting Started
