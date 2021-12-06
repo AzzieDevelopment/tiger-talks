@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { IUser, Permission } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
@@ -10,8 +10,7 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-
-  user!: IUser;
+  user!: IUser | undefined;
   userSub: any;
 
   constructor(
@@ -20,12 +19,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userSub = this.userService.getUser(this.authService.getNetID()).subscribe(
-      data => {
-        this.user = data;
-      },
-      err => console.log(err)
-    );
+    if (this.loggedIn()) {
+      this.userSub = this.userService.getUser(this.authService.getNetID()).subscribe(
+        data => {
+          this.user = data;
+          console.log("navbar init")
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -43,6 +45,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   signout() {
     this.authService.logoutUser().subscribe(
       res => {
+        this.user = undefined;
         this.router.navigate(['home']);
       },
       err => console.log(err)
