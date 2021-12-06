@@ -1,37 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-export class posts {
-  constructor(
-    public Id: number,
-    public Title: string,
-    public Body: string,
-    public Category: string,
-    public Upvotes: number,
-    public Timestamp: string,
-    public UserId: string,
-    public TigerSpaceId: number
-)
-// In preparation for backend changes
-// constructor(
-//   public Id: number,
-//   public Title: string, //(for post)
-//   public Body: string,
-//   public Category: string,
-//   public Upvotes: number,
-//   public Timestamp: string, // The backend should reformat this to look presentable
-//   public UserId: string,
-//   public TigerSpaceId: number,
-//   public Pronouns: string,
-//   public Major : string
-//   public Title : string //(for tiger spaces)
-//   public Comments: number //(amount of comments)
-//
-// )
-{
-}
-}
+import { Component, Input, OnInit } from '@angular/core';
+import { IPost } from 'src/app/models/post';
 
 @Component({
   selector: 'recent-posts',
@@ -40,25 +8,11 @@ export class posts {
 })
 export class RecentPostsComponent implements OnInit {
 
-  post!:posts[];
+  @Input() posts: IPost[] = [];
 
-  constructor(private httpClient:HttpClient, private router:Router) { }
-
-  commentRedirect(postId: any){
-    this.router.navigate([`comment/${postId}`]);
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getPosts();
-  }
-
-  getPosts(){
-    this.httpClient.get<any>('/api/getrecentposts').subscribe(
-      response => {
-        console.log(response);
-        this.post=response;
-      }
-    )
   }
 
 }

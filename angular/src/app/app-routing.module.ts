@@ -5,41 +5,59 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
-import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
+import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
-import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { TigerSpacePageComponent } from './tigerspace-page/tigerspace-page.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RecentPostsResolverService } from './home-page/recent-posts/recent-posts-resolver.service';
+import { TigerSpaceResolverService } from './tigerspace-page/tigerspace-page-resolver.service';
+import { TigerspacePostsResolverService } from './tigerspace-page/tigerspace-posts-resolver.service';
+import { CommentsPageComponent } from './comments-page/comments-page.component';
+import { CommentsPagePostResolverService } from './comments-page/comments-page-post-resolver.service';
+import { CommentsPageCommentsResolverService } from './comments-page/comments-page-comments-resolver.service';
 import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
 import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
 import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
 import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
 import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
-import { AuthGuard } from './guards/auth.guard';
-import { CommentsComponent } from './comments/comments.component'
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent },
-  { path: 'home', component: HomePageComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { 
+    path: 'home', component: HomePageComponent,
+    resolve: { recentPosts: RecentPostsResolverService } 
+  },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
+  { path: 'guidelines', component: GuidelinesComponent },
+  { path: 'comments/:postId', component: CommentsPageComponent,
+    resolve: { 
+      post: CommentsPagePostResolverService,
+      comments: CommentsPageCommentsResolverService
+    }
+  },
   { path: 'guidelines', component: GuidelinesComponent},
-  {path:'comment/:postId',component:CommentsComponent},
-  { path: 'tigerpage', component: TigerpageComponent },
   { 
     path: 'tigerspaces', 
     component: TigerSpacesGridComponent,
     canActivate: [AuthGuard], // TODO: remove
     resolve: { tigerspaces: TigerSpacesGridResolverService }
   },
-  { path: 'tigerspaces/:id', component: PageNotFoundComponent },
-  { path: 'banned-users', component: BannedUsersComponent },
-  { path: 'flagged-posts', component: FlaggedPostsComponent },
-  { path: 'flagged-comments', component: FlaggedCommentsComponent },
-  { path: 'guest-posts', component: GuestPostsComponent },
+  { 
+    path: 'tigerspace/:id', 
+    component: TigerSpacePageComponent,
+    resolve: { 
+      tigerspace: TigerSpaceResolverService,
+      posts: TigerspacePostsResolverService
+     }
+  },
+//   { path: 'banned-users', component: BannedUsersComponent },
+//   { path: 'flagged-posts', component: FlaggedPostsComponent },
+//   { path: 'flagged-comments', component: FlaggedCommentsComponent },
+//   { path: 'guest-posts', component: GuestPostsComponent },
   { path: 'moderator', component: ModeratorDisplayComponent },
   { path: '404', component: PageNotFoundComponent },
-  { path: '**', component: PageNotFoundComponent },
-  { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

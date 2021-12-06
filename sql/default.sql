@@ -175,7 +175,7 @@ INSERT INTO azziedev_tigertalks.post VALUES (
     NOW(), #TIMESTAMP
     NOW(), #BUMP
     "gcerpa1", #USERID
-    2 #TIGERSPACEID
+    1 #TIGERSPACEID
 );
 
 INSERT INTO azziedev_tigertalks.post VALUES (

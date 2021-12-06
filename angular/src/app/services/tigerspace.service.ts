@@ -10,7 +10,8 @@ import { LoggerService } from './logger.service';
 })
 export class TigerSpaceService {
 
-  private baseUrl: string = '/api';
+  private _getTigerSpaceBaseUrl = '/api/gettigerspace';
+  private _getAllTigerSpacesUrl = '/api/gettigerspaces';
 
   constructor(
     private logger: LoggerService,
@@ -18,13 +19,13 @@ export class TigerSpaceService {
 
     // get tiger space by id
     public getTigerSpace(id: number):Observable<ITigerSpace> {
-      return this.http.get<ITigerSpace>(`${this.baseUrl}/gettigerspace/${id}`)
+      return this.http.get<ITigerSpace>(`${this._getTigerSpaceBaseUrl}/${id}`)
         .pipe(catchError(this.handleError<ITigerSpace>('getTigerSpace')));
     }
 
     // get all tiger spaces
     public getTigerSpaces(): Observable<ITigerSpace[]> {
-      return this.http.get<ITigerSpace[]>(`${this.baseUrl}/gettigerspaces`)
+      return this.http.get<ITigerSpace[]>(`${this._getAllTigerSpacesUrl}`)
         .pipe(catchError(this.handleError<ITigerSpace[]>('getTigerSpaces')));
     }
 
