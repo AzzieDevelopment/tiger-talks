@@ -462,13 +462,6 @@ app.get('/api/getPostComments/:postid/', (req, res) => {
 });
 
 
-
-//  can't show 10 most recent bumped posts until we have bump date timestamp added to schema
-//  sample 10 most recent
-//  connection.query(`SELECT id FROM post ORDER BY bumpdate DESC LIMIT 10;`, function (err, result) 
-
-
-
 //delete post/comments demo
 app.get('/api/adminDeletePost', function (request, response) {
   if (request.session.loggedin) {
@@ -564,7 +557,7 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
 });
 
 
-//view post
+//retrieves 10 most recent posts
 app.get('/api/getRecentPosts/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
@@ -603,4 +596,49 @@ app.get('/api/sendEmail/verify/:id', (req, res) => {
     }
 
   })
+});
+
+
+
+//flag comment demo
+app.get('/api/flagCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="flagComment" name="flagComment" id="flagComment">COMMENT ID TO BE FLAGGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+app.post('/api/flagComment', (req, res) => {
+
+  let commentid = req.body.commentid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM comment WHERE Id = ${commentid}\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`INSERT INTO flaggedcomment (CommentId,UserId) VALUES ('${commentid}','${req.session.netID}') `), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+                            
+      } else {
+        result.send("Comment not found.");
+      }
+    })
+    
+  } else {
+    console.log("User isn't logged in, therefore can't flag a comment.");
+    res.redirect('/#/signin');
+  }
 });
