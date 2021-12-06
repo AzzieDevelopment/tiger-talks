@@ -95,7 +95,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       UserType: 1,
       Permission: 1,
       Bio: this.signUpData.bio,
-      PreferredName: this.signUpData.preferredName,
+      PName: this.signUpData.preferredName,
       Pronouns: this.signUpData.pronouns,
       Password: this.signUpData.password
     };

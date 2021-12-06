@@ -6,7 +6,7 @@ export interface IUser {
     UserType: number,
     Permission: number,
     Bio: string,
-    PreferredName: string,
+    PName: string,
     Pronouns: string,
     IsVerified?: number,
     Password?: string,

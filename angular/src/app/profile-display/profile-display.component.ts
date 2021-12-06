@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { IFaculty, IStudent, IUser, UserType } from '../models/user';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
@@ -26,11 +25,14 @@ export class ProfileDisplayComponent implements OnInit, OnDestroy{
     this.userSub = this.userService.getUser(this.authService.getNetID()).subscribe(
       data => {
         this.user = data;
-        if (this.user.UserType === UserType.Student) {
-          this.getStudentInfo();
-        } else if (this.user.UserType === UserType.Faculty) {
-          this.getFacultyInfo();
-        }
+        // this.user.PName = data.PName;
+        console.log(data)
+
+        // if (this.user.UserType === UserType.Student) {
+        //   this.getStudentInfo();
+        // } else if (this.user.UserType === UserType.Faculty) {
+        //   this.getFacultyInfo();
+        // }
       },
       err => console.log(err)
     );

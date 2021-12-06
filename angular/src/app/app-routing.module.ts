@@ -38,11 +38,11 @@ const routes: Routes = [
   { path: 'flagged-comments', component: FlaggedCommentsComponent },
   { path: 'guest-posts', component: GuestPostsComponent },
   { path: 'moderator', component: ModeratorDisplayComponent },
+  { path: 'profile', component: ProfileDisplayComponent },
+  { path: 'editProfile', component: EditProfileComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
   { path: 'tigerspaces', component: TigerSpacesGridComponent },
-  { path: 'profile', component: ProfileDisplayComponent },
-  {path: 'editProfile', component: EditProfileComponent},
   { path: '**', redirectTo: '' }
 ];
 
