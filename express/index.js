@@ -208,23 +208,22 @@ app.get('/api/loggedin', function (request, response) {
 
 //reads req and verifies user doesnt exist already
 app.post('/api/registerUser', (req, res) => {
-  let user = {
-    id: req.body.Id,
-    fName: req.body.FirstName,
-    lName: req.body.LastName,
-    email: req.body.Email,
-    userType: req.body.UserType,
-    permission: req.body.Permission,
-    bio: req.body.Bio || '',
-    pName: req.body.PreferredName || '',
-    pronouns: req.body.Pronouns || '',
-    password: bcrypt.hashSync(req.body.Password, 10), //hash/salting function
-    isVerified: 0,
-    token: randtoken.generate(10)
-  }
+  console.log(req.body);
+  let id = req.body.Id;
+  let fName = req.body.FirstName;
+  let lName = req.body.LastName;
+  let email = req.body.Email;
+  let userType = req.body.UserType;
+  let permission = req.body.Permission;
+  let bio = req.body.Bio;
+  let pName = req.body.PreferredName;
+  let pronouns = req.body.Pronouns || '';
+  let password = bcrypt.hashSync(req.body.Password, 10); //hash/salting function
+  let isVerified = 0;
+  let token = randtoken.generate(10);
   
   //check if user exists
-  connection.query(`SELECT * FROM user WHERE Id=\'${user.id}\' OR Email=\'${user.email}\';`, function (err, result) {
+  connection.query(`SELECT * FROM user WHERE Id=\'${id}\' OR Email=\'${email}\';`, function (err, result) {
     if (err) {
       console.log(err);
       throw err;
@@ -237,20 +236,91 @@ app.post('/api/registerUser', (req, res) => {
       
       //insert into database. Report error if fail, otherwise redirect user to login page
       connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) 
-                        VALUES ('${user.id}','${user.fName}','${user.lName}','${user.email}','${user.userType}','${user.permission}','
-                                ${user.bio}','${user.pName}','${user.pronouns}','${user.isVerified}','${user.password}','${user.token}') `,
+                        VALUES ('${id}','${fName}','${lName}','${email}','${userType}','${permission}',"${bio}",'${pName}','${pronouns}','${isVerified}','${password}','${token}') `,
         function (err, result) {
           if (err) {
             console.log("Error: ", err);
           } else {
             // send verification email
-            sendEmail(user.email, user.token);
+            sendEmail(email, token);
             res.status(200).send({message: 'Account created.'});
           }
         }
       );
     }
   })
+  
+});
+
+// register student if they don't exist
+app.post('/api/registerStudent', (req, res) => {
+  console.log(req.body);
+  let userId = req.body.UserId;
+  let major = req.body.Major;
+  let minor = req.body.Minor;
+  let track = req.body.Track;
+  let gradYear = req.body.GradYear;
+  
+  //check if user exists
+  connection.query(`SELECT * FROM student WHERE UserId=\'${userId}\';`, function (err, result) {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    if (result[0] !== undefined) {
+      console.log('Student exists');
+      res.status(403).send("Student already exists");
+    } else {
+      console.log("New student, proceeding to insert");
+      
+      //insert into database. Report error if fail, otherwise redirect user to login page
+      connection.query(`INSERT INTO student (UserId, Major, Minor, Track, GradYear) 
+                        VALUES ('${userId}','${major}','${minor}','${track}','${gradYear}')`,
+        function (err, result) {
+          if (err) {
+            console.log("Error: ", err);
+          } else {
+            res.status(200).send({message: 'Student created.'});
+          }
+        }
+      );
+    }
+  });
+  
+});
+
+// register faculty if they don't exist
+app.post('/api/registerFaculty', (req, res) => {
+  console.log(req.body);
+  let userId = req.body.UserId;
+  let title = req.body.Title;
+  let department = req.body.Department;
+  
+  //check if user exists
+  connection.query(`SELECT * FROM faculty WHERE UserId=\'${userId}\';`, function (err, result) {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    if (result[0] !== undefined) {
+      console.log('Faculty exists');
+      res.status(403).send("Faculty already exists");
+    } else {
+      console.log("New faculty, proceeding to insert");
+      
+      //insert into database. Report error if fail, otherwise redirect user to login page
+      connection.query(`INSERT INTO faculty (UserId, Title, Department) 
+                        VALUES ('${userId}','${title}','${department}')`,
+        function (err, result) {
+          if (err) {
+            console.log("Error: ", err);
+          } else {
+            res.status(200).send({message: 'Faculty created.'});
+          }
+        }
+      );
+    }
+  });
   
 });
 
