@@ -6,3 +6,7 @@
 #editProfile-btn {
     float: right;
 }
+
+.unbold {
+    font-weight: normal;
+}

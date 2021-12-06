@@ -1,24 +1,23 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { IFaculty, IStudent, IUser, UserType } from '../models/user';
-import { UserService } from '../services/user.service';
-import { AuthService } from '../services/auth.service';
-
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { IFaculty, IStudent, IUser } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-profile-display',
-  templateUrl: './profile-display.component.html',
-  styleUrls: ['./profile-display.component.css']
+  selector: 'app-edit-profile',
+  templateUrl: './edit-profile.component.html',
+  styleUrls: ['./edit-profile.component.css']
 })
-export class ProfileDisplayComponent implements OnInit, OnDestroy{
+export class EditProfileComponent implements OnInit {
 
-  constructor(private userService: UserService, private authService: AuthService) { }
-
-  // @Input() 
+  // @Output() 
   user!: IUser;
   studentInfo?: IStudent;
   facultyInfo?: IFaculty;
   userSub: any; // subscription for user data
   userInfoSub: any;
+
+  constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.userSub = this.userService.getUser(this.authService.getNetID()).subscribe(
@@ -59,5 +58,4 @@ export class ProfileDisplayComponent implements OnInit, OnDestroy{
       err => console.log(err)
     );
   }
-
 }
