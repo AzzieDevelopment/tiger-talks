@@ -59,5 +59,8 @@ export class ProfileDisplayComponent implements OnInit, OnDestroy{
       err => console.log(err)
     );
   }
-
+  
+  isModerator(): boolean {
+    return this.user.Permission == 1;
+  }
 }

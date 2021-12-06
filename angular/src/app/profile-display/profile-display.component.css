@@ -3,7 +3,7 @@
     width: 50%;
 }
 
-#editProfile-btn {
+#moderator-btn, #editProfile-btn {
     float: right;
 }
 
