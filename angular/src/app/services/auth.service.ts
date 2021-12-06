@@ -12,6 +12,7 @@ export class AuthService {
   private _logoutUrl = '/api/logout';
   private _resendEmailUrl = '/api/sendemail/verify';
   private _tokenName = 'token';
+  private _netIDCookieName = 'netId';
 
   constructor(
     private http: HttpClient) { }
@@ -38,5 +39,10 @@ export class AuthService {
 
   getToken() {
     return document.cookie.split('; ').find(row => row.startsWith(`${this._tokenName}=`))?.split('=')[1];
+  }
+
+  getNetID(): string {
+    let result = document.cookie.split('; ').find(row => row.startsWith(`${this._netIDCookieName}=`))?.split('=')[1];
+    return result? result : "";
   }
 }

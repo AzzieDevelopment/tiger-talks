@@ -12,3 +12,8 @@ export interface IUser {
     Password: string,
     Token?: string
 }
+
+export enum Permission{
+    Basic=0,
+    Moderator=1
+}
