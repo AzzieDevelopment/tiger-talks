@@ -687,3 +687,45 @@ app.post('/api/flagPost', (req, res) => {
     res.redirect('/#/signin');
   }
 });
+
+
+
+//get flagged posts
+app.get('/api/getFlaggedPosts/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM flaggedpost;`, function (err, result) {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("No flagged posts found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view flagged posts.");
+    res.redirect('/#/signin');
+  }
+});
+
+//get flagged posts
+app.get('/api/getFlaggedComments/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM flaggedcomment;`, function (err, result) {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("No flagged comments found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view flagged comments.");
+    res.redirect('/#/signin');
+  }
+});
