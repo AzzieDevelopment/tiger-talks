@@ -15,6 +15,11 @@ import { TigerspacePostsResolverService } from './tigerspace-page/tigerspace-pos
 import { CommentsPageComponent } from './comments-page/comments-page.component';
 import { CommentsPagePostResolverService } from './comments-page/comments-page-post-resolver.service';
 import { CommentsPageCommentsResolverService } from './comments-page/comments-page-comments-resolver.service';
+import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
+import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
+import { FlaggedCommentsComponent } from './moderator-display/flagged-comments/flagged-comments.component';
+import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
+import { GuestPostsComponent } from './moderator-display/guest-posts/guest-posts.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -46,6 +51,11 @@ const routes: Routes = [
       posts: TigerspacePostsResolverService
      }
   },
+  { path: 'banned-users', component: BannedUsersComponent },
+  { path: 'flagged-posts', component: FlaggedPostsComponent },
+  { path: 'flagged-comments', component: FlaggedCommentsComponent },
+  { path: 'guest-posts', component: GuestPostsComponent },
+  { path: 'moderator', component: ModeratorDisplayComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
