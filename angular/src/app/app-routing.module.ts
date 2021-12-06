@@ -51,10 +51,10 @@ const routes: Routes = [
       posts: TigerspacePostsResolverService
      }
   },
-  { path: 'banned-users', component: BannedUsersComponent },
-  { path: 'flagged-posts', component: FlaggedPostsComponent },
-  { path: 'flagged-comments', component: FlaggedCommentsComponent },
-  { path: 'guest-posts', component: GuestPostsComponent },
+//   { path: 'banned-users', component: BannedUsersComponent },
+//   { path: 'flagged-posts', component: FlaggedPostsComponent },
+//   { path: 'flagged-comments', component: FlaggedCommentsComponent },
+//   { path: 'guest-posts', component: GuestPostsComponent },
   { path: 'moderator', component: ModeratorDisplayComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
