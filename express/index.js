@@ -620,7 +620,7 @@ app.post('/api/flagComment', (req, res) => {
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
     //first query the db to verify comment exists
-    connection.query(`SELECT Id FROM comment WHERE Id = ${commentid}\;`, function (err, result) {
+    connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
       if (err) {
         throw err;
       }
@@ -630,10 +630,11 @@ app.post('/api/flagComment', (req, res) => {
             if (err) {
               console.log("Error: ", err);
             } 
+            res.status(200).json("Success");
           }
                             
       } else {
-        result.send("Comment not found.");
+        res.send("Comment not found.");
       }
     })
     
@@ -665,7 +666,7 @@ app.post('/api/flagPost', (req, res) => {
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
     //first query the db to verify comment exists
-    connection.query(`SELECT Id FROM post WHERE Id = ${postid}\;`, function (err, result) {
+    connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
       if (err) {
         throw err;
       }
@@ -675,8 +676,8 @@ app.post('/api/flagPost', (req, res) => {
             if (err) {
               console.log("Error: ", err);
             } 
+            result.send('{"success": "true"}');
           }
-                            
       } else {
         result.send("Post not found.");
       }
