@@ -341,8 +341,10 @@ app.post('/api/createPost', (req, res) => {
   let postbody = req.body.Body;
   let category = req.body.Category;
   let tigerspaceid = req.body.TigerSpaceId;
-  let userId = req.body.UserId;
+  let userId = req.session.netID;
   let upvotes = req.body.Upvotes;
+
+  console.log(userId);
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
