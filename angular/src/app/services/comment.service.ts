@@ -10,6 +10,9 @@ export class CommentService {
 
   private _getPostCommentsBaseUrl = '/api/getpostcomments';
   private _createCommentUrl = '/api/createComment';
+  private _upvoteCommentBaseUrl = '/api/upvoteComment';
+  private _flagCommentUrl = '/api/flagComment';
+  private _checkIfUserFlaggedCommentBaseUrl = '/api/didUserFlagComment';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,5 +24,18 @@ export class CommentService {
   // create comment
   createComment(comment: IComment) {
     return this.httpClient.post<any>(this._createCommentUrl, comment);
+  }
+
+  // upvote comment
+  upvoteComment(commentId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this._upvoteCommentBaseUrl}/${commentId}`);
+  }
+
+  flagComment(comment: IComment): Observable<any> {
+    return this.httpClient.post<any>(`${this._flagCommentUrl}`, comment);
+  }
+
+  checkIfUserFlaggedComment(commentid: number): Observable<any> {
+    return this.httpClient.get<any>(`${this._checkIfUserFlaggedCommentBaseUrl}/${commentid}`);
   }
 }

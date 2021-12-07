@@ -145,6 +145,8 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
 app.post('/api/auth', function (req, res) {
   let netID = req.body.netID;
   let password = req.body.password;
+
+  console.log(netID)
   
   //ensure user entered login
   if (netID && password) {
@@ -344,8 +346,6 @@ app.post('/api/createPost', (req, res) => {
   let userId = req.session.netID;
   let upvotes = req.body.Upvotes;
 
-  console.log(userId);
-
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
     //first query the db to get the latest post ID
@@ -380,6 +380,109 @@ app.post('/api/createPost', (req, res) => {
     })
   } else {
     console.log("User isn't logged in, therefore can't submit a post.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+// create new tiger space
+app.post('/api/createtigerspace', (req, res) => {
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    let userId = req.session.netID;
+    let title = req.body.Title;
+    let description = req.body.Description;
+    let type = req.body.Type;
+
+    //first query the db to get the latest post ID
+    connection.query(`SELECT id FROM tigerspace ORDER BY id DESC LIMIT 1;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      let highestTigerSpace = 0;
+      if (result.length > 0) {
+        highestTigerSpace = result[0].id;
+      }
+      highestTigerSpace++;
+      console.log(highestTigerSpace);
+
+      connection.query(`SELECT id FROM tigerspace WHERE id ='${highestTigerSpace}\';`, function (err, result) {
+        //sanity check that if it ever fails, we need to restructure
+        if (!(typeof result[0] === "undefined")) {
+          console.log('crucial sanity check failed, restructure tigerspace ID incrementation');
+        } else {
+          console.log("New tigerspace, proceeding to insert");
+          //insert into database. Report error if fail, otherwise redirect user to login page
+          connection.query(`INSERT INTO tigerspace (Id,UserId,Title,Description,Type) VALUES ('${highestTigerSpace}','${userId}',"${title}","${description}",'${type}');`, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } else {
+              //optimally redirect user to their newly created post
+              res.status(200).send({message: "Tigerspace created"});
+            }
+          })
+        }
+      })
+    })
+  } else {
+    console.log("User isn't logged in, therefore can't create a tigerspace.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/upvotePost/:postid', (req, res) => {
+  if (req.session.loggedin) {
+    let postid = decodeURIComponent(req.params.postid);
+
+    connection.query(`SELECT upvotes FROM post WHERE id ='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        let numUpvotes = result[0].upvotes;
+        numUpvotes = numUpvotes + 1;
+
+        // update post upvotes
+        connection.query(`UPDATE post SET Upvotes = '${numUpvotes}' WHERE Id = '${postid}';`, function (err, result) {
+          if (err) {
+            throw err;
+          }
+          res.status(200).send({message: 'Post upvoted'});
+        });
+
+      } else {
+        res.status(404).send("Post not found.");
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't upvote a post.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/upvoteComment/:commentid', (req, res) => {
+  if (req.session.loggedin) {
+    let commentid = decodeURIComponent(req.params.commentid);
+
+    connection.query(`SELECT upvotes FROM comment WHERE id ='${commentid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        let numUpvotes = result[0].upvotes;
+        numUpvotes = numUpvotes + 1;
+
+        // update post upvotes
+        connection.query(`UPDATE comment SET Upvotes = '${numUpvotes}' WHERE Id = '${commentid}';`, function (err, result) {
+          if (err) {
+            throw err;
+          }
+          res.status(200).send({message: 'Comment upvoted'});
+        });
+
+      } else {
+        res.status(404).send("Comment not found.");
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't upvote a comment.");
     res.status(401).send({message: "User not logged in"});
   }
 });
@@ -453,7 +556,7 @@ app.post('/api/createComment', (req, res) => {
 
 
 //view post
-app.get('/api/viewPost/:postid/', (req, res) => {
+app.get('/api/getPost/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -473,7 +576,7 @@ app.get('/api/viewPost/:postid/', (req, res) => {
   }
 });
 
-app.get('/api/getpostdata/:postid/', (req, res) => {
+app.get('/api/getPostData/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -493,7 +596,7 @@ app.get('/api/getpostdata/:postid/', (req, res) => {
 
 });
 
-app.get('/api/getcommentdata/:postid/', (req, res) => {
+app.get('/api/getCommentData/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -515,7 +618,7 @@ app.get('/api/getcommentdata/:postid/', (req, res) => {
 });
 
 //view post comments
-app.get('/api/viewPostComments/:postid/', (req, res) => {
+app.get('/api/getPostComments/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -536,13 +639,6 @@ app.get('/api/viewPostComments/:postid/', (req, res) => {
 });
 
 
-
-//  can't show 10 most recent bumped posts until we have bump date timestamp added to schema
-//  sample 10 most recent
-//  connection.query(`SELECT id FROM post ORDER BY bumpdate DESC LIMIT 10;`, function (err, result) 
-
-
-
 //delete post/comments demo
 app.get('/api/adminDeletePost', function (request, response) {
   if (request.session.loggedin) {
@@ -554,6 +650,39 @@ app.get('/api/adminDeletePost', function (request, response) {
   response.end();
 });
 
+app.put('/api/editPost', (req, res) => {
+  if (req.session.loggedin) {
+    let postid = req.body.Id;
+    let title = req.body.Title;
+    let category = req.body.Category;
+    let body = req.body.Body;
+
+    // check if post exists
+    connection.query(`SELECT * FROM post WHERE Id='${postid}';`, function(error, result) {
+      if (error) {
+        throw error;
+      }
+      if (result.length > 0) {
+        console.log('Preparing to edit post');
+        // edit post
+        connection.query(`UPDATE post SET Title=\"${title}\", Category='${category}', Body=\"${body}\", Bump='${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}' WHERE Id='${postid}';`, function(error, result) {
+          if (error) {
+            throw error;
+          }
+          res.status(200).send({message: 'Post edited'})
+        });
+      } else {
+        console.log("Post not found, therefore can't edit post.");
+        res.status(404).send({message: 'Post not found'});
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't edit post.");
+    res.status(401).send({message: 'User not logged in'});
+  }
+});
+
 
 
 //imagine the following people can delete posts/comments
@@ -563,28 +692,36 @@ app.get('/api/adminDeletePost', function (request, response) {
 //any commenter can delete their individual comments
 
 app.post('/api/deletePost', (req, res) => {
-
-  let postid = req.body.postid;
-
   //ensure the user is logged in before anything
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
-    //purge comments before purging the post
-    connection.query(`DELETE FROM comment WHERE PostId = ${postid}\;`, function (err, result) {
-      if (err) {
-        throw err;
+    let postid = req.body.postid;
+    // check post exists
+    connection.query(`SELECT * FROM post WHERE id ='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        // delete post comments and post
+        //purge comments before purging the post
+        connection.query(`DELETE FROM comment WHERE PostId = ${postid}\;`, function (err, result) {
+          if (err) {
+            throw err;
+          }
+          connection.query(`DELETE FROM post WHERE Id = ${postid}\;`, function (err, result) {
+            if (err) {
+              throw err;
+            }
+            console.log("Post deleted.");
+            res.status(200).send({message:'Post deleted'});
+          });
+        });
+      } else {
+        res.status(404).send({message:"Post not found."});
       }
-      connection.query(`DELETE FROM post WHERE Id = ${postid}\;`, function (err, result) {
-        if (err) {
-          throw err;
-        }
-        console.log("Post deleted.");
-        res.redirect('/#/');
-      })
-    })
+    });
+    
   } else {
-    console.log("User isn't logged in, therefore can't submit a post.");
-    res.redirect('/#/signin');
+    console.log("User isn't logged in, therefore can't delete a post.");
+    res.status(401).send({message:'User not logged in'});
   }
 });
 
@@ -637,16 +774,15 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
   }
 });
 
-
-//view post
-app.get('/api/viewRecentPosts/', (req, res) => {
-
+//retrieves 10 most recent posts
+app.get('/api/getRecentPosts/', (req, res) => {
   connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
     //sanity check that if it ever fails, we need to restructure
-    if (result.length > 0) {
-      res.send(result);
+
+    if (result?.length > 0) {
+      res.status(200).send(result);
     } else {
-      res.send("Posts not found.");
+      res.status(404).send("Posts not found.");
     }
   })
 
@@ -671,3 +807,352 @@ app.get('/api/sendEmail/verify/:id', (req, res) => {
 
   })
 });
+
+//flag comment demo
+app.get('/api/flagCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="flagComment" name="flagComment" id="flagComment">COMMENT ID TO BE FLAGGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+//flag comment
+app.post('/api/flagComment', (req, res) => {
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    let commentid = req.body.Id;
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          // check if user already flagged
+          connection.query(`SELECT * FROM flaggedcomment WHERE CommentId = '${commentid}' AND UserId = \'${req.session.netID}\';`, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            }
+            if (result.length > 0) {
+              res.status(403).send({message: 'User already flagged this comment'});
+            } else {
+              //flag it
+              connection.query(`INSERT INTO flaggedcomment (CommentId,UserId) VALUES ('${commentid}','${req.session.netID}');`, function (err, result) {
+                if (err) {
+                  console.log("Error: ", err);
+                } 
+                res.status(200).send({message:'Comment flagged'});
+              });
+            }
+          });
+      } else {
+        res.status(404).send({message:"Comment not found."});
+      }
+    })
+  } else {
+    console.log("User isn't logged in, therefore can't flag a comment.");
+    res.status(401).send({message:'User not logged in'});
+  }
+});
+
+
+
+//flag post demo
+app.get('/api/flagPostDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="flagPost" name="flagPost" id="flagPost">POST ID TO BE FLAGGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+//flag post
+app.post('/api/flagPost', (req, res) => {
+
+  let postid = req.body.Id;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify post exists
+    connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          // check if user already flagged
+          connection.query(`SELECT * FROM flaggedpost WHERE PostId = '${postid}' AND UserId = \'${req.session.netID}\';`, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            }
+            if (result.length > 0) {
+              res.status(403).send({message: 'User already flagged this post'});
+            } else {
+              //flag it
+              connection.query(`INSERT INTO flaggedpost (PostId,UserId) VALUES ('${postid}','${req.session.netID}') `, function (err, result) {
+                if (err) {
+                  console.log("Error: ", err);
+                }
+                res.status(200).send({message:'Post flagged'});
+              });
+            }
+          }); 
+      } else {
+        res.status(404).send("Post not found.");
+      }
+    });    
+  } else {
+    console.log("User isn't logged in, therefore can't flag a post.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/didUserFlagPost/:postid', (req, res) => {
+  if (req.session.loggedin) {
+    let postid = decodeURIComponent(req.params.postid);
+    connection.query(`SELECT * FROM flaggedpost WHERE UserId = \'${req.session.netID}\' AND PostId='${postid}';`, function(error, result) {
+      if (error) {
+        console.log("Error: ", error);
+      }
+      if (result.length > 0) {
+        res.status(200).send({isFlagged: true});
+      } else {
+        res.status(200).send({isFlagged: false});
+      }
+    });
+  } else {
+    console.log("User isn't logged in, therefore can't check if post is flagged.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/didUserFlagComment/:commentid', (req, res) => {
+  if (req.session.loggedin) {
+    let commentid = decodeURIComponent(req.params.commentid);
+    connection.query(`SELECT * FROM flaggedcomment WHERE UserId = \'${req.session.netID}\' AND CommentId='${commentid}';`, function(error, result) {
+      if (error) {
+        console.log("Error: ", error);
+      }
+      if (result.length > 0) {
+        res.status(200).send({isFlagged: true});
+      } else {
+        res.status(200).send({isFlagged: false});
+      }
+    });
+  } else {
+    console.log("User isn't logged in, therefore can't check if comment is flagged.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+//get flagged posts
+app.get('/api/getFlaggedPosts/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM flaggedpost;`, function (err, result) {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("No flagged posts found.");
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't view flagged posts.");
+    res.redirect('/#/signin');
+  }
+});
+
+//get flagged posts
+app.get('/api/getFlaggedComments/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM flaggedcomment;`, function (err, result) {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("No flagged comments found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view flagged comments.");
+    res.redirect('/#/signin');
+  }
+});
+
+//unflag post demo
+app.get('/api/unflagPostDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="unflagPost" name="unflagPost" id="unflagPost">POST ID TO BE UNFLAGGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+//unflag comment demo
+app.get('/api/unflagCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="unflagComment" name="unflagComment" id="unflagComment">COMMENT ID TO BE UNFLAGGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+//unflag post
+app.post('/api/unflagPost', (req, res) => {
+
+  let postid = req.body.postid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify post exists
+    connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`DELETE FROM flaggedpost WHERE PostId = '${postid}'\;`), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Post not found.");
+      }
+    }) 
+  } else {
+    console.log("User isn't logged in, therefore can't unflag a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+//unflag comment
+app.post('/api/unflagComment', (req, res) => {
+
+  let commentid = req.body.commentid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`DELETE FROM flaggedcomment WHERE CommentId = '${commentid}'\;`), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Comment not found.");
+      }
+    }) 
+  } else {
+    console.log("User isn't logged in, therefore can't unflag a commentid.");
+    res.redirect('/#/signin');
+  }
+});
+
+app.put('/api/updateUser' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE user SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    console.log(sql);
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'User information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
+
+app.put('/api/updateStudent' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE student SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'Student information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
+
+app.put('/api/updateFaculty' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE faculty SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'Faculty information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})

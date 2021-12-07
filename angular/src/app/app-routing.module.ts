@@ -20,12 +20,17 @@ import { CommentsPageCommentsResolverService } from './comments-page/comments-pa
 import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
 import { MakePostComponent } from './make-post/make-post.component';
 import { MakePostResolverService } from './make-post/make-post-resolver.service';
+import { CreateTigerspaceComponent } from './create-tigerspace/create-tigerspace.component';
+import { AccessDeniedComponent } from './errors/access-denied/access-denied.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
+import { EditPostResolverService } from './edit-post/edit-post-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { 
     path: 'home', component: HomePageComponent,
-    resolve: { recentPosts: RecentPostsResolverService } 
+    resolve: { recentPosts: RecentPostsResolverService },
+    runGuardsAndResolvers: 'always' 
   },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
@@ -58,15 +63,27 @@ const routes: Routes = [
       tigerspace: MakePostResolverService
     }
   },
+  {
+    path: 'editpost/:postId',
+    component: EditPostComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      post: EditPostResolverService
+    }
+  },
+  { path: 'maketigerspace', component: CreateTigerspaceComponent },
   { path: 'moderator', component: ModeratorDisplayComponent },
   { path: 'profile', component: ProfileDisplayComponent },
-  { path: 'editProfile', component: EditProfileComponent },
+  { path: 'profile/edit', component: EditProfileComponent },
+  { path: '403', component: AccessDeniedComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

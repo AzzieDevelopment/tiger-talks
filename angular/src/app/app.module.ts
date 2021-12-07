@@ -36,6 +36,9 @@ import { PostService } from './services/post.service';
 import { CommentsPageComponent } from './comments-page/comments-page.component';
 import { CommentComponent } from './comments-page/comment/comment.component';
 import { MakePostComponent } from './make-post/make-post.component';
+import { AccessDeniedComponent } from './errors/access-denied/access-denied.component';
+import { CreateTigerspaceComponent } from './create-tigerspace/create-tigerspace.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import { MakePostComponent } from './make-post/make-post.component';
     BannedUsersComponent,
     GuestPostsComponent,
     FlaggedCommentsComponent,
-    MakePostComponent
+    MakePostComponent,
+    AccessDeniedComponent,
+    CreateTigerspaceComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +87,8 @@ import { MakePostComponent } from './make-post/make-post.component';
       useClass: TokenInterceptorService,
       multi: true
     },
-    AuthService, AuthGuard,
+    AuthService, 
+    AuthGuard,
     UserService, 
     PostService,
     TigerSpaceService,

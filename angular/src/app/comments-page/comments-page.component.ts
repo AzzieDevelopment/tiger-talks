@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IComment } from '../models/comment';
@@ -29,8 +30,10 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub = this.route.data.subscribe(
       data => {
-        this.post = data.post;
-        this.comments = data.comments;
+        if (!(data.post.Id === 'N/A')) {
+          this.post = data.post;
+          this.comments = data.comments;
+        }
       }
     );
     this.currentUserId = this.authService.getNetID();
@@ -44,6 +47,7 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
 
   private getCommentData(): IComment {
     return {
+      Id: 0, // BE sets this up
       UserId: this.currentUserId,
       Body:this.newCommentData.body,
       PostId: this.post.Id,

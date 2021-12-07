@@ -271,7 +271,7 @@ router.get('/api/selectexample', (req, res) => {
 });
 
 // get 5 most recent posts
-router.get('/api/getrecentposts', (req, res) => {
+router.get('/api/getrecentpostsdemo', (req, res) => {
 
     connection.query("SELECT * FROM post ORDER BY Bump DESC LIMIT 5;", function (err, result, fields) {
         // if any error while executing above query, throw error

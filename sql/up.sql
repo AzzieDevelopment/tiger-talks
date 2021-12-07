@@ -80,6 +80,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.follow (
 	UserId VARCHAR(20) NOT NULL,
     TigerSpaceId INT UNSIGNED NOT NULL,
+    PRIMARY KEY(UserId, TigerSpaceId),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(TigerSpaceId) References azziedev_tigertalks.tigerspace(Id) ON DELETE CASCADE
 )
@@ -88,6 +89,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.flaggedpost (
 	UserId VARCHAR(20) NOT NULL,
     PostId INT UNSIGNED NOT NULL,
+    PRIMARY KEY(UserId, PostId),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(PostId) References azziedev_tigertalks.post(Id) ON DELETE CASCADE
 )
@@ -96,6 +98,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS azziedev_tigertalks.flaggedcomment (
 	UserId VARCHAR(20) NOT NULL,
     CommentId INT UNSIGNED NOT NULL,
+    PRIMARY KEY(UserId, CommentId),
     FOREIGN KEY(UserId) References azziedev_tigertalks.user(Id) ON DELETE CASCADE,
     FOREIGN KEY(CommentId) References azziedev_tigertalks.comment(Id) ON DELETE CASCADE
 )
