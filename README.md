@@ -24,7 +24,7 @@
     	* http://localhost:3000/api/hello simple response string
     	* http://localhost:3000/api/selectExample get all users from DB
     	* http://localhost:3000/api/hosturl return host from env variable
-      * http://localhost:3000/api/getCommentData/:id get id by comment
+    	* http://localhost:3000/api/getCommentData/:id get id by comment
       * http://localhost:3000/api/getUser/:id get user by id
       * http://localhost:3000/api/gettigerspace/:id get tiger space by id
       * http://localhost:3000/api/getPostData/:id get post by id
@@ -45,12 +45,13 @@
       * http://localhost:3000/api/updateUser put req to update user info
       * http://localhost:3000/api/updateStudent put req to update student info
       * http://localhost:3000/api/updateFaculty put req to update faculty info
-    	* /api/registerUser registers user data in user table
-    	* /api/registerStudent registers student data in student table
-    	* /api/registerFaculty registers faculty data in faculty table
+      * /api/registerUser registers user data in user table
+      * /api/registerStudent registers student data in student table
+      * /api/registerFaculty registers faculty data in faculty table
       * /api/getcomment/:id get id by comment
       
-      * demos that can be removed when implemented in FE
+      
+    * demos that can be removed when implemented in FE
         * http://localhost:3000/api/createPostDemo form to post a Post to database 
         * http://localhost:3000/api/createCommentDemo form to post a comment to the database
         * http://localhost:3000/api/adminDeletePost form for the deletePost endpoint
