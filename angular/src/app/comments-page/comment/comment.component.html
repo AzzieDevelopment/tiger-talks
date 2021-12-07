@@ -14,7 +14,7 @@
       {{ comment?.Body }}
     </div>
     <div class="card-footer comment-footer">
-      <button type="button" class="btn btn-outline-warning">
+      <button type="button" class="btn btn-outline-warning" (click)="upvoteComment()">
         <i class="bi fa-lg bi-heart-fill"></i>
       </button><span>{{ comment?.Upvotes }} Upvotes</span>
       <div class="time-stamp"> {{ comment?.Timestamp | date: 'short'}}</div>

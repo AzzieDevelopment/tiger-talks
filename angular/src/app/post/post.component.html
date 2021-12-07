@@ -16,7 +16,7 @@
     <p class="card-text text-truncate">{{post.Body}}</p>
   </div>
   <div class="card-footer post-footer">
-    <button type="button" class="btn btn-outline-warning">
+    <button type="button" class="btn btn-outline-warning" (click)="upvotePost()">
       <i class="bi fa-lg bi-heart-fill"></i>
     </button><span>{{ post.Upvotes }} Upvotes </span>  
     <button type="button" (click)="commentRedirect(post.Id)" class="btn btn-outline-warning">

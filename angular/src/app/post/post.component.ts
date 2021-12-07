@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IPost } from '../models/post';
 import { IFaculty, IStudent, IUser, UserType } from '../models/user';
 import { PostService } from '../services/post.service';
@@ -17,8 +19,9 @@ export class PostComponent implements OnInit, OnDestroy {
   user!: IUser;
   studentInfo?: IStudent;
   facultyInfo?: IFaculty;
-  userSub: any; // subscription for user table data
-  userInfoSub: any; // subscription for user type info data (faculty/student)
+  userSub!: Subscription; // subscription for user table data
+  userInfoSub!: Subscription; // subscription for user type info data (faculty/student)
+  upvoteSub?: Subscription;
   isAllDataLoaded: boolean = false;
 
   constructor(
@@ -49,6 +52,7 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSub?.unsubscribe();
     this.userInfoSub?.unsubscribe();
+    this.upvoteSub?.unsubscribe();
   }
 
   getStudentInfo() {
@@ -99,6 +103,21 @@ export class PostComponent implements OnInit, OnDestroy {
 
   getUserName() : string {
     return this.user?.FirstName + ' ' + this.user?.LastName 
+  }
+
+  upvotePost() {
+    this.upvoteSub = this.postService.upvotePost(this.post?.Id).subscribe(
+      data => {
+        window.location.reload();
+      },
+      err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['signin']);
+          }
+        }
+      }
+    );
   }
 
 }
