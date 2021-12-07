@@ -650,6 +650,39 @@ app.get('/api/adminDeletePost', function (request, response) {
   response.end();
 });
 
+app.put('/api/editPost', (req, res) => {
+  if (req.session.loggedin) {
+    let postid = req.body.Id;
+    let title = req.body.Title;
+    let category = req.body.Category;
+    let body = req.body.Body;
+
+    // check if post exists
+    connection.query(`SELECT * FROM post WHERE Id='${postid}';`, function(error, result) {
+      if (error) {
+        throw error;
+      }
+      if (result.length > 0) {
+        console.log('Preparing to edit post');
+        // edit post
+        connection.query(`UPDATE post SET Title=\"${title}\", Category='${category}', Body=\"${body}\", Bump='${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}' WHERE Id='${postid}';`, function(error, result) {
+          if (error) {
+            throw error;
+          }
+          res.status(200).send({message: 'Post edited'})
+        });
+      } else {
+        console.log("Post not found, therefore can't edit post.");
+        res.status(404).send({message: 'Post not found'});
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't edit post.");
+    res.status(401).send({message: 'User not logged in'});
+  }
+});
+
 
 
 //imagine the following people can delete posts/comments
@@ -659,28 +692,36 @@ app.get('/api/adminDeletePost', function (request, response) {
 //any commenter can delete their individual comments
 
 app.post('/api/deletePost', (req, res) => {
-
-  let postid = req.body.postid;
-
   //ensure the user is logged in before anything
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
-    //purge comments before purging the post
-    connection.query(`DELETE FROM comment WHERE PostId = ${postid}\;`, function (err, result) {
-      if (err) {
-        throw err;
+    let postid = req.body.postid;
+    // check post exists
+    connection.query(`SELECT * FROM post WHERE id ='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        // delete post comments and post
+        //purge comments before purging the post
+        connection.query(`DELETE FROM comment WHERE PostId = ${postid}\;`, function (err, result) {
+          if (err) {
+            throw err;
+          }
+          connection.query(`DELETE FROM post WHERE Id = ${postid}\;`, function (err, result) {
+            if (err) {
+              throw err;
+            }
+            console.log("Post deleted.");
+            res.status(200).send({message:'Post deleted'});
+          });
+        });
+      } else {
+        res.status(404).send({message:"Post not found."});
       }
-      connection.query(`DELETE FROM post WHERE Id = ${postid}\;`, function (err, result) {
-        if (err) {
-          throw err;
-        }
-        console.log("Post deleted.");
-        res.redirect('/#/');
-      })
-    })
+    });
+    
   } else {
-    console.log("User isn't logged in, therefore can't submit a post.");
-    res.redirect('/#/signin');
+    console.log("User isn't logged in, therefore can't delete a post.");
+    res.status(401).send({message:'User not logged in'});
   }
 });
 
@@ -737,10 +778,11 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
 app.get('/api/getRecentPosts/', (req, res) => {
   connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
     //sanity check that if it ever fails, we need to restructure
-    if (result.length > 0) {
-      res.send(result);
+
+    if (result?.length > 0) {
+      res.status(200).send(result);
     } else {
-      res.send("Posts not found.");
+      res.status(404).send("Posts not found.");
     }
   })
 

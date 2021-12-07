@@ -51,7 +51,7 @@
       * /api/getcomment/:id get id by comment
       * /api/didUserFlagPost/:postid check if logged in user flagged a given post
       * /api/didUserFlagComment/:commentid check if logged in user flagged a given comment
-      
+      * /api/editPost put request to edit a given post by id       
       
     * demos that can be removed when implemented in FE
         * http://localhost:3000/api/createPostDemo form to post a Post to database 

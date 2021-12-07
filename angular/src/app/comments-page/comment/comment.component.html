@@ -4,8 +4,7 @@
       <span>{{ getUserName() }}&nbsp;|&nbsp;</span>
       <span>{{ getUserType() }}&nbsp;|&nbsp;</span>
       <span>{{ getInfo() }}&nbsp;|&nbsp;</span>
-      <span>{{ user?.Pronouns }}&nbsp;|&nbsp;</span>
-      <span>Comment id: {{ comment?.Id }}</span>
+      <span>{{ user?.Pronouns }}</span>
       <button id="flag-btn" type="button" class="btn btn-outline-warning" (click)="flagComment()" [disabled]="isFlagged">
         <i class="bi bi-flag-fill"></i>
       </button>
