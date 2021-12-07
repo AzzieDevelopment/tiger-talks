@@ -1,26 +1,45 @@
+<app-banner [bannerTitle]="pageTitle"></app-banner>
+
 <div class="container">
-    <div id="tigerspace-div" class="mx-auto">
-        <h1>Create New Tigerspace</h1>
-        <hr />
-        <form id="tigerspace-form" method="POST" action="/api/auth" class="row g-3">
+    <div id="tigerspace-div" class="mx-auto w-75">
+        <form id="tigerspace-form" #tigerspaceForm="ngForm" class="row g-3" (ngSubmit)="onSubmit()">
+            
+            <div class="text-danger" *ngIf="!isFaculty">&nbsp;* Must be faculty to create a Tiger Space.</div>
+            <!-- Title -->
             <div class="col-md-12">
-                <label for="title" class="form-label">Title</label>
-                <input id="title" name="title" type="text" class="form-control" required>
+                <div class="form-group">
+                    <label for="title" class="form-label">Title</label>
+                    <small class="text-danger" *ngIf="title.errors?.required">&nbsp;*</small>
+                    <input id="title" #title="ngModel" [(ngModel)]="newTigerSpaceData.title"
+                        name="title" type="text" class="form-control" required>
+                </div>
             </div>
+
+            <!-- Type -->
             <div class="col-md-12">
-                <label for="description" class="form-label">Description</label>
-                <input id="description" name="description" type="text" class="form-control" required>
-            </div>
-            <div class="col-md-12">
-                <label for="tigerspace-list" class="form-label">Choose a category: </label> <br>
-                <input list="tigerspace-list" name="tigerspace-type">
-                <datalist id="tigerspace-list">
+                <label for="type" class="form-label">Type</label>
+                <small class="text-danger" *ngIf="type.errors?.required">&nbsp;*</small>
+                <select id="type" #type="ngModel" [(ngModel)]="newTigerSpaceData.type" 
+                    name="type" class="form-select" required>
+                    <option value="">Select a type...</option>
                     <option value="Academic">Academic</option>
                     <option value="Social">Social</option>
-                </datalist>
+                </select>
             </div>
+
+            <!-- Description -->
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="description" class="form-label">Description</label>
+                    <small class="text-danger" *ngIf="description.errors?.required">&nbsp;*</small>
+                    <textarea id="description" class="form-control" type="textarea" rows="3" required
+                        name="description" #description="ngModel" [(ngModel)]="newTigerSpaceData.description"></textarea>
+                </div>
+            </div>
+            
             <div class="col-12">
-                <button id="submit-btn" type="submit" class="btn btn-lg">Submit</button>
+                <button id="submit-btn" [disabled]="tigerspaceForm.form.invalid || !isFaculty" type="submit" class="btn btn-lg">Submit</button>
+                <div class="text-danger required-msg" *ngIf="tigerspaceForm.form.invalid">&nbsp;* Required</div>
             </div>
         </form>
     </div>

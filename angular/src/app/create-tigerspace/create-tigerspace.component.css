@@ -1,9 +1,8 @@
-#tigerspace-div {
-    margin-top: 20px;
-    width: 450px;
-}
-
 #submit-btn {
     background-color: var(--tu-orange);
     font-weight: bold;
+}
+
+.required-msg {
+    display: inline;
 }

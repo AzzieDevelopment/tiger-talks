@@ -382,6 +382,51 @@ app.post('/api/createPost', (req, res) => {
   }
 });
 
+// create new tiger space
+app.post('/api/createtigerspace', (req, res) => {
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    let userId = req.session.netID;
+    let title = req.body.Title;
+    let description = req.body.Description;
+    let type = req.body.Type;
+
+    //first query the db to get the latest post ID
+    connection.query(`SELECT id FROM tigerspace ORDER BY id DESC LIMIT 1;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      let highestTigerSpace = 0;
+      if (result.length > 0) {
+        highestTigerSpace = result[0].id;
+      }
+      highestTigerSpace++;
+      console.log(highestTigerSpace);
+
+      connection.query(`SELECT id FROM tigerspace WHERE id ='${highestTigerSpace}\';`, function (err, result) {
+        //sanity check that if it ever fails, we need to restructure
+        if (!(typeof result[0] === "undefined")) {
+          console.log('crucial sanity check failed, restructure tigerspace ID incrementation');
+        } else {
+          console.log("New tigerspace, proceeding to insert");
+          //insert into database. Report error if fail, otherwise redirect user to login page
+          connection.query(`INSERT INTO tigerspace (Id,UserId,Title,Description,Type) VALUES ('${highestTigerSpace}','${userId}',"${title}","${description}",'${type}');`, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } else {
+              //optimally redirect user to their newly created post
+              res.status(200).send({message: "Tigerspace created"});
+            }
+          })
+        }
+      })
+    })
+  } else {
+    console.log("User isn't logged in, therefore can't create a tigerspace.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
 app.get('/api/upvotePost/:postid', (req, res) => {
   if (req.session.loggedin) {
     let postid = decodeURIComponent(req.params.postid);
