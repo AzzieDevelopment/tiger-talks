@@ -1,0 +1,29 @@
+<app-banner [bannerTitle]="pageTitle"></app-banner>
+<div class="container">
+    <div>
+        <h5 id='page-description'>{{ pageDescription }}</h5>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <tigerspace-list></tigerspace-list>
+        </div>
+        <div class="col-md-8">
+            <h1>Post</h1>
+            <post [post]="post"></post>
+            <h1>Comments</h1>
+            <div *ngFor="let comment of comments">
+                <comment [comment]="comment"></comment>
+            </div>
+            <form #commentForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <textarea class="form-control" id="body" 
+                        #body="ngModel" [(ngModel)]="newCommentData.body"
+                        name="body" placeholder="Add a comment" rows="3" required></textarea>
+                    <small class="text-danger" [class.d-none]="loggedIn || body.untouched">Must be logged in to comment on a post.</small>
+                    <button type="submit" [disabled]="commentForm.form.invalid || !loggedIn" class="btn submit-btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

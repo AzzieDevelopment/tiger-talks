@@ -2,6 +2,13 @@
     padding-bottom: 5px;
 }
 
+.active {
+    background-color: var(--tu-orange);
+    color: black;
+    border: none;
+    font-weight: 500;
+}
+
 /* Overrides on Bootstrap styling */
 
 .accordion-button:not(.collapsed) {

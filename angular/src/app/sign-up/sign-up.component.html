@@ -6,53 +6,146 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <form #signupForm="ngForm" id="signup-form" method="POST" (ngSubmit)="onSubmit()" class="row g-3">
-            <!-- Net ID -->
+            <!-- Net ID (required) -->
             <div class="col-md-6">
                 <label for="netID" class="form-label">Net ID</label>
+                <small class="text-danger" *ngIf="netID.errors?.required">&nbsp;*</small>
                 <input id="netID" #netID="ngModel" 
                     [class.is-invalid]="netID.invalid && netID.touched"
                     [(ngModel)]="signUpData.netID" name="netID" 
                     type="text" class="form-control" required>
-                <small class="text-danger" [class.d-none]="!netID.errors || 
-                    netID.untouched">Net ID is required</small>
             </div>
 
-            <!-- Email -->
+            <!-- Email (required) -->
             <div class="col-md-6">
                 <label for="email" class="form-label">Email</label>
+                <small class="text-danger" *ngIf="email.errors?.required">&nbsp;*</small>
+                <!-- (change)="validateEmail()" (blur)="validateEmail()" -->
                 <input id="email" #email="ngModel"
                     pattern="^[A-Za-z0-9._%+-]+(@towson.edu|@students.towson.edu)$"
-                    (change)="validateEmail()" (blur)="validateEmail()"
                     [class.is-invalid]="email.invalid && email.touched"
                     [(ngModel)]="signUpData.email" name="email" 
                     type="email" class="form-control" required>
                 <div *ngIf="email.errors && email.touched">
-                    <div *ngIf="email.errors.required"><small class="text-danger">Email is required</small></div>
                     <div *ngIf="email.errors.pattern"><small class="text-danger">Must be a valid TU student or faculty email</small></div>
                 </div>
             </div>
 
-            <!-- First Name -->
+            <!-- First Name (required) -->
             <div class="col-md-6">
                 <label for="firstName" class="form-label">First Name</label>
+                <small class="text-danger" *ngIf="firstName.errors?.required">&nbsp;*</small>
                 <input id="firstName" #firstName="ngModel"
                     [class.is-invalid]="firstName.invalid && firstName.touched"
                     [(ngModel)]="signUpData.firstName" name="firstName" 
                     type="text" class="form-control" required>
-                <small class="text-danger" [class.d-none]="!firstName.errors || 
-                    firstName.untouched">First name is required</small>
             </div>
 
-            <!-- Last Name -->
+            <!-- Last Name (required) -->
             <div class="col-md-6">
                 <label for="lastName" class="form-label">Last Name</label>
+                <small class="text-danger" *ngIf="lastName.errors?.required">&nbsp;*</small>
                 <input id="lastName" #lastName="ngModel"
                     [class.is-invalid]="lastName.invalid && lastName.touched"
                     [(ngModel)]="signUpData.lastName" name="lastName" 
                     type="text" class="form-control" required>
-                <small class="text-danger" [class.d-none]="!lastName.errors || 
-                    lastName.untouched">Last name is required</small>
+            </div>
+
+            <!-- User Type (required) -->
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="userType" class="form-label">User Type</label>
+                    <small class="text-danger" *ngIf="userType.errors?.required">&nbsp;*</small>
+                    <select id="userType" #userType="ngModel" class="form-select" [(ngModel)]="signUpData.userType" name="userType" required>
+                        <option value="">I am a...</option>
+                        <option value="student">Student</option>
+                        <option value="faculty">Faculty</option>
+                    </select>
                 </div>
+            </div>
+
+            <!-- Student Data -->
+            <div *ngIf="isStudent()">
+                <div class="row g-3">
+                    <!-- Major (required) -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="major" class="form-label">Major</label>
+                            <small class="text-danger" *ngIf="major.errors?.required">&nbsp;*</small>
+                            <input id="major" #major="ngModel"
+                                [class.is-invalid]="major.invalid && major.touched"
+                                [(ngModel)]="signUpData.major" name="major" 
+                                type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Minor -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="minor" class="form-label">Minor</label>
+                            <input id="minor" #minor="ngModel"
+                                [class.is-invalid]="minor.invalid && minor.touched"
+                                [(ngModel)]="signUpData.minor" name="minor" 
+                                type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Track -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="track" class="form-label">Track</label>
+                            <input id="track" #track="ngModel"
+                                [class.is-invalid]="track.invalid && track.touched"
+                                [(ngModel)]="signUpData.track" name="track" 
+                                type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Grad Year -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="gradYear" class="form-label">Graduation Year</label>
+                            <input id="gradYear" #gradYear="ngModel"
+                                pattern="^[0-9]{4}$"
+                                [class.is-invalid]="gradYear.invalid && gradYear.touched"
+                                [(ngModel)]="signUpData.gradYear" name="gradYear" 
+                                type="text" class="form-control">
+                            <div *ngIf="gradYear.errors && gradYear.touched">
+                                <div *ngIf="gradYear.errors.pattern"><small class="text-danger">Must use YYYY format.</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty Data -->
+            <div *ngIf="isFaculty()">
+                <div class="row g-3">
+                    <!-- Title (required) -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="title" class="form-label">Title</label>
+                            <small class="text-danger" *ngIf="title.errors?.required">&nbsp;*</small>
+                            <select id="title" #title="ngModel" class="form-select" [(ngModel)]="signUpData.title" name="title" required>
+                                <option selected value="">Select a title...</option>
+                                <option *ngFor="let title of titles">{{ title }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Department (required) -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="department" class="form-label">Department</label>
+                            <small class="text-danger" *ngIf="department.errors?.required">&nbsp;*</small>
+                            <input id="department" #department="ngModel"
+                                [class.is-invalid]="department.invalid && department.touched"
+                                [(ngModel)]="signUpData.department" name="department" 
+                                type="text" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Preferred Name -->
             <div class="col-md-6">
@@ -68,29 +161,28 @@
                     name="pronouns" type="text" class="form-control">
             </div>
 
-            <!-- Password -->
+            <!-- Password (required) -->
             <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
+                <small class="text-danger" *ngIf="password.errors?.required">&nbsp;*</small>
                 &nbsp;<i id="togglePassword" class="bi bi-eye-slash" (click)="togglePassword()"></i>
                 <input id="password" #password="ngModel"
                     (blur)="validatePasswords()" (change)="validatePasswords()"
                     [class.is-invalid]="password.touched && password.invalid"
                     [(ngModel)]="signUpData.password" name="password" 
                     type="password" class="form-control" required>
-                <small class="text-danger" [class.d-none]="!password.errors || 
-                    password.untouched">Password is required</small>
             </div>
 
-            <!-- Verify Password -->
+            <!-- Verify Password (required) -->
             <div class="col-md-6">
                 <label for="verifyPassword" class="form-label">Verify Password</label>
+                <small class="text-danger" *ngIf="verifyPassword.errors?.required">&nbsp;*</small>
                 &nbsp;<i id="toggleVerify" class="bi bi-eye-slash" (click)="toggleVerify()"></i>
                 <input id="verifyPassword" #verifyPassword="ngModel"
                     (blur)="validatePasswords()" (change)="validatePasswords()"
                     [class.is-invalid]="verifyPassword.touched && (!passwordsMatch || verifyPassword.invalid)"
                     [(ngModel)]="signUpData.verifyPassword" name="verifyPassword" 
                     type="password" class="form-control" required>
-                <div *ngIf="verifyPassword.touched && verifyPassword.errors?.required"><small class="text-danger">Please verify password</small></div>
                 <div *ngIf="!passwordsMatch"><small class="text-danger">Passwords do not match</small></div>
             </div>
 
@@ -101,7 +193,7 @@
                     name="bio" class="form-control" rows="3"></textarea>
             </div>
 
-            <!-- Accept Terms -->
+            <!-- Accept Terms (required) -->
             <div class="col-12">
                 <div class="form-check">
                   <input id="acceptTerms" #acceptTerms="ngModel" [(ngModel)]="signUpData.acceptTerms" 
@@ -109,14 +201,15 @@
                   <label class="form-check-label" for="acceptTerms">
                     Accept <a routerLink="/guidelines" target="_blank">Community Guidelines</a>
                   </label>
-                  <div *ngIf="acceptTerms.invalid"><small class="text-danger">Community guidelines must be accepted to create an account</small></div>
+                  <small class="text-danger" *ngIf="acceptTerms.errors?.required">&nbsp;*</small>
                 </div>
             </div>
 
             <!-- Sign Up Button -->
-            <div class="col-12">
+            <div class="col-md-12">
                 <button id="signup-btn" [disabled]="signupForm.form.invalid || !passwordsMatch"
                     type="submit" class="btn btn-lg">Sign Up</button>
+                <div class="text-danger required-msg" *ngIf="signupForm.form.invalid">&nbsp;* Required</div>
             </div>
         </form>
     </div>

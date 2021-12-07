@@ -1,0 +1,31 @@
+.post {
+    margin-bottom: 1.5em;
+}
+
+.time-stamp {
+    margin-left: auto;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+#user-icon {
+    margin: 0px 5px;
+}
+
+#flag-btn {
+    margin-left: auto;
+}
+
+.post-footer {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+button {
+    margin: 0 5px;
+}

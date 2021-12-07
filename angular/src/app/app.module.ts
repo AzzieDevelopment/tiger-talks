@@ -16,12 +16,12 @@ import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.co
 import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thumbnail/tigerspace-thumbnail.component';
 import { ProfileDisplayComponent } from './profile-display/profile-display.component';
 import { EditProfileComponent } from './profile-display/edit-profile/edit-profile.component';
-import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
+import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.component';
 import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
 import { LoggerService } from './services/logger.service';
 import { HomePageComponent } from './home-page/home-page.component';
-import { TigerpageComponent } from './tigerpage/tigerpage.component';
+import { TigerSpacePageComponent } from './tigerspace-page/tigerspace-page.component';
 import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
 import { FlaggedPostsComponent } from './moderator-display/flagged-posts/flagged-posts.component';
 import { BannedUsersComponent } from './moderator-display/banned-users/banned-users.component';
@@ -31,7 +31,11 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { TigerSpaceService } from './services/tigerspace.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { CommentsComponent } from './comments/comments.component';
+import { PostComponent } from './post/post.component';
+import { PostService } from './services/post.service';
+import { CommentsPageComponent } from './comments-page/comments-page.component';
+import { CommentComponent } from './comments-page/comment/comment.component';
+import { MakePostComponent } from './make-post/make-post.component';
 
 @NgModule({
   declarations: [
@@ -48,15 +52,18 @@ import { CommentsComponent } from './comments/comments.component';
     TigerspaceThumbnailComponent,
     ProfileDisplayComponent,
     EditProfileComponent,
-    TigerpageComponent,
+    TigerSpacePageComponent,
     PageNotFoundComponent,
     BannerComponent,
+    PostComponent,
+    CommentsPageComponent,
+    CommentComponent,
     ModeratorDisplayComponent,
     FlaggedPostsComponent,
     BannedUsersComponent,
     GuestPostsComponent,
     FlaggedCommentsComponent,
-    CommentsComponent,
+    MakePostComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +83,7 @@ import { CommentsComponent } from './comments/comments.component';
     },
     AuthService, AuthGuard,
     UserService, 
+    PostService,
     TigerSpaceService,
     LoggerService],
   bootstrap: [AppComponent]

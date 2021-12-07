@@ -1,0 +1,29 @@
+<div *ngIf="isAllDataLoaded" class="card comment">
+    <div class="card-header comment-header">
+      <i id="user-icon" class="bi fa-lg bi-person-circle"></i>
+      <span>{{ getUserName() }}&nbsp;|&nbsp;</span>
+      <span>{{ getUserType() }}&nbsp;|&nbsp;</span>
+      <span>{{ getInfo() }}&nbsp;|&nbsp;</span>
+      <span>{{ user?.Pronouns }}&nbsp;|&nbsp;</span>
+      <span>Comment id: {{ comment?.Id }}</span>
+      <button id="flag-btn" type="button" class="btn btn-outline-warning">
+        <i class="bi bi-flag-fill"></i>
+      </button>
+    </div>
+    <div class="card-body">
+      {{ comment?.Body }}
+    </div>
+    <div class="card-footer comment-footer">
+      <button type="button" class="btn btn-outline-warning">
+        <i class="bi fa-lg bi-heart-fill"></i>
+      </button><span>{{ comment?.Upvotes }} Upvotes</span>
+      <div class="time-stamp"> {{ comment?.Timestamp | date: 'short'}}</div>
+    </div>
+  </div>
+
+<!-- Spinner for loading post -->
+<div *ngIf="!isAllDataLoaded" class="text-center">
+  <div class="spinner-border spinner-border-sm" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
