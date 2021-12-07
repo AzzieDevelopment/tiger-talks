@@ -11,3 +11,8 @@
     background-color: var(--tu-orange);
     font-weight: bold;
 }
+
+#postButton:hover {
+    background-color: #000;
+    color: var(--tu-orange);
+}

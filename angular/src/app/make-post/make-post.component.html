@@ -1,17 +1,37 @@
-        <div class="row justify-content-md-center">
-            <form class="w-75">
-            <!-- <form [formGroup]="postForm">                 -->
-                <div>
-                    <label for="title" class="form-label">Title: </label>
-                    <input id="title" type="text" class="form-control" formControlName="title">
-                    <select class="form-select" aria-label="Category:">
-                        <option selected>Category:</option>
-                        <option value="Academic">Academic</option>
-                        <option value="Social">Social</option>
-                      </select>
-                </div>
-                <label for="body" class="form-label">Body: </label> <br>
-                <textarea id="body" class="form-control" type="textarea" rows="10" formControlName="body"></textarea> <br>
-                <button id="postButton" class="btn btn-lg">Post</button>
-            </form>
+<app-banner [bannerTitle]="pageTitle"></app-banner>
+
+<div class="container w-75">
+    <div class="text-center">
+        Making a post for the {{ tigerspace?.Title }} Tiger Space.
+    </div>
+    <hr />
+    <form class="row g-3" (ngSubmit)="onSubmit()">
+        <!-- Title -->
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input id="title" type="text" class="form-control"
+                #title="ngModel" name="title" [(ngModel)]="newPostData.title">
         </div>
+
+        <!-- Category -->
+        <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" class="form-select" #category="ngModel" required
+                [(ngModel)]="newPostData.category" name="category" aria-label="Category:">
+                <option selected value="">Pick a category...</option>
+                <option *ngFor="let category of categories">{{ category }}</option>
+            </select>
+        </div>
+
+        <!-- Body -->
+        <div class="form-group">
+            <label for="body" class="form-label">Body</label> <br>
+            <textarea id="body" class="form-control" type="textarea" rows="10"
+                name="body" #body="ngModel" [(ngModel)]="newPostData.body"></textarea>
+        </div>
+        
+        <div class="col-md-12">
+            <button id="postButton" class="btn btn-lg" type="submit">Post</button>
+        </div>
+    </form>
+</div>
