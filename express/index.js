@@ -778,7 +778,39 @@ app.post('/api/unflagPost', (req, res) => {
       }
     }) 
   } else {
-    console.log("User isn't logged in, therefore can't flag a post.");
+    console.log("User isn't logged in, therefore can't unflag a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+//unflag comment
+app.post('/api/unflagComment', (req, res) => {
+
+  let commentid = req.body.commentid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`DELETE FROM flaggedcomment WHERE CommentId = '${commentid}'\;`), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Comment not found.");
+      }
+    }) 
+  } else {
+    console.log("User isn't logged in, therefore can't unflag a commentid.");
     res.redirect('/#/signin');
   }
 });
