@@ -1,5 +1,9 @@
 # ReadMe
 
+* ## Deployed Links
+* Backup: https://tigertalks1.azziedevelopment.com/#/home
+* Main (if successful): https://tigertalks.azziedevelopment.com/#/home
+
 * ## Prerequisite
     * Grab the most recent copy of global.json from our shared drive, otherwise sign in functionality will not work. 
 
