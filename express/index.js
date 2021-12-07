@@ -145,6 +145,8 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
 app.post('/api/auth', function (req, res) {
   let netID = req.body.netID;
   let password = req.body.password;
+
+  console.log(netID)
   
   //ensure user entered login
   if (netID && password) {
@@ -677,11 +679,13 @@ app.put('/api/updateUser' , (req, res) => {
     }
     sql += ` WHERE Id = \'${req.session.netID}\'`
 
+    console.log(sql);
+
     connection.query(sql, function (err, result) {
       if (err) {
         throw err;
       }
-      if (result.length > 0) {
+      if (result.affectedRows > 0) {
         res.status(200).send({ message: 'User information updated'});
       }
       else {
@@ -707,7 +711,7 @@ app.put('/api/updateStudent' , (req, res) => {
       if (err) {
         throw err;
       }
-      if (result.length > 0) {
+      if (result.affectedRows > 0) {
         res.status(200).send({ message: 'Student information updated'});
       }
       else {
@@ -733,7 +737,7 @@ app.put('/api/updateFaculty' , (req, res) => {
       if (err) {
         throw err;
       }
-      if (result.length > 0) {
+      if (result.affectedRows > 0) {
         res.status(200).send({ message: 'Faculty information updated'});
       }
       else {
