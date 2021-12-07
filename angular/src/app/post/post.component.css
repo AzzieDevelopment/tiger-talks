@@ -17,6 +17,11 @@
 }
 
 #flag-btn {
+    /* margin-left: auto; */
+}
+
+#edit-buttons {
+    display: inline;
     margin-left: auto;
 }
 

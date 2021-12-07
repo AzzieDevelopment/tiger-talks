@@ -25,6 +25,7 @@ export class PostComponent implements OnInit, OnDestroy {
   userInfoSub!: Subscription; // subscription for user type info data (faculty/student)
   upvoteSub?: Subscription;
   flagPostSub?: Subscription;
+  deletePostSub?: Subscription;
   checkIfFlaggedSub?: Subscription;
   isAllDataLoaded: boolean = false;
 
@@ -60,18 +61,29 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userInfoSub?.unsubscribe();
     this.upvoteSub?.unsubscribe();
     this.flagPostSub?.unsubscribe();
+    this.deletePostSub?.unsubscribe();
     this.checkIfFlaggedSub?.unsubscribe();
+  }
+
+  isPostOwner(): boolean {
+    return this.post?.UserId === this.authService.getNetID();
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.loggedIn();
+  }
+
+  private allDataIsVerified() {
+    this.isAllDataLoaded = true;
   }
 
   checkIfUserFlaggedPost() {
     if (!this.authService.loggedIn()) {
       this.isFlagged = false;
-      this.isAllDataLoaded = true;
     } else {
       this.checkIfFlaggedSub = this.postService.checkIfUserFlaggedPost(this.post?.Id).subscribe(
         data => {
           this.isFlagged = data.isFlagged;
-          this.isAllDataLoaded = true;
         },
         err => console.log(err)
       );
@@ -82,6 +94,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
         this.studentInfo = data;
+        this.allDataIsVerified();
       },
       err => console.log(err)
     );
@@ -91,6 +104,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userInfoSub = this.userService.getFaculty(this.user.Id).subscribe(
       data => {
         this.facultyInfo = data;
+        this.allDataIsVerified();
       },
       err => console.log(err)
     );
@@ -153,6 +167,29 @@ export class PostComponent implements OnInit, OnDestroy {
             this.router.navigate(['signin']);
           } else if (err.status === 403) {
             console.log('already flagged this post');
+          } else {
+            console.log(err);
+          }
+        }
+      }
+    );
+  }
+
+  redirectToEditPost() {
+    this.router.navigate(['editpost', this.post?.Id]);
+  }
+
+  deletePost() {
+    this.deletePostSub = this.postService.deletePost(this.post?.Id).subscribe(
+      data => {
+        this.router.navigate(['home']);
+      },
+      err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['signin']);
+          } else if (err.status === 404) {
+            this.router.navigate(['404']);
           } else {
             console.log(err);
           }

@@ -1,0 +1,36 @@
+<app-banner [bannerTitle]="pageTitle"></app-banner>
+<div class="container w-75">
+    <form class="row g-3" #editPostForm="ngForm" (ngSubmit)="onSubmit()">
+        <!-- Title -->
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <small class="text-danger" *ngIf="title.errors?.required">&nbsp;*</small>
+            <input id="title" type="text" class="form-control" required
+                #title="ngModel" name="title" [(ngModel)]="editPostData.title">
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <small class="text-danger" *ngIf="category.errors?.required">&nbsp;*</small>
+            <select id="category" class="form-select" #category="ngModel" required
+                [(ngModel)]="editPostData.category" name="category" aria-label="Category:">
+                <option selected value="">Pick a category...</option>
+                <option *ngFor="let category of categories">{{ category }}</option>
+            </select>
+        </div>
+
+        <!-- Body -->
+        <div class="form-group">
+            <label for="body" class="form-label">Body</label>
+            <small class="text-danger" *ngIf="body.errors?.required">&nbsp;*</small>
+            <textarea id="body" class="form-control" type="textarea" rows="10" required
+                name="body" #body="ngModel" [(ngModel)]="editPostData.body"></textarea>
+        </div>
+        
+        <div class="col-md-12">
+            <button id="editButton" class="btn btn-lg" type="submit" [disabled]="editPostForm.invalid">Edit</button>
+            <div class="text-danger required-msg" *ngIf="editPostForm.form.invalid">&nbsp;* Required</div>
+        </div>
+    </form>
+</div>

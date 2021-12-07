@@ -36,6 +36,7 @@ import { CommentComponent } from './comments-page/comment/comment.component';
 import { MakePostComponent } from './make-post/make-post.component';
 import { AccessDeniedComponent } from './errors/access-denied/access-denied.component';
 import { CreateTigerspaceComponent } from './create-tigerspace/create-tigerspace.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { CreateTigerspaceComponent } from './create-tigerspace/create-tigerspace
     FlaggedCommentsComponent,
     MakePostComponent,
     AccessDeniedComponent,
-    CreateTigerspaceComponent
+    CreateTigerspaceComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,

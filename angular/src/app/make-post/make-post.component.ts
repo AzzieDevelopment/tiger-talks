@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -55,10 +56,17 @@ export class MakePostComponent implements OnInit, OnDestroy {
     let post: IPost = this.getPostData();
     this.postSub = this.postService.createPost(post).subscribe(
       data => {
-        console.log(data);
         this.router.navigate([".."]);
       },
-      error => console.log(error)
+      err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['signin']);
+          } else {
+            console.log(err);
+          }
+        }
+      }
     );
   }
 }

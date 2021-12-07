@@ -1,0 +1,16 @@
+#editButton {
+    float: right;
+    background-color: var(--tu-orange);
+    font-weight: bold;
+}
+
+#editButton:hover {
+    background-color: #000;
+    color: var(--tu-orange);
+}
+
+.required-msg {
+    display: inline;
+    float: right;
+    margin-right: 5px;
+}
