@@ -18,6 +18,8 @@ import { CommentsPageCommentsResolverService } from './comments-page/comments-pa
 import { ModeratorDisplayComponent } from './moderator-display/moderator-display.component';
 import { MakePostComponent } from './make-post/make-post.component';
 import { MakePostResolverService } from './make-post/make-post-resolver.service';
+import { CreateTigerspaceComponent } from './create-tigerspace/create-tigerspace.component';
+import { AccessDeniedComponent } from './errors/access-denied/access-denied.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -56,7 +58,9 @@ const routes: Routes = [
       tigerspace: MakePostResolverService
     }
   },
+  { path: 'maketigerspace', component: CreateTigerspaceComponent },
   { path: 'moderator', component: ModeratorDisplayComponent },
+  { path: '403', component: AccessDeniedComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
