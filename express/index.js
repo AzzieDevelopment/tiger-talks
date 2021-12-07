@@ -630,9 +630,8 @@ app.post('/api/flagComment', (req, res) => {
             if (err) {
               console.log("Error: ", err);
             } 
-            res.status(200).json("Success");
           }
-                            
+          res.send(200, '{"message":"ok"}');        
       } else {
         res.send("Comment not found.");
       }
@@ -676,10 +675,10 @@ app.post('/api/flagPost', (req, res) => {
             if (err) {
               console.log("Error: ", err);
             } 
-            result.send('{"success": "true"}');
           }
+          res.send(200, '{"message":"ok"}');
       } else {
-        result.send("Post not found.");
+        res.send("Post not found.");
       }
     })
     
@@ -688,8 +687,6 @@ app.post('/api/flagPost', (req, res) => {
     res.redirect('/#/signin');
   }
 });
-
-
 
 //get flagged posts
 app.get('/api/getFlaggedPosts/', (req, res) => {
