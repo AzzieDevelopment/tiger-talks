@@ -20,13 +20,24 @@ export class TigerSpacePageComponent implements OnInit, OnDestroy {
     this.subscription = this.route.data.subscribe(
       data => {
         this.tigerspace = data.tigerspace;
-        this.posts = data.posts;
+        if (Array.isArray(data.posts)) {
+          this.posts = data.posts;
+        } else {
+          this.posts = [];
+        }
         this.pageTitle = this.tigerspace?.Title;
+      },
+      err => {
+        console.log(err);
       }
     );
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  isEmpty(): boolean {
+    return this.posts.length === 0;
   }
 }
