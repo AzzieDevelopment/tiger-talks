@@ -15,3 +15,7 @@ form i {
 .required-msg {
     display: inline;
 }
+
+#signup-btn {
+    margin-bottom: 1em;
+}

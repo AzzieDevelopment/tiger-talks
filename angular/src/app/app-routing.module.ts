@@ -5,6 +5,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
+import { ProfileDisplayComponent } from './profile-display/profile-display.component';
+import { EditProfileComponent } from './profile-display/edit-profile/edit-profile.component';
 import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.component';
 import { TigerSpacesGridResolverService } from './tigerspaces-grid/tigerspaces-grid-resolver.service';
 import { TigerSpacePageComponent } from './tigerspace-page/tigerspace-page.component';
@@ -71,6 +73,8 @@ const routes: Routes = [
   },
   { path: 'maketigerspace', component: CreateTigerspaceComponent },
   { path: 'moderator', component: ModeratorDisplayComponent },
+  { path: 'profile', component: ProfileDisplayComponent },
+  { path: 'profile/edit', component: EditProfileComponent },
   { path: '403', component: AccessDeniedComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }

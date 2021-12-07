@@ -140,7 +140,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       UserType: this.getUserType(),
       Permission: Permission.Basic,
       Bio: this.signUpData.bio || '',
-      PreferredName: this.signUpData.preferredName || '',
+      PName: this.signUpData.preferredName || '',
       Pronouns: this.signUpData.pronouns || '',
       Password: this.signUpData.password
     };

@@ -14,6 +14,8 @@ import { TigerSpaceListComponent } from './home-page/tigerspace-list/tigerspace-
 import { RecentPostsComponent } from './home-page/recent-posts/recent-posts.component';
 import { TigerSpacesGridComponent } from './tigerspaces-grid/tigerspaces-grid.component';
 import { TigerspaceThumbnailComponent } from './tigerspaces-grid/tigerspace-thumbnail/tigerspace-thumbnail.component';
+import { ProfileDisplayComponent } from './profile-display/profile-display.component';
+import { EditProfileComponent } from './profile-display/edit-profile/edit-profile.component';
 import { PageNotFoundComponent } from './errors/pagenotfound/pagenotfound.component';
 import { BannerComponent } from './banner/banner.component';
 import { UserService } from './services/user.service';
@@ -51,6 +53,8 @@ import { EditPostComponent } from './edit-post/edit-post.component';
     RecentPostsComponent,
     TigerSpacesGridComponent,
     TigerspaceThumbnailComponent,
+    ProfileDisplayComponent,
+    EditProfileComponent,
     TigerSpacePageComponent,
     PageNotFoundComponent,
     BannerComponent,

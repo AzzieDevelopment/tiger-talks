@@ -1,0 +1,17 @@
+#editProfile-div {
+    margin-top: 20px;
+    width: 70%;
+}
+
+#updateProfile-btn {
+    float: right;
+    background-color: var(--tu-orange);
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.required-msg {
+    display: inline;
+    float: right;
+    margin-right: 5px;
+}

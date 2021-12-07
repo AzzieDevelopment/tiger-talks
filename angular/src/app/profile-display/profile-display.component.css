@@ -1,0 +1,12 @@
+#profileDisplay-div {
+    margin-top: 20px;
+    width: 50%;
+}
+
+#moderator-btn, #editProfile-btn {
+    float: right;
+}
+
+.unbold {
+    font-weight: normal;
+}
