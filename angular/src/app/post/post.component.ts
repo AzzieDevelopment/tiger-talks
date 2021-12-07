@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IPost } from '../models/post';
 import { IFaculty, IStudent, IUser, UserType } from '../models/user';
+import { AuthService } from '../services/auth.service';
 import { PostService } from '../services/post.service';
 import { UserService } from '../services/user.service';
 
@@ -15,6 +16,7 @@ import { UserService } from '../services/user.service';
 export class PostComponent implements OnInit, OnDestroy {
 
   @Input() post!: IPost;
+  isFlagged: boolean = false;
   numComments: number = 0;
   user!: IUser;
   studentInfo?: IStudent;
@@ -22,10 +24,13 @@ export class PostComponent implements OnInit, OnDestroy {
   userSub!: Subscription; // subscription for user table data
   userInfoSub!: Subscription; // subscription for user type info data (faculty/student)
   upvoteSub?: Subscription;
+  flagPostSub?: Subscription;
+  checkIfFlaggedSub?: Subscription;
   isAllDataLoaded: boolean = false;
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private postService: PostService,
     private router: Router) { }
 
@@ -38,6 +43,7 @@ export class PostComponent implements OnInit, OnDestroy {
         } else if (this.user.UserType === UserType.Faculty) {
           this.getFacultyInfo();
         }
+        this.checkIfUserFlaggedPost();
       },
       err => console.log(err)
     );
@@ -53,13 +59,29 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userSub?.unsubscribe();
     this.userInfoSub?.unsubscribe();
     this.upvoteSub?.unsubscribe();
+    this.flagPostSub?.unsubscribe();
+    this.checkIfFlaggedSub?.unsubscribe();
+  }
+
+  checkIfUserFlaggedPost() {
+    if (!this.authService.loggedIn()) {
+      this.isFlagged = false;
+      this.isAllDataLoaded = true;
+    } else {
+      this.checkIfFlaggedSub = this.postService.checkIfUserFlaggedPost(this.post?.Id).subscribe(
+        data => {
+          this.isFlagged = data.isFlagged;
+          this.isAllDataLoaded = true;
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   getStudentInfo() {
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
         this.studentInfo = data;
-        this.isAllDataLoaded = true;
       },
       err => console.log(err)
     );
@@ -69,7 +91,6 @@ export class PostComponent implements OnInit, OnDestroy {
     this.userInfoSub = this.userService.getFaculty(this.user.Id).subscribe(
       data => {
         this.facultyInfo = data;
-        this.isAllDataLoaded = true;
       },
       err => console.log(err)
     );
@@ -114,6 +135,26 @@ export class PostComponent implements OnInit, OnDestroy {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
             this.router.navigate(['signin']);
+          }
+        }
+      }
+    );
+  }
+
+  flagPost() {
+    this.flagPostSub = this.postService.flagPost(this.post).subscribe(
+      data => {
+        console.log(data);
+        window.location.reload();
+      },
+      err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['signin']);
+          } else if (err.status === 403) {
+            console.log('already flagged this post');
+          } else {
+            console.log(err);
           }
         }
       }

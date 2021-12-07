@@ -16,16 +16,20 @@ import { UserService } from 'src/app/services/user.service';
 export class CommentComponent implements OnInit, OnDestroy {
 
   @Input() comment!: IComment;
+  isFlagged: boolean = false;
   user!: IUser;
   studentInfo?: IStudent;
   facultyInfo?: IFaculty;
   userSub!: Subscription; // subscription for user table data
   userInfoSub!: Subscription; // subscription for user type info data (faculty/student)
   upvoteSub?: Subscription;
+  flagCommentSub?: Subscription;
+  checkIfFlaggedSub?: Subscription;
   isAllDataLoaded: boolean = false;
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private commentService: CommentService,
     private router: Router) { }
 
@@ -38,6 +42,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         } else if (this.user.UserType === UserType.Faculty) {
           this.getFacultyInfo();
         }
+        this.checkIfUserFlaggedComment();
       },
       err => console.log(err)
     );
@@ -47,13 +52,29 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.userSub?.unsubscribe();
     this.userInfoSub?.unsubscribe();
     this.upvoteSub?.unsubscribe();
+    this.flagCommentSub?.unsubscribe();
+    this.checkIfFlaggedSub?.unsubscribe();
+  }
+
+  checkIfUserFlaggedComment() {
+    if (!this.authService.loggedIn()) {
+      this.isFlagged = false;
+      this.isAllDataLoaded = true;
+    } else {
+      this.checkIfFlaggedSub = this.commentService.checkIfUserFlaggedComment(this.comment?.Id).subscribe(
+        data => {
+          this.isFlagged = data.isFlagged;
+          this.isAllDataLoaded = true;
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   getStudentInfo() {
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
         this.studentInfo = data;
-        this.isAllDataLoaded = true;
       },
       err => console.log(err)
     );
@@ -63,7 +84,6 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.userInfoSub = this.userService.getFaculty(this.user.Id).subscribe(
       data => {
         this.facultyInfo = data;
-        this.isAllDataLoaded = true;
       },
       err => console.log(err)
     );
@@ -100,6 +120,26 @@ export class CommentComponent implements OnInit, OnDestroy {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
             this.router.navigate(['signin']);
+          }
+        }
+      }
+    );
+  }
+
+  flagComment() {
+    this.flagCommentSub = this.commentService.flagComment(this.comment).subscribe(
+      data => {
+        console.log(data);
+        window.location.reload();
+      },
+      err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['signin']);
+          } else if (err.status === 403) {
+            console.log('already flagged this post');
+          } else {
+            console.log(err);
           }
         }
       }

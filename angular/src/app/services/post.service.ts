@@ -15,6 +15,8 @@ export class PostService {
   _getNumCommentsBaseURL = '/api/commentcount/';
   _creatPostUrl = '/api/createPost';
   _upvotePostBaseUrl = '/api/upvotePost';
+  _flagPostUrl = '/api/flagPost';
+  _checkIfUserFlaggedPostBaseUrl = '/api/didUserFlagPost';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -44,6 +46,14 @@ export class PostService {
 
   upvotePost(postId: number): Observable<any> {
     return this.httpClient.get(`${this._upvotePostBaseUrl}/${postId}`);
+  }
+
+  flagPost(post: IPost): Observable<any> {
+    return this.httpClient.post(`${this._flagPostUrl}`, post);
+  }
+
+  checkIfUserFlaggedPost(postid: number): Observable<any> {
+    return this.httpClient.get<any>(`${this._checkIfUserFlaggedPostBaseUrl}/${postid}`);
   }
 
 }

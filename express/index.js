@@ -801,33 +801,41 @@ app.get('/api/flagCommentDemo', function (request, response) {
 
 //flag comment
 app.post('/api/flagComment', (req, res) => {
-
-  let commentid = req.body.commentid;
-
   //ensure the user is logged in before anything
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
+    let commentid = req.body.Id;
     //first query the db to verify comment exists
     connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
       if (err) {
         throw err;
       }
       if (result.length > 0) {
-        //flag it
-        connection.query(`INSERT INTO flaggedcomment (CommentId,UserId) VALUES ('${commentid}','${req.session.netID}') `), function (err, result) {
-          if (err) {
-            console.log("Error: ", err);
-          }
-        }
-        res.send(200, '{"message":"ok"}');
+
+          // check if user already flagged
+          connection.query(`SELECT * FROM flaggedcomment WHERE CommentId = '${commentid}' AND UserId = \'${req.session.netID}\';`, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            }
+            if (result.length > 0) {
+              res.status(403).send({message: 'User already flagged this comment'});
+            } else {
+              //flag it
+              connection.query(`INSERT INTO flaggedcomment (CommentId,UserId) VALUES ('${commentid}','${req.session.netID}');`, function (err, result) {
+                if (err) {
+                  console.log("Error: ", err);
+                } 
+                res.status(200).send({message:'Comment flagged'});
+              });
+            }
+          });
       } else {
-        res.send("Comment not found.");
+        res.status(404).send({message:"Comment not found."});
       }
     })
-
   } else {
     console.log("User isn't logged in, therefore can't flag a comment.");
-    res.redirect('/#/signin');
+    res.status(401).send({message:'User not logged in'});
   }
 });
 
@@ -847,7 +855,7 @@ app.get('/api/flagPostDemo', function (request, response) {
 //flag post
 app.post('/api/flagPost', (req, res) => {
 
-  let postid = req.body.postid;
+  let postid = req.body.Id;
 
   //ensure the user is logged in before anything
   //this is where we would check if admin or mod of tigerspace 
@@ -858,21 +866,68 @@ app.post('/api/flagPost', (req, res) => {
         throw err;
       }
       if (result.length > 0) {
-        //flag it
-        connection.query(`INSERT INTO flaggedpost (Postid,UserId) VALUES ('${postid}','${req.session.netID}') `), function (err, result) {
-          if (err) {
-            console.log("Error: ", err);
-          }
-        }
-        res.send(200, '{"message":"ok"}');
+          // check if user already flagged
+          connection.query(`SELECT * FROM flaggedpost WHERE PostId = '${postid}' AND UserId = \'${req.session.netID}\';`, function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            }
+            if (result.length > 0) {
+              res.status(403).send({message: 'User already flagged this post'});
+            } else {
+              //flag it
+              connection.query(`INSERT INTO flaggedpost (PostId,UserId) VALUES ('${postid}','${req.session.netID}') `, function (err, result) {
+                if (err) {
+                  console.log("Error: ", err);
+                }
+                res.status(200).send({message:'Post flagged'});
+              });
+            }
+          }); 
       } else {
-        res.send("Post not found.");
+        res.status(404).send("Post not found.");
       }
-    })
-
+    });
   } else {
     console.log("User isn't logged in, therefore can't flag a post.");
-    res.redirect('/#/signin');
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/didUserFlagPost/:postid', (req, res) => {
+  if (req.session.loggedin) {
+    let postid = decodeURIComponent(req.params.postid);
+    connection.query(`SELECT * FROM flaggedpost WHERE UserId = \'${req.session.netID}\' AND PostId='${postid}';`, function(error, result) {
+      if (error) {
+        console.log("Error: ", error);
+      }
+      if (result.length > 0) {
+        res.status(200).send({isFlagged: true});
+      } else {
+        res.status(200).send({isFlagged: false});
+      }
+    });
+  } else {
+    console.log("User isn't logged in, therefore can't check if post is flagged.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/didUserFlagComment/:commentid', (req, res) => {
+  if (req.session.loggedin) {
+    let commentid = decodeURIComponent(req.params.commentid);
+    connection.query(`SELECT * FROM flaggedcomment WHERE UserId = \'${req.session.netID}\' AND CommentId='${commentid}';`, function(error, result) {
+      if (error) {
+        console.log("Error: ", error);
+      }
+      if (result.length > 0) {
+        res.status(200).send({isFlagged: true});
+      } else {
+        res.status(200).send({isFlagged: false});
+      }
+    });
+  } else {
+    console.log("User isn't logged in, therefore can't check if comment is flagged.");
+    res.status(401).send({message: "User not logged in"});
   }
 });
 
@@ -888,7 +943,7 @@ app.get('/api/getFlaggedPosts/', (req, res) => {
       } else {
         res.send("No flagged posts found.");
       }
-    })
+    });
 
   } else {
     console.log("User isn't logged in, therefore can't view flagged posts.");
