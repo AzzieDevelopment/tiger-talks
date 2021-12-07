@@ -6,7 +6,7 @@
       <span>{{ getInfo() }}&nbsp;|&nbsp;</span>
       <span>{{ user?.Pronouns }}&nbsp;|&nbsp;</span>
       <span>Comment id: {{ comment?.Id }}</span>
-      <button id="flag-btn" type="button" class="btn btn-outline-warning">
+      <button id="flag-btn" type="button" class="btn btn-outline-warning" (click)="flagComment()" [disabled]="isFlagged">
         <i class="bi bi-flag-fill"></i>
       </button>
     </div>
