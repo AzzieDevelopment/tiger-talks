@@ -26,12 +26,11 @@ export class ProfileDisplayComponent implements OnInit, OnDestroy{
         this.user = data;
         // this.user.PName = data.PName;
         console.log(data)
-
-        // if (this.user.UserType === UserType.Student) {
-        //   this.getStudentInfo();
-        // } else if (this.user.UserType === UserType.Faculty) {
-        //   this.getFacultyInfo();
-        // }
+        if (this.isStudent()) {
+          this.getStudentInfo();
+        } else if (this.isFaculty()) {
+          this.getFacultyInfo();
+        }
       },
       err => console.log(err)
     );
@@ -46,6 +45,7 @@ export class ProfileDisplayComponent implements OnInit, OnDestroy{
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
         this.studentInfo = data;
+        console.log(data);
       },
       err => console.log(err)
     );
@@ -58,6 +58,14 @@ export class ProfileDisplayComponent implements OnInit, OnDestroy{
       },
       err => console.log(err)
     );
+  }
+
+  isStudent(): boolean {
+    return this.user.UserType === UserType.Student;
+  }
+
+  isFaculty(): boolean {
+    return this.user.UserType === UserType.Faculty;
   }
   
   isModerator(): boolean {
