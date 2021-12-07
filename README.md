@@ -49,6 +49,8 @@
       * /api/registerStudent registers student data in student table
       * /api/registerFaculty registers faculty data in faculty table
       * /api/getcomment/:id get id by comment
+      * /api/didUserFlagPost/:postid check if logged in user flagged a given post
+      * /api/didUserFlagComment/:commentid check if logged in user flagged a given comment
       
       
     * demos that can be removed when implemented in FE
