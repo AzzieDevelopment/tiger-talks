@@ -727,3 +727,27 @@ app.get('/api/getFlaggedComments/', (req, res) => {
     res.redirect('/#/signin');
   }
 });
+
+//unflag post demo
+app.get('/api/unflagPostDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="unflagPost" name="unflagPost" id="unflagPost">POST ID TO BE UNFLAGGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+//unflag comment demo
+app.get('/api/unflagCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="unflagComment" name="unflagComment" id="unflagComment">COMMENT ID TO BE UNFLAGGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
