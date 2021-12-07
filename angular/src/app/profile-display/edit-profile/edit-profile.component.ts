@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { IFaculty, IStudent, IUser } from 'src/app/models/user';
+import { IFaculty, IStudent, IUser, UserType } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,6 +10,15 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EditProfileComponent implements OnInit {
 
+  constructor(private userService: UserService, private authService: AuthService) { }
+
+  titles = ['Dr.', 'Professor', 'Assistant Professor', 'Adjunct', 'Teaching Assistant', 'Secretary', 'Staff'];
+  signUpData:any = {
+    userType: "", 
+    title: "",
+    acceptTerms: false
+  }
+  
   // @Output() 
   user!: IUser;
   studentInfo?: IStudent;
@@ -17,20 +26,17 @@ export class EditProfileComponent implements OnInit {
   userSub: any; // subscription for user data
   userInfoSub: any;
 
-  constructor(private userService: UserService, private authService: AuthService) { }
-
   ngOnInit(): void {
     this.userSub = this.userService.getUser(this.authService.getNetID()).subscribe(
       data => {
         this.user = data;
         // this.user.PName = data.PName;
         console.log(data)
-
-        // if (this.user.UserType === UserType.Student) {
-        //   this.getStudentInfo();
-        // } else if (this.user.UserType === UserType.Faculty) {
-        //   this.getFacultyInfo();
-        // }
+        if (this.isStudent()) {
+          this.getStudentInfo();
+        } else if (this.isFaculty()) {
+          this.getFacultyInfo();
+        }
       },
       err => console.log(err)
     );
@@ -45,6 +51,7 @@ export class EditProfileComponent implements OnInit {
     this.userInfoSub = this.userService.getStudent(this.user.Id).subscribe(
       data => {
         this.studentInfo = data;
+        console.log(data);
       },
       err => console.log(err)
     );
@@ -57,5 +64,17 @@ export class EditProfileComponent implements OnInit {
       },
       err => console.log(err)
     );
+  }
+
+  isStudent(): boolean {
+    return this.user.UserType === UserType.Student;
+  }
+
+  isFaculty(): boolean {
+    return this.user.UserType === UserType.Faculty;
+  }
+  
+  isModerator(): boolean {
+    return this.user.Permission == 1;
   }
 }

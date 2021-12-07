@@ -19,6 +19,84 @@
                 <label for="lastName" class="form-label">Last Name</label>
                 <input id="lastName" name="lastName" type="text" class="form-control" disabled placeholder="{{user.LastName}}">
             </div>
+            <!-- Student Data -->
+            <div *ngIf="isStudent()">
+                <div class="row g-3">
+                    <!-- Major -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="major" class="form-label">Major</label>
+                            <input id="major" #major="ngModel"
+                                [class.is-invalid]="major.invalid"
+                                [(ngModel)]="signUpData.major" name="major" 
+                                type="text" class="form-control" placeholder="{{studentInfo?.Major}}">
+                        </div>
+                    </div>
+
+                    <!-- Minor -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="minor" class="form-label">Minor</label>
+                            <input id="minor" #minor="ngModel"
+                                [class.is-invalid]="minor.invalid"
+                                [(ngModel)]="signUpData.minor" name="minor" 
+                                type="text" class="form-control" placeholder="{{studentInfo?.Minor}}">
+                        </div>
+                    </div>
+
+                    <!-- Track -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="track" class="form-label">Track</label>
+                            <input id="track" #track="ngModel"
+                                [class.is-invalid]="track.invalid"
+                                [(ngModel)]="signUpData.track" name="track" 
+                                type="text" class="form-control" placeholder="{{studentInfo?.Track}}">
+                        </div>
+                    </div>
+
+                    <!-- Grad Year -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="gradYear" class="form-label">Graduation Year</label>
+                            <input id="gradYear" #gradYear="ngModel"
+                                pattern="^[0-9]{4}$"
+                                [class.is-invalid]="gradYear.invalid"
+                                [(ngModel)]="signUpData.gradYear" name="gradYear" 
+                                type="text" class="form-control" placeholder="{{studentInfo?.GradYear}}">
+                            <div *ngIf="gradYear.errors">
+                                <div *ngIf="gradYear.errors.pattern"><small class="text-danger">Must use YYYY format.</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Faculty Data -->
+            <div *ngIf="isFaculty()">
+                <div class="row g-3">
+                    <!-- Title -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="title" class="form-label">Title</label>
+                            <select id="title" #title="ngModel" class="form-select" [(ngModel)]="signUpData.title" name="title">
+                                <option selected value="">Change title from {{facultyInfo?.Title}}</option>
+                                <option *ngFor="let title of titles">{{ title }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Department -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="department" class="form-label">Department</label>
+                            <input id="department" #department="ngModel"
+                                [class.is-invalid]="department.invalid"
+                                [(ngModel)]="signUpData.department" name="department" 
+                                type="text" class="form-control" placeholder="{{facultyInfo?.Department}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <label for="preferredName" class="form-label">Preferred Name</label>
                 <input id="preferredName" name="preferredName" type="text" class="form-control" placeholder="{{user.PName}}">
@@ -29,7 +107,7 @@
             </div>
             <div class="col-md-12">
                 <label for="bio" class="form-label">Bio</label>
-                <textarea id="bio" name="bio" class="form-control" rows="6"></textarea>
+                <textarea id="bio" name="bio" class="form-control" rows="6" placeholder="{{user.Bio}}"></textarea>
             </div>
             <div class="col-12">
                 <button id="updateProfile-btn" type="submit" class="btn btn-lg">Update</button>

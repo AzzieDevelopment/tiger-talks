@@ -16,6 +16,9 @@
         <h3>Preferred Pronouns: <span class="unbold">{{user?.Pronouns}}</span></h3>
         <div *ngIf="isStudent()">
             <h3>Major: <span class="unbold">{{studentInfo?.Major}}</span></h3>
+            <h3>Minor: <span class="unbold">{{studentInfo?.Minor}}</span></h3>
+            <h3>Track: <span class="unbold">{{studentInfo?.Track}}</span></h3>
+            <h3>Graduation Year: <span class="unbold">{{studentInfo?.GradYear}}</span></h3>
         </div>
         <div *ngIf="isFaculty()">
             <h3>Title: <span class="unbold">{{facultyInfo?.Title}}</span></h3>
