@@ -145,6 +145,8 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
 app.post('/api/auth', function (req, res) {
   let netID = req.body.netID;
   let password = req.body.password;
+
+  console.log(netID)
   
   //ensure user entered login
   if (netID && password) {
@@ -189,10 +191,10 @@ app.get('/api/logout', (req, res) => {
     if (err) {
       console.log(err);
     }
-    res.redirect('/#/home');
   });
   res.clearCookie('token');
   res.clearCookie('netId');
+  res.send({message: "Logout successful."});
 });
 
 //Verify if user is logged in
@@ -208,23 +210,22 @@ app.get('/api/loggedin', function (request, response) {
 
 //reads req and verifies user doesnt exist already
 app.post('/api/registerUser', (req, res) => {
-  let user = {
-    id: req.body.Id,
-    fName: req.body.FirstName,
-    lName: req.body.LastName,
-    email: req.body.Email,
-    userType: req.body.UserType,
-    permission: req.body.Permission,
-    bio: req.body.Bio || '',
-    pName: req.body.PreferredName || '',
-    pronouns: req.body.Pronouns || '',
-    password: bcrypt.hashSync(req.body.Password, 10), //hash/salting function
-    isVerified: 0,
-    token: randtoken.generate(10)
-  }
+  console.log(req.body);
+  let id = req.body.Id;
+  let fName = req.body.FirstName;
+  let lName = req.body.LastName;
+  let email = req.body.Email;
+  let userType = req.body.UserType;
+  let permission = req.body.Permission;
+  let bio = req.body.Bio;
+  let pName = req.body.PreferredName;
+  let pronouns = req.body.Pronouns || '';
+  let password = bcrypt.hashSync(req.body.Password, 10); //hash/salting function
+  let isVerified = 0;
+  let token = randtoken.generate(10);
   
   //check if user exists
-  connection.query(`SELECT * FROM user WHERE Id=\'${user.id}\' OR Email=\'${user.email}\';`, function (err, result) {
+  connection.query(`SELECT * FROM user WHERE Id=\'${id}\' OR Email=\'${email}\';`, function (err, result) {
     if (err) {
       console.log(err);
       throw err;
@@ -237,20 +238,91 @@ app.post('/api/registerUser', (req, res) => {
       
       //insert into database. Report error if fail, otherwise redirect user to login page
       connection.query(`INSERT INTO user (Id,FirstName,LastName,Email,UserType,Permission,Bio,PName,Pronouns,isVerified,Password,Token) 
-                        VALUES ('${user.id}','${user.fName}','${user.lName}','${user.email}','${user.userType}','${user.permission}','
-                                ${user.bio}','${user.pName}','${user.pronouns}','${user.isVerified}','${user.password}','${user.token}') `,
+                        VALUES ('${id}','${fName}','${lName}','${email}','${userType}','${permission}',"${bio}",'${pName}','${pronouns}','${isVerified}','${password}','${token}') `,
         function (err, result) {
           if (err) {
             console.log("Error: ", err);
           } else {
             // send verification email
-            sendEmail(user.email, user.token);
+            sendEmail(email, token);
             res.status(200).send({message: 'Account created.'});
           }
         }
       );
     }
   })
+  
+});
+
+// register student if they don't exist
+app.post('/api/registerStudent', (req, res) => {
+  console.log(req.body);
+  let userId = req.body.UserId;
+  let major = req.body.Major;
+  let minor = req.body.Minor;
+  let track = req.body.Track;
+  let gradYear = req.body.GradYear;
+  
+  //check if user exists
+  connection.query(`SELECT * FROM student WHERE UserId=\'${userId}\';`, function (err, result) {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    if (result[0] !== undefined) {
+      console.log('Student exists');
+      res.status(403).send("Student already exists");
+    } else {
+      console.log("New student, proceeding to insert");
+      
+      //insert into database. Report error if fail, otherwise redirect user to login page
+      connection.query(`INSERT INTO student (UserId, Major, Minor, Track, GradYear) 
+                        VALUES ('${userId}','${major}','${minor}','${track}','${gradYear}')`,
+        function (err, result) {
+          if (err) {
+            console.log("Error: ", err);
+          } else {
+            res.status(200).send({message: 'Student created.'});
+          }
+        }
+      );
+    }
+  });
+  
+});
+
+// register faculty if they don't exist
+app.post('/api/registerFaculty', (req, res) => {
+  console.log(req.body);
+  let userId = req.body.UserId;
+  let title = req.body.Title;
+  let department = req.body.Department;
+  
+  //check if user exists
+  connection.query(`SELECT * FROM faculty WHERE UserId=\'${userId}\';`, function (err, result) {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    if (result[0] !== undefined) {
+      console.log('Faculty exists');
+      res.status(403).send("Faculty already exists");
+    } else {
+      console.log("New faculty, proceeding to insert");
+      
+      //insert into database. Report error if fail, otherwise redirect user to login page
+      connection.query(`INSERT INTO faculty (UserId, Title, Department) 
+                        VALUES ('${userId}','${title}','${department}')`,
+        function (err, result) {
+          if (err) {
+            console.log("Error: ", err);
+          } else {
+            res.status(200).send({message: 'Faculty created.'});
+          }
+        }
+      );
+    }
+  });
   
 });
 
@@ -325,35 +397,36 @@ app.get('/api/createCommentDemo', function (request, response) {
 //create new comment as most recent of previous posts
 app.post('/api/createComment', (req, res) => {
 
-  console.log("HIT");
-  let unfilteredNetId=(req.headers.cookie).split(';');
-  let filteredNetId=unfilteredNetId[0].replace('netId=','');
-  let postid = req.body.postId;
-  let commentbody = req.body.body;
+  // console.log("HIT");
+  // let unfilteredNetId=(req.headers.cookie).split(';');
+  // let filteredNetId=unfilteredNetId[0].replace('netId=','');
+  let netid = req.body.UserId;
+  let postid = req.body.PostId;
+  let commentbody = req.body.Body;
+  let upvotes = 0;
 
   //ensure the user is logged in before anything
-  if (filteredNetId.length<30) {
+  if (req.session.loggedin) {
     //first query the db to get the latest comment ID
     connection.query(`SELECT id FROM comment ORDER BY id DESC LIMIT 1;`, function (err, result) {
       if (err) {
         throw err;
       }
-      let highestComment = 0;
+      let nextCommentId = 0;
       if (result.length > 0) {
-        highestComment = result[0].id;
+        nextCommentId = result[0].id;
       }
+      nextCommentId++;
+      console.log(nextCommentId);
 
-      highestComment++;
-      console.log(highestComment);
-
-      connection.query(`SELECT id FROM comment WHERE id ='${highestComment}\';`, function (err, result) {
+      connection.query(`SELECT id FROM comment WHERE id ='${nextCommentId}\';`, function (err, result) {
         //sanity check that if it ever fails, we need to restructure
         if (!(typeof result[0] === "undefined")) {
           console.log('crucial sanity check failed, restructure comment ID incrementation');
         } else {
           console.log("New comment, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${highestComment}','${postid}','${commentbody}','1','${filteredNetId}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
+          connection.query(`INSERT INTO comment (Id,PostId,Body,Upvotes,UserID,Timestamp) VALUES ('${nextCommentId}','${postid}',"${commentbody}",'${upvotes}','${netid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } 
@@ -363,14 +436,14 @@ app.post('/api/createComment', (req, res) => {
                   console.log("Error: ", err);
                 } else {
                   //optimally refresh the post page with the new comment now posted
-                  res.redirect('/#/');
+                  res.status(200).send({message:"Comment added"});
                 }
               })
             }
           })
         }
-      })
-    })
+      });
+    });
   } else {
     console.log("User isn't logged in, therefore can't submit a comment.");
     res.redirect('/#/signin');
@@ -556,26 +629,19 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
   }
 });
 
-
 //retrieves 10 most recent posts
 app.get('/api/getRecentPosts/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
-  //ensure the user is logged in before anything
-  if (req.session.loggedin) {
-    connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
-      //sanity check that if it ever fails, we need to restructure
-      if (result.length > 0) {
-        res.send(result);
-      } else {
-        res.send("Post not found.");
-      }
-    })
+  connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
+    //sanity check that if it ever fails, we need to restructure
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send("Posts not found.");
+    }
+  })
 
-  } else {
-    console.log("User isn't logged in, therefore can't view posts.");
-    res.redirect('/#/signin');
-  }
 });
 
 app.get('/api/sendEmail/verify/:id', (req, res) => {
@@ -597,8 +663,6 @@ app.get('/api/sendEmail/verify/:id', (req, res) => {
 
   })
 });
-
-
 
 //flag comment demo
 app.get('/api/flagCommentDemo', function (request, response) {
@@ -814,3 +878,83 @@ app.post('/api/unflagComment', (req, res) => {
     res.redirect('/#/signin');
   }
 });
+
+app.put('/api/updateUser' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE user SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    console.log(sql);
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'User information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
+
+app.put('/api/updateStudent' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE student SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'Student information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
+
+app.put('/api/updateFaculty' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE faculty SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'Faculty information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})

@@ -11,3 +11,7 @@
 form i {
     cursor: pointer;
 }
+
+.required-msg {
+    display: inline;
+}

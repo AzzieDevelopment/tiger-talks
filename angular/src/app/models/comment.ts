@@ -1,4 +1,8 @@
 export interface IComment {
-    body:string,
-    postId?:string
+    Id?: number,
+    UserId: string,
+    PostId: number,
+    Timestamp?: string,
+    Body: string,
+    Upvotes: number
 }

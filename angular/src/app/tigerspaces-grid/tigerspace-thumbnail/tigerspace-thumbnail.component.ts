@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ITigerSpace } from 'src/app/models/tigerspace';
 
 @Component({
@@ -12,14 +12,13 @@ export class TigerspaceThumbnailComponent implements OnInit {
   @Input() tigerspace!: ITigerSpace;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute ) { }
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onClick(): void {
-    this.router.navigate([this.tigerspace.Id], { relativeTo: this.route });
+    this.router.navigate(['tigerspace', this.tigerspace.Id]);
   }
 
 }

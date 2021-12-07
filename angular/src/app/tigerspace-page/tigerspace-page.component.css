@@ -1,0 +1,25 @@
+.title {
+    color: var(--tu-orange);
+    text-align: center;
+    font-weight: bold;
+}
+
+#tiger-description{
+    text-align: center;
+}
+
+.list-title {
+    padding-bottom: 5px;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.make-post {
+    float: right;
+}
+
+.make-post a {
+    color: #000;
+}
