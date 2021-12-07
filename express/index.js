@@ -145,6 +145,8 @@ app.get('/api/verifytoken/:token/email/:email', (req, res) => {
 app.post('/api/auth', function (req, res) {
   let netID = req.body.netID;
   let password = req.body.password;
+
+  console.log(netID)
   
   //ensure user entered login
   if (netID && password) {
@@ -668,3 +670,83 @@ app.get('/api/sendEmail/verify/:id', (req, res) => {
 
   })
 });
+
+app.put('/api/updateUser' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE user SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    console.log(sql);
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'User information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
+
+app.put('/api/updateStudent' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE student SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'Student information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
+
+app.put('/api/updateFaculty' , (req, res) => {
+  if (req.session.loggedin) {
+    let sql = `UPDATE faculty SET`
+    for(let key in req.body) {
+      sql += ` ${key} = \'${req.body[key]}\'`
+    }
+    sql += ` WHERE Id = \'${req.session.netID}\'`
+
+    connection.query(sql, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send({ message: 'Faculty information updated'});
+      }
+      else {
+        res.status(500).send({ message: 'Something went wrong'})
+      }
+    })
+  }
+  else {
+    console.log("User isn't logged in, therefore can't update information.");
+    res.redirect('/#/signin');
+  }
+})
