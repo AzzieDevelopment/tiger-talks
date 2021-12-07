@@ -12,6 +12,7 @@ export class TigerSpaceService {
 
   private _getTigerSpaceBaseUrl = '/api/gettigerspace';
   private _getAllTigerSpacesUrl = '/api/gettigerspaces';
+  private _createTigerSpaceUrl = '/api/createtigerspace';
 
   constructor(
     private logger: LoggerService,
@@ -27,6 +28,11 @@ export class TigerSpaceService {
     public getTigerSpaces(): Observable<ITigerSpace[]> {
       return this.http.get<ITigerSpace[]>(`${this._getAllTigerSpacesUrl}`)
         .pipe(catchError(this.handleError<ITigerSpace[]>('getTigerSpaces')));
+    }
+
+    // create tiger space
+    public createTigerSpace(tigerspace: ITigerSpace): Observable<any> {
+      return this.http.post(`${this._createTigerSpaceUrl}`, tigerspace);
     }
 
     private handleError<T> (operation = 'operation', result?: T) {

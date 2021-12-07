@@ -32,3 +32,11 @@
     border-left: none;
     border-right: none;
 }
+
+.make-tigerspace {
+    float: right;
+}
+
+.make-tigerspace a {
+    color: #000;
+}
