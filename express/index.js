@@ -1079,15 +1079,11 @@ app.post('/api/unflagComment', (req, res) => {
 
 app.put('/api/updateUser' , (req, res) => {
   if (req.session.loggedin) {
-    let sql = `UPDATE user SET`
-    for(let key in req.body) {
-      sql += ` ${key} = \'${req.body[key]}\'`
-    }
-    sql += ` WHERE Id = \'${req.session.netID}\'`
+    let bio = req.body.Bio;
+    let pname = req.body.PName;
+    let pronouns = req.body.Pronouns;
 
-    console.log(sql);
-
-    connection.query(sql, function (err, result) {
+    connection.query(`UPDATE user SET Bio=\"${bio}\", PName=\"${pname}\", Pronouns=\"${pronouns}\" WHERE Id = \"${req.session.netID}\";`, function (err, result) {
       if (err) {
         throw err;
       }
@@ -1101,19 +1097,18 @@ app.put('/api/updateUser' , (req, res) => {
   }
   else {
     console.log("User isn't logged in, therefore can't update information.");
-    res.redirect('/#/signin');
+    res.status(401).send({message: "User not signed in"});
   }
 })
 
 app.put('/api/updateStudent' , (req, res) => {
   if (req.session.loggedin) {
-    let sql = `UPDATE student SET`
-    for(let key in req.body) {
-      sql += ` ${key} = \'${req.body[key]}\'`
-    }
-    sql += ` WHERE Id = \'${req.session.netID}\'`
+    let major = req.body.Major;
+    let minor = req.body.Minor;
+    let track = req.body.Track;
+    let gradYear = req.body.GradYear;
 
-    connection.query(sql, function (err, result) {
+    connection.query(`UPDATE student SET Major=\"${major}\", Minor=\"${minor}\", Track=\"${track}\", GradYear=\"${gradYear}\" WHERE UserId=\"${req.session.netID}\";`, function (err, result) {
       if (err) {
         throw err;
       }
@@ -1127,19 +1122,16 @@ app.put('/api/updateStudent' , (req, res) => {
   }
   else {
     console.log("User isn't logged in, therefore can't update information.");
-    res.redirect('/#/signin');
+    res.status(401).send({message: "User not signed in"});
   }
 })
 
 app.put('/api/updateFaculty' , (req, res) => {
   if (req.session.loggedin) {
-    let sql = `UPDATE faculty SET`
-    for(let key in req.body) {
-      sql += ` ${key} = \'${req.body[key]}\'`
-    }
-    sql += ` WHERE Id = \'${req.session.netID}\'`
+    let title = req.body.Title;
+    let department = req.body.Department;
 
-    connection.query(sql, function (err, result) {
+    connection.query(`UPDATE faculty SET Title=\"${title}\", Department=\"${department}\" WHERE UserId=\"${req.session.netID}\";`, function (err, result) {
       if (err) {
         throw err;
       }
@@ -1153,6 +1145,6 @@ app.put('/api/updateFaculty' , (req, res) => {
   }
   else {
     console.log("User isn't logged in, therefore can't update information.");
-    res.redirect('/#/signin');
+    res.status(401).send({message: "User not signed in"});
   }
 })

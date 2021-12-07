@@ -14,6 +14,9 @@ export class UserService {
   private _getUserBaseUrl = '/api/getuser';
   private _getStudentBaseUrl = '/api/getstudent';
   private _getFacultyBaseUrl = '/api/getfaculty';
+  private _updateUserUrl = '/api/updateUser';
+  private _updateStudentUrl = '/api/updateStudent';
+  private _updateFacultyUrl = '/api/updateFaculty';
 
   constructor(
     private logger: LoggerService,
@@ -41,6 +44,18 @@ export class UserService {
     public getFaculty(userID: string): Observable<IFaculty> {
       return this.http.get<IFaculty>(`${this._getFacultyBaseUrl}/${userID}`)
         .pipe(catchError(this.handleError<IFaculty>('getFaculty')));
+    }
+
+    updateUser(user: IUser): Observable<any> {
+      return this.http.put<any>(`${this._updateUserUrl}`, user);
+    }
+    
+    updateStudent(student: IStudent): Observable<any> {
+      return this.http.put<any>(`${this._updateStudentUrl}`, student);
+    }
+
+    updateFaculty(faculty: IFaculty): Observable<any> {
+      return this.http.put<any>(`${this._updateFacultyUrl}`, faculty);
     }
 
     private handleError<T> (operation = 'operation', result?: T) {

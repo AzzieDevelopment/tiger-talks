@@ -1,11 +1,11 @@
 <div class="container">
     <div id="profileDisplay-div" class="mx-auto">
         <h1>Profile
-            <a id="editProfile-btn" href="#/editProfile">
-                <button title="Update Profile" class="btn btn-lg"><i class="bi bi-pencil-square"></i></button>
+            <a id="editProfile-btn" [routerLink]="['edit']">
+                <button title="Update Profile" class="btn btn-lg"><i class="bi fa-lg bi-pencil-square"></i></button>
             </a>
             <a id="moderator-btn" href="#/moderator" *ngIf="isModerator()">
-                <button title="Moderator" class="btn btn-lg"><i class="bi bi-journal-check"></i></button>
+                <button title="Moderator" class="btn btn-lg"><i class="bi fa-lg bi-journal-check"></i></button>
             </a>
         </h1>
         <hr />
