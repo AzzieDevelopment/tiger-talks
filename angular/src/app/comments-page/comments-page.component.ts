@@ -44,6 +44,7 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
 
   private getCommentData(): IComment {
     return {
+      Id: 0, // BE sets this up
       UserId: this.currentUserId,
       Body:this.newCommentData.body,
       PostId: this.post.Id,
