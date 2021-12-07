@@ -1,0 +1,18 @@
+.postBody{
+    width: 100%;
+}
+
+#categoriesList{
+    font-size: smaller;
+}
+
+#postButton {
+    float: right;
+    background-color: var(--tu-orange);
+    font-weight: bold;
+}
+
+#postButton:hover {
+    background-color: #000;
+    color: var(--tu-orange);
+}

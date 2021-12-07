@@ -339,11 +339,14 @@ app.get('/api/createPostDemo', function (request, response) {
 
 //create new post as most recent of previous posts
 app.post('/api/createPost', (req, res) => {
-
   let title = req.body.Title;
   let postbody = req.body.Body;
   let category = req.body.Category;
   let tigerspaceid = req.body.TigerSpaceId;
+  let userId = req.session.netID;
+  let upvotes = req.body.Upvotes;
+
+  console.log(userId);
 
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
@@ -366,12 +369,12 @@ app.post('/api/createPost', (req, res) => {
         } else {
           console.log("New post, proceeding to insert");
           //insert into database. Report error if fail, otherwise redirect user to login page
-          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId,Timestamp,Bump,UserID) VALUES ('${highestPost}','${title}','${postbody}','${category}','1','${tigerspaceid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${req.session.netID}') `, function (err, result) {
+          connection.query(`INSERT INTO post (Id,Title,Body,Category,Upvotes,TigerSpaceId,Timestamp,Bump,UserID) VALUES ('${highestPost}',"${title}","${postbody}",'${category}','${upvotes}','${tigerspaceid}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','${userId}') `, function (err, result) {
             if (err) {
               console.log("Error: ", err);
             } else {
               //optimally redirect user to their newly created post
-              res.redirect('/#/');
+              res.status(200).send({message: "Post created"});
             }
           })
         }
@@ -379,7 +382,7 @@ app.post('/api/createPost', (req, res) => {
     })
   } else {
     console.log("User isn't logged in, therefore can't submit a post.");
-    res.redirect('/#/signin');
+    res.status(401).send({message: "User not logged in"});
   }
 });
 

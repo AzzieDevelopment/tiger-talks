@@ -13,6 +13,7 @@ export class PostService {
   _getPostsBaseUrl = '/api/getposts'; // for tiger space posts
   _getRecentPostsUserInfoUrl = 'api/getRecentPostsUserInfo';
   _getNumCommentsBaseURL = '/api/commentcount/';
+  _creatPostUrl = '/api/createPost';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -34,5 +35,9 @@ export class PostService {
 
   getNumberOfComments(postId: number): Observable<any> {
     return this.httpClient.get<any>(`${this._getNumCommentsBaseURL}/${postId}`);
+  }
+
+  createPost(post: IPost): Observable<any> {
+    return this.httpClient.post(`${this._creatPostUrl}`, post);
   }
 }

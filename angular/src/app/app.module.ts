@@ -33,6 +33,7 @@ import { PostComponent } from './post/post.component';
 import { PostService } from './services/post.service';
 import { CommentsPageComponent } from './comments-page/comments-page.component';
 import { CommentComponent } from './comments-page/comment/comment.component';
+import { MakePostComponent } from './make-post/make-post.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { CommentComponent } from './comments-page/comment/comment.component';
     FlaggedPostsComponent,
     BannedUsersComponent,
     GuestPostsComponent,
-    FlaggedCommentsComponent
+    FlaggedCommentsComponent,
+    MakePostComponent
   ],
   imports: [
     BrowserModule,

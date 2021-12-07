@@ -141,8 +141,7 @@ router.get('/api/getfaculty/:id', (req, res) => {
 });
 
 // Get all tigerspaces
-// TODO: remove middleware
-router.get('/api/gettigerspaces', verifyToken, (req, res) => {
+router.get('/api/gettigerspaces', (req, res) => {
 
     connection.query(`SELECT * FROM tigerspace;`, function (err, result) {
         if (err) {
