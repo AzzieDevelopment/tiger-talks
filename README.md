@@ -33,7 +33,10 @@
         * /api/getpost/:id get post by id
         * /api/getpostcomments/:postid return a posts comments
         * /api/createPost post a post to the database
-        * /api/createComment post a comment to the database and bump the parent post
+        * /api/createtigerspace post a tigerspace to the database
+        * /api/createComment post a comment to the database and bump the parent 
+        * /api/upvotePost/:postId increment a post's upvote count
+        * /api/upvoteComment/:commentId increment a comment's upvote count
         * /api/viewPost/:postid/ get a post's data from the post table (can be joined with other tables if data isn't retrieved separately, currently only retrieves the single table's results)
         * /api/viewPostComments/:postid/ get all comments for a particular post (can be joined with other tables if data isn't retrieved separately, currently only retrieves the single table's results)
         * /api/deletePost deletes all child comments of a post, and then deletes the post
