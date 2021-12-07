@@ -1,5 +1,5 @@
 export interface IComment {
-    Id?: number,
+    Id: number,
     UserId: string,
     PostId: number,
     Timestamp?: string,
