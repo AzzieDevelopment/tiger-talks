@@ -80,7 +80,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let user: IUser = this.getUserData();
-    console.log("User", user);
 
     // register user data
     this.registerUserSub = this.authService.registerUser(user).subscribe(
@@ -88,13 +87,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
         console.log('Success!', data);
         if (this.isStudent()) {
           let student: IStudent = this.getStudentData();
-          console.log("Student", student);
 
           // register student data
           this.registerUserDetailsSub = this.authService.registerStudent(student).subscribe(
             data => {
-              console.log(data);
-              // this.redirectToSignIn();
+              this.redirectToSignIn();
             },
             err => console.log(err)
           );
