@@ -1,6 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IComment } from 'src/app/models/comment';
 import { IFaculty, IStudent, IUser, UserType } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
+import { CommentService } from 'src/app/services/comment.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,11 +19,15 @@ export class CommentComponent implements OnInit, OnDestroy {
   user!: IUser;
   studentInfo?: IStudent;
   facultyInfo?: IFaculty;
-  userSub: any; // subscription for user table data
-  userInfoSub: any; // subscription for user type info data (faculty/student)
+  userSub!: Subscription; // subscription for user table data
+  userInfoSub!: Subscription; // subscription for user type info data (faculty/student)
+  upvoteSub?: Subscription;
   isAllDataLoaded: boolean = false;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private commentService: CommentService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.userSub = this.userService.getUser(this.comment?.UserId).subscribe(
@@ -37,6 +46,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSub?.unsubscribe();
     this.userInfoSub?.unsubscribe();
+    this.upvoteSub?.unsubscribe();
   }
 
   getStudentInfo() {
@@ -79,5 +89,20 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   getUserName() : string {
     return this.user?.FirstName + ' ' + this.user?.LastName 
+  }
+
+  upvoteComment() {
+    this.upvoteSub = this.commentService.upvoteComment(this.comment?.Id).subscribe(
+      data => {
+        window.location.reload();
+      },
+      err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['signin']);
+          }
+        }
+      }
+    );
   }
 }

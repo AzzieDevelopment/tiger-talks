@@ -14,6 +14,7 @@ export class PostService {
   _getRecentPostsUserInfoUrl = 'api/getRecentPostsUserInfo';
   _getNumCommentsBaseURL = '/api/commentcount/';
   _creatPostUrl = '/api/createPost';
+  _upvotePostBaseUrl = '/api/upvotePost';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -40,4 +41,9 @@ export class PostService {
   createPost(post: IPost): Observable<any> {
     return this.httpClient.post(`${this._creatPostUrl}`, post);
   }
+
+  upvotePost(postId: number): Observable<any> {
+    return this.httpClient.get(`${this._upvotePostBaseUrl}/${postId}`);
+  }
+
 }

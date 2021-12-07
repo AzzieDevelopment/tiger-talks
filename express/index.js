@@ -346,8 +346,6 @@ app.post('/api/createPost', (req, res) => {
   let userId = req.session.netID;
   let upvotes = req.body.Upvotes;
 
-  console.log(userId);
-
   //ensure the user is logged in before anything
   if (req.session.loggedin) {
     //first query the db to get the latest post ID
@@ -382,6 +380,64 @@ app.post('/api/createPost', (req, res) => {
     })
   } else {
     console.log("User isn't logged in, therefore can't submit a post.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/upvotePost/:postid', (req, res) => {
+  if (req.session.loggedin) {
+    let postid = decodeURIComponent(req.params.postid);
+
+    connection.query(`SELECT upvotes FROM post WHERE id ='${postid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        let numUpvotes = result[0].upvotes;
+        numUpvotes = numUpvotes + 1;
+
+        // update post upvotes
+        connection.query(`UPDATE post SET Upvotes = '${numUpvotes}' WHERE Id = '${postid}';`, function (err, result) {
+          if (err) {
+            throw err;
+          }
+          res.status(200).send({message: 'Post upvoted'});
+        });
+
+      } else {
+        res.status(404).send("Post not found.");
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't upvote a post.");
+    res.status(401).send({message: "User not logged in"});
+  }
+});
+
+app.get('/api/upvoteComment/:commentid', (req, res) => {
+  if (req.session.loggedin) {
+    let commentid = decodeURIComponent(req.params.commentid);
+
+    connection.query(`SELECT upvotes FROM comment WHERE id ='${commentid}\';`, function (err, result) {
+      //sanity check that if it ever fails, we need to restructure
+      if (result.length > 0) {
+        let numUpvotes = result[0].upvotes;
+        numUpvotes = numUpvotes + 1;
+
+        // update post upvotes
+        connection.query(`UPDATE comment SET Upvotes = '${numUpvotes}' WHERE Id = '${commentid}';`, function (err, result) {
+          if (err) {
+            throw err;
+          }
+          res.status(200).send({message: 'Comment upvoted'});
+        });
+
+      } else {
+        res.status(404).send("Comment not found.");
+      }
+    });
+
+  } else {
+    console.log("User isn't logged in, therefore can't upvote a comment.");
     res.status(401).send({message: "User not logged in"});
   }
 });
