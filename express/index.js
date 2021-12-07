@@ -634,8 +634,6 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
 
 //retrieves 10 most recent posts
 app.get('/api/getRecentPosts/', (req, res) => {
-  let postid = decodeURIComponent(req.params.postid);
-
   connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
     //sanity check that if it ever fails, we need to restructure
     if (result.length > 0) {
