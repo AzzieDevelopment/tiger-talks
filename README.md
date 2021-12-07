@@ -40,6 +40,9 @@
         * http://localhost:300/api/getFlaggedComments/ returns all flagged comments
         * http://localhost:300/api/flagPost/ flag a post 
         * http://localhost:300/api/flagComment/ flag a comment
+        * http://localhost:300/api/unflagPost/ unflag a post 
+        * http://localhost:300/api/unflagComment/ unflag a comment
+
 
         * demos that can be removed when implemented in FE
         * http://localhost:3000/api/createPostDemo form to post a Post to database 
@@ -48,6 +51,9 @@
         * http://localhost:3000/api/userDeleteOwnCommentDemo form for the userDeleteOwnComment endpoint
         * http://localhost:300/api/flagPostDemo form to flag a post
         * http://localhost:300/api/flagCommentDemo form to flag a comment
+        * http://localhost:300/api/unflagPostDemo form to unflag a post
+        * http://localhost:300/api/unflagCommentDemo form to unflag a comment
+        
 
 
 * ## Getting Started
