@@ -664,7 +664,7 @@ app.post('/api/flagPost', (req, res) => {
   //ensure the user is logged in before anything
   //this is where we would check if admin or mod of tigerspace 
   if (req.session.loggedin) {
-    //first query the db to verify comment exists
+    //first query the db to verify post exists
     connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
       if (err) {
         throw err;
@@ -751,3 +751,34 @@ app.get('/api/unflagCommentDemo', function (request, response) {
   response.end();
 });
 
+
+//unflag post
+app.post('/api/unflagPost', (req, res) => {
+
+  let postid = req.body.postid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify post exists
+    connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`DELETE FROM flaggedpost WHERE PostId = '${postid}'\;`), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Post not found.");
+      }
+    }) 
+  } else {
+    console.log("User isn't logged in, therefore can't flag a post.");
+    res.redirect('/#/signin');
+  }
+});
