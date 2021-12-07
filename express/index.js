@@ -452,7 +452,7 @@ app.post('/api/createComment', (req, res) => {
 
 
 //view post
-app.get('/api/viewPost/:postid/', (req, res) => {
+app.get('/api/getPost/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -472,7 +472,7 @@ app.get('/api/viewPost/:postid/', (req, res) => {
   }
 });
 
-app.get('/api/getpostdata/:postid/', (req, res) => {
+app.get('/api/getPostData/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -492,7 +492,7 @@ app.get('/api/getpostdata/:postid/', (req, res) => {
 
 });
 
-app.get('/api/getcommentdata/:postid/', (req, res) => {
+app.get('/api/getCommentData/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -514,7 +514,7 @@ app.get('/api/getcommentdata/:postid/', (req, res) => {
 });
 
 //view post comments
-app.get('/api/viewPostComments/:postid/', (req, res) => {
+app.get('/api/getPostComments/:postid/', (req, res) => {
   let postid = decodeURIComponent(req.params.postid);
 
   //ensure the user is logged in before anything
@@ -533,13 +533,6 @@ app.get('/api/viewPostComments/:postid/', (req, res) => {
     res.redirect('/#/signin');
   }
 });
-
-
-
-//  can't show 10 most recent bumped posts until we have bump date timestamp added to schema
-//  sample 10 most recent
-//  connection.query(`SELECT id FROM post ORDER BY bumpdate DESC LIMIT 10;`, function (err, result) 
-
 
 
 //delete post/comments demo
@@ -636,9 +629,9 @@ app.post('/api/userDeleteOwnComment', (req, res) => {
   }
 });
 
-
-//view post
-app.get('/api/viewRecentPosts/', (req, res) => {
+//retrieves 10 most recent posts
+app.get('/api/getRecentPosts/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
 
   connection.query(`SELECT * FROM post ORDER BY Bump DESC LIMIT 10;`, function (err, result) {
     //sanity check that if it ever fails, we need to restructure
@@ -669,6 +662,221 @@ app.get('/api/sendEmail/verify/:id', (req, res) => {
     }
 
   })
+});
+
+//flag comment demo
+app.get('/api/flagCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="flagComment" name="flagComment" id="flagComment">COMMENT ID TO BE FLAGGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+//flag comment
+app.post('/api/flagComment', (req, res) => {
+
+  let commentid = req.body.commentid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`INSERT INTO flaggedcomment (CommentId,UserId) VALUES ('${commentid}','${req.session.netID}') `), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');        
+      } else {
+        res.send("Comment not found.");
+      }
+    })
+    
+  } else {
+    console.log("User isn't logged in, therefore can't flag a comment.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+
+//flag post demo
+app.get('/api/flagPostDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="flagPost" name="flagPost" id="flagPost">POST ID TO BE FLAGGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+//flag post
+app.post('/api/flagPost', (req, res) => {
+
+  let postid = req.body.postid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify post exists
+    connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`INSERT INTO flaggedpost (Postid,UserId) VALUES ('${postid}','${req.session.netID}') `), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Post not found.");
+      }
+    })
+    
+  } else {
+    console.log("User isn't logged in, therefore can't flag a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+//get flagged posts
+app.get('/api/getFlaggedPosts/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM flaggedpost;`, function (err, result) {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("No flagged posts found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view flagged posts.");
+    res.redirect('/#/signin');
+  }
+});
+
+//get flagged posts
+app.get('/api/getFlaggedComments/', (req, res) => {
+  let postid = decodeURIComponent(req.params.postid);
+
+  //ensure the user is logged in before anything
+  if (req.session.loggedin) {
+    connection.query(`SELECT * FROM flaggedcomment;`, function (err, result) {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send("No flagged comments found.");
+      }
+    })
+
+  } else {
+    console.log("User isn't logged in, therefore can't view flagged comments.");
+    res.redirect('/#/signin');
+  }
+});
+
+//unflag post demo
+app.get('/api/unflagPostDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="unflagPost" name="unflagPost" id="unflagPost">POST ID TO BE UNFLAGGED:<input type="text" name="postid" id="postid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+//unflag comment demo
+app.get('/api/unflagCommentDemo', function (request, response) {
+  if (request.session.loggedin) {
+    console.log(request.session);
+    response.send('<form method="post" action="unflagComment" name="unflagComment" id="unflagComment">COMMENT ID TO BE UNFLAGGED:<input type="text" name="commentid" id="commentid"><br>userid: ' + request.session.netID + ' <input type="submit"></form>');
+  } else {
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
+
+
+//unflag post
+app.post('/api/unflagPost', (req, res) => {
+
+  let postid = req.body.postid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify post exists
+    connection.query(`SELECT Id FROM post WHERE Id = '${postid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`DELETE FROM flaggedpost WHERE PostId = '${postid}'\;`), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Post not found.");
+      }
+    }) 
+  } else {
+    console.log("User isn't logged in, therefore can't unflag a post.");
+    res.redirect('/#/signin');
+  }
+});
+
+
+//unflag comment
+app.post('/api/unflagComment', (req, res) => {
+
+  let commentid = req.body.commentid;
+
+  //ensure the user is logged in before anything
+  //this is where we would check if admin or mod of tigerspace 
+  if (req.session.loggedin) {
+    //first query the db to verify comment exists
+    connection.query(`SELECT Id FROM comment WHERE Id = '${commentid}'\;`, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      if (result.length > 0) {
+          //flag it
+          connection.query(`DELETE FROM flaggedcomment WHERE CommentId = '${commentid}'\;`), function (err, result) {
+            if (err) {
+              console.log("Error: ", err);
+            } 
+          }
+          res.send(200, '{"message":"ok"}');
+      } else {
+        res.send("Comment not found.");
+      }
+    }) 
+  } else {
+    console.log("User isn't logged in, therefore can't unflag a commentid.");
+    res.redirect('/#/signin');
+  }
 });
 
 app.put('/api/updateUser' , (req, res) => {
