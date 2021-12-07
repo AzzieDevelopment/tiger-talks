@@ -9,7 +9,7 @@ import { IPost } from '../models/post';
 export class PostService {
 
   _getPostBaseUrl = '/api/getpost';
-  _recentPostsUrl = '/api/viewRecentPosts';
+  _recentPostsUrl = '/api/getRecentPosts';
   _getPostsBaseUrl = '/api/getposts'; // for tiger space posts
   _getRecentPostsUserInfoUrl = 'api/getRecentPostsUserInfo';
   _getNumCommentsBaseURL = '/api/commentcount/';
