@@ -1,5 +1,5 @@
 # ReadMe
-
+Tiger Talks (2021) is a production ready social media platform designated for use by students and faculty of Towson University. With account creation/customization, subspace (tigerspace) specfic posting areas, commenting, upvoting, alongside moderation tools prove a solid mock up of many social media platforms from the ground up. Our team used the MEAN (MySQL, Express, Angular, and NodeJS) to bring Tiger Talks what it is today in the Fall Semester of 2021 (COSC 484)
 * ## Deployed Links
 * Backup: https://tigertalks1.azziedevelopment.com/#/home
 * Main (if successful): https://tigertalks.azziedevelopment.com/#/home
